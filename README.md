@@ -1,2 +1,2 @@
-# RetroPie-Godot-Engine-Emulator
+# RetroPie Godot Engine Emulator
 Godot "emulator" for RetroPie
