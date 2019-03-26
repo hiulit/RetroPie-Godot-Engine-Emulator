@@ -2,6 +2,10 @@
 
 A Godot "emulator" for RetroPie
 
+## Changelog
+
+See [CHANGELOG](/CHANGELOG.md).
+
 ## Authors
 
 Me 😛 [@hiulit](https://github.com/hiulit).
