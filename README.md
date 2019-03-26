@@ -15,7 +15,7 @@ Me 😛 [@hiulit](https://github.com/hiulit).
 
 Thanks to:
 
-- Emanuele Fornara (https://github.com/efornara) - For creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt).
+- Emanuele Fornara [@efornara](https://github.com/efornara) - For creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt).
 
 ## LICENSE
 
