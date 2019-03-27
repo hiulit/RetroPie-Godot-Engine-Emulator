@@ -56,7 +56,7 @@ if [[ "$return_value" -eq 0 ]]; then
 	echo
 	echo "After installation information"
 	echo "------------------------------"
-	echo "Copy your Godot games to '$RP_ROMS_DIR/godot'."
+	echo "Copy your Godot games to '$RP_ROMS_DIR/godot-engine'."
 	echo "Godot game extensions: .pck .zip."
 else
 	echo "ERROR: Couldn't install 'godot-engine.sh' scriptmodule." >&2
