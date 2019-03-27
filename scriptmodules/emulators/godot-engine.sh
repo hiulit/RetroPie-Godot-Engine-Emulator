@@ -54,5 +54,5 @@ function configure_godot-engine() {
     fi
 
     addEmulator 1 "$md_id" "$rp_module_id" "$md_inst/$bin_file --main-pack %ROM%"
-    addSystem "godot" "Godot" ".pck .zip"
+    addSystem "$rp_module_id" "Godot" ".pck .zip"
 }
