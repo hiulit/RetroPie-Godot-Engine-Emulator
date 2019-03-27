@@ -9,9 +9,9 @@
 # at https://raw.githubusercontent.com/RetroPie/RetroPie-Setup/master/LICENSE.md
 #
 
-rp_module_id="godot"
+rp_module_id="godot-engine"
 rp_module_desc="Godot - Game Engine"
-rp_module_help="Game extensions: .pck .zip."
+rp_module_help="Godot game extensions: .pck .zip."
 rp_module_help+="\n\nCopy your Godot games to '$romdir/$rp_module_id'."
 rp_module_help+="\n\nAuthor: hiulit - https://github.com/hiulit."
 rp_module_help+="\n\nCredits: Emanuele Fornara (https://github.com/efornara) for creating FRT - A Godot 'platform' targeting single board computers. (https://github.com/efornara/frt)."
@@ -20,12 +20,12 @@ rp_module_section="opt"
 rp_module_flags="x86 aarch64 rpi1 rpi2 rpi3"
 
 
-function sources_godot() {
+function sources_godot-engine() {
     gitPullOrClone "$md_build" "https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator.git"
 }
 
 
-function install_godot() {
+function install_godot-engine() {
     if isPlatform "x86"; then
         md_ret_files="bin/godot.x11.opt.32.bin"
     elif isPlatform "aarch64"; then
@@ -38,7 +38,7 @@ function install_godot() {
 }
 
 
-function configure_godot() {
+function configure_godot-engine() {
     mkRomDir "$rp_module_id"
 
     local bin_file
