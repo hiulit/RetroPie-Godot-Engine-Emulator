@@ -11,7 +11,7 @@ sudo chmod +x install-godot-engine.sh
 ./install-godot-engine.sh
 ```
 
-The installation script assumes that you are running it on a Raspberry Pi with the `RetroPie-Setup` folder being stored in `/home/pi/RetroPie-Setup `. If your setup differs, you can pass the path where your `RetroPie-Setup` folder is stored as a parameter, like this:
+The installation script assumes that you are running it on a Raspberry Pi with the `RetroPie-Setup` folder being stored in `/home/pi/RetroPie-Setup`. If your setup differs, you can pass the path where your `RetroPie-Setup` folder is stored as a parameter, like this:
 
 
 ```
