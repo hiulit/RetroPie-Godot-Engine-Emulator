@@ -23,7 +23,7 @@ The installation script assumes that you are running it on a Raspberry Pi with t
 
 ```
 cd /home/pi/RetroPie-Godot-Game-Engine-Emulator/
-wget https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/install-godot-engine.sh
+curl "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/install-godot-engine.sh" > "install-godot-engine.sh"
 ./install-godot-engine.sh
 ```
 
