@@ -6,7 +6,7 @@ A Godot "emulator" for RetroPie.
 
 ```
 cd /home/pi/
-wget https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/install-godot-engine.sh -P RetroPie-Godot-Game-Engine-Emulator
+wget "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/install-godot-engine.sh" -P "RetroPie-Godot-Game-Engine-Emulator"
 cd RetroPie-Godot-Game-Engine-Emulator/
 sudo chmod +x install-godot-engine.sh
 ./install-godot-engine.sh
