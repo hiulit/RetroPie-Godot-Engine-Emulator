@@ -2,28 +2,46 @@
 
 A Godot "emulator" for RetroPie.
 
+## Setup
+
+```
+cd /home/pi/
+wget "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/install-godot-engine-scriptmodule.sh"
+wget "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/uninstall-godot-engine-scriptmodule.sh"
+wget "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/update-godot-engine-scriptmodule.sh"
+sudo chmod +x install-godot-engine-scriptmodule.sh
+sudo chmod +x uninstall-godot-engine-scriptmodule.sh
+sudo chmod +x update-godot-engine-scriptmodule.sh
+```
+
 ## Installation
 
 ```
 cd /home/pi/
-wget "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/install-godot-engine.sh"
-sudo chmod +x install-godot-engine.sh
-./install-godot-engine.sh
+./install-godot-engine-scriptmodule.sh
 ```
 
-The installation script assumes that you are running it on a Raspberry Pi with the `RetroPie-Setup` folder being stored in `/home/pi/RetroPie-Setup`. If your setup differs, you can pass the path where your `RetroPie-Setup` folder is stored as a parameter, like this:
-
+## Uninstall
 
 ```
-./install-godot-engine.sh "/path/to/your/RetroPie-Setup"
+cd /home/pi/
+./uninstall-godot-engine-scriptmodule.sh
 ```
 
 ## Updating
 
 ```
 cd /home/pi/
-curl "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/install-godot-engine.sh" > "install-godot-engine.sh"
-./install-godot-engine.sh
+./update-godot-engine-scriptmodule.sh
+```
+
+The scripts assume that you are running it on a Raspberry Pi with the `RetroPie-Setup` folder being stored in `/home/pi/RetroPie-Setup`. If your setup differs, you can pass the path where your `RetroPie-Setup` folder is stored as a parameter, like this:
+
+
+```
+./install-godot-engine-scriptmodule.sh "/path/to/your/RetroPie-Setup"
+./uninstall-godot-engine-scriptmodule.sh "/path/to/your/RetroPie-Setup"
+./update-godot-engine-scriptmodule.sh "/path/to/your/RetroPie-Setup"
 ```
 
 ## Changelog
