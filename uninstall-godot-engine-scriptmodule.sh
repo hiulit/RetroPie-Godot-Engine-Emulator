@@ -32,6 +32,20 @@ if [[ ! -d "$RPS_DIR" ]]; then
 	exit 1
 fi
 
+if [[ -d "/opt/retropie/emulators/godot-engine" ]]; then
+	echo "'godot-engine' emulator is still installed."
+	echo
+	echo "To uninstall 'godot-engine' run 'sudo $RPS_DIR/retropie_setup.sh'."
+	echo
+	echo "Go to:"
+	echo
+	echo "|- Manage packages"
+	echo "  |- Manage optional packages"
+	echo "    |- godot-engine"
+	echo "      |- Remove"
+	exit 1
+fi
+
 echo "Uninstalling 'godot-engine.sh' scriptmodule ..."
 
 rm "$RPS_DIR/scriptmodules/emulators/godot-engine.sh"
