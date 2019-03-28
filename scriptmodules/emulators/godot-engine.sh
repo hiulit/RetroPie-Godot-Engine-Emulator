@@ -10,8 +10,8 @@
 #
 
 rp_module_id="godot-engine"
-rp_module_desc="Godot - Game Engine"
-rp_module_help="Godot game extensions: .pck .zip."
+rp_module_desc="Godot - Game Engine (https://godotengine.org/)"
+rp_module_help="Godot games extensions: .pck .zip."
 rp_module_help+="\n\nCopy your Godot games to:\n'$romdir/godot-engine'."
 rp_module_help+="\n\nAuthor: hiulit (https://github.com/hiulit)."
 rp_module_help+="\n\nCredits: Emanuele Fornara (https://github.com/efornara) for creating \"FRT - A Godot 'platform' targeting single board computers\" (https://github.com/efornara/frt)."
