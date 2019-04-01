@@ -69,6 +69,8 @@ sudo mv "/home/pi/system.svg" "/etc/emulationstation/themes/carbon/godot-engine/
 sudo mv "/home/pi/controller.svg" "/etc/emulationstation/themes/carbon/godot-engine/art"
 ```
 
+![Godot system for RetroPie's Carbon theme](/example-images/godot-engine-carbon-theme.jpg)
+
 ## Changelog
 
 See [CHANGELOG](/CHANGELOG.md).
