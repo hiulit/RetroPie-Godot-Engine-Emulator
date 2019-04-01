@@ -50,18 +50,19 @@ As there is no way to create a script to automate this, because themes don't hav
 
 * [Download](https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/system.svg) the Godot logo.
 * Copy any system folder in your theme (e.g. `/etc/emulationstation/themes/[THEME]/nes`).
-* Move the Godot logo in the `art` folder.
+* Rename it as `godot-engine`.
+* Move the Godot logo in the `godot-engine/art` folder.
 
 **Note**
 
-The folder structure in the theme you are using might differ. Take a look at how this particular theme works to create the Godot folder accordingly.
+The folder structure in the theme you are using might differ. Take a look at how this particular theme works to create the `godot-engine` folder accordingly. You might need to delete extra icons that are not needed.
 
 ## Example using the default Carbon theme
 
 ```
 cd /home/pi/
 wget "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/system.svg"
-sudo cp "/etc/emulationstation/themes/carbon/nes" "/etc/emulationstation/themes/carbon/godot-engine"
+sudo cp -R "/etc/emulationstation/themes/carbon/nes" "/etc/emulationstation/themes/carbon/godot-engine"
 sudo mv "/home/pi/system.svg" "/etc/emulationstation/themes/carbon/godot-engine/art"
 ```
 
