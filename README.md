@@ -48,8 +48,8 @@ These scripts assume that you are running them on a Raspberry Pi with the `Retro
 
 As there is no way to create a script to automate this, because themes don't have the same structure,the best way is to manually create a new system in your preferred theme.
 
-* [Download](https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/system.svg) the Godot logo.
-* [Download](https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/controller.svg) the Godot controller.
+* [Download](https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/system.svg) the Godot `system.svg`.
+* [Download](https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/controller.svg) the Godot `controller.svg`.
 * Copy any system folder in your theme (e.g. `/etc/emulationstation/themes/[THEME]/nes`).
 * Rename it as `godot-engine`.
 * Move the Godot logo and controller to the `godot-engine/art` folder.
