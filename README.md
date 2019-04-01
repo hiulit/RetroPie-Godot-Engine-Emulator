@@ -35,7 +35,7 @@ cd /home/pi/
 ./update-godot-engine-scriptmodule.sh
 ```
 
-The scripts assume that you are running them on a Raspberry Pi with the `RetroPie-Setup` folder being stored in `/home/pi/RetroPie-Setup`. If your setup differs, you can pass the path where your `RetroPie-Setup` folder is stored as a parameter, like this:
+These scripts assume that you are running them on a Raspberry Pi with the `RetroPie-Setup` folder being stored in `/home/pi/RetroPie-Setup`. If your setup differs, you can pass the path where your `RetroPie-Setup` folder is stored as a parameter, like this:
 
 
 ```
