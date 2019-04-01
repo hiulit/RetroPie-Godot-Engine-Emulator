@@ -2,6 +2,12 @@
 
 A Godot "emulator" for RetroPie.
 
+Thanks to [@efornara](https://github.com/efornara), for creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt), you can now play* games made with [Godot](https://godotengine.org/) in your Raspberry Pi (and other single board cumputers) using [RetroPie](https://retropie.org.uk/).
+
+If you are running [RetroPie](https://retropie.org.uk/) on an x86 PC, the Godot "emulator" uses the **Linux/X11** template instead of **FRT** so most games sould work fine.
+
+*** Games that (would) work on a Raspberry Pi must be created using Godot 3.1 using GLES2 and not using any 'fancy VFX' like particles and other CPU/GPU demanding stuff.**
+
 ## Setup
 
 ```
@@ -43,6 +49,16 @@ These scripts assume that you are running them on a Raspberry Pi with the `Retro
 ./uninstall-godot-engine-scriptmodule.sh "/path/to/your/RetroPie-Setup"
 ./update-godot-engine-scriptmodule.sh "/path/to/your/RetroPie-Setup"
 ```
+## Install Godot system from RetroPie-Setup
+
+Once you've [successfully installed](#install-the-scriptmodule) the scriptmodule, run `sudo /home/pi/RetroPie-Setup/retropie_setup.sh`  and then go to:
+
+* Manage packages
+* Manage optional packages
+* godot-engine
+* Install from source
+
+A new `godot-engine` folder will be created in `/home/pi/RetroPie/roms/` where you can put your games, using `.pck` and `zip` extensions.
 
 ## How to create a new system for Godot
 
