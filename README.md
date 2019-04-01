@@ -54,7 +54,7 @@ As there is no way to create a script to automate this, because themes don't hav
 
 **Note**
 
-The folder structure in the theme you are using might differ. Take a look on how this particular theme works to create the Godot folder accordingly.
+The folder structure in the theme you are using might differ. Take a look at how this particular theme works to create the Godot folder accordingly.
 
 ## Example using the default Carbon theme
 
