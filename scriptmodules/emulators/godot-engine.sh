@@ -21,7 +21,7 @@ rp_module_flags="x86 aarch64 rpi1 rpi2 rpi3"
 
 
 function sources_godot-engine() {
-    gitPullOrClone "$md_build" "https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator.git"
+    gitPullOrClone "$md_build" "https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator.git" "develop"
 }
 
 
@@ -42,20 +42,28 @@ function configure_godot-engine() {
     mkRomDir "godot-engine"
 
     local bin_files
+    local bin_file
+    local id
 
     if isPlatform "x86"; then
         bin_files=("godot-3.0-x11-x86-32.bin" "godot-3.1-x11-x86-32.bin")
     elif isPlatform "aarch64"; then
-        bin_files=("frt_094_310_arm64.bin")
+        bin_file="frt_094_310_arm64.bin"
+        id="arm64"
     elif isPlatform "rpi1"; then
-        bin_files=("frt_094_310_pi1.bin")
+        bin_file="frt_094_310_pi1.bin"
+        id="rpi0-1"
     elif isPlatform "rpi2" || isPlatform "rpi3"; then
-        bin_files=("frt_094_310_pi2.bin")
+        bin_file="frt_094_310_pi2.bin"
+        id="rpi2-3"
     fi
 
-    for bin_file in "${bin_files[@]}"; do
-        addEmulator 0 "$md_id" "godot-engine" "$md_inst/$bin_file --main-pack %ROM%"
-    done
+    if isPlatform "x86"; then
+        addEmulator 0 "godot-engine-3.0" "godot-engine" "$md_inst/${bin_files[0]} --main-pack %ROM%"
+        addEmulator 1 "godot-engine-3.1" "godot-engine" "$md_inst/${bin_files[1]} --main-pack %ROM%"
+    else
+        addEmulator 1 "godot-engine-$id" "godot-engine" "$md_inst/$bin_file --main-pack %ROM%"
+    fi
 
     addSystem "godot-engine" "Godot" ".pck .zip"
 }
