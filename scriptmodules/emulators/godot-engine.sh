@@ -21,7 +21,7 @@ rp_module_flags="x86 aarch64 rpi1 rpi2 rpi3"
 
 
 function sources_godot-engine() {
-    gitPullOrClone "$md_build" "https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator.git" "develop"
+    gitPullOrClone "$md_build" "https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator.git"
 }
 
 
