@@ -27,7 +27,7 @@ function sources_godot-engine() {
 
 function install_godot-engine() {
     if isPlatform "x86"; then
-        md_ret_files="bin/godot.x11.opt.32.bin"
+        md_ret_files=("bin/godot-3.0-x11-x86-32.bin" "bin/godot-3.1-x11-x86-32.bin")
     elif isPlatform "aarch64"; then
         md_ret_files="bin/frt_094_310_arm64.bin"
     elif isPlatform "rpi1"; then
@@ -41,18 +41,21 @@ function install_godot-engine() {
 function configure_godot-engine() {
     mkRomDir "godot-engine"
 
-    local bin_file
+    local bin_files
 
     if isPlatform "x86"; then
-        bin_file="godot.x11.opt.32.bin"
+        bin_files=("godot-3.0-x11-x86-32.bin" "godot-3.1-x11-x86-32.bin")
     elif isPlatform "aarch64"; then
-        bin_file="frt_094_310_arm64.bin"
+        bin_files=("frt_094_310_arm64.bin")
     elif isPlatform "rpi1"; then
-        bin_file="frt_094_310_pi1.bin"
+        bin_files=("frt_094_310_pi1.bin")
     elif isPlatform "rpi2" || isPlatform "rpi3"; then
-        bin_file="frt_094_310_pi2.bin"
+        bin_files=("frt_094_310_pi2.bin")
     fi
 
-    addEmulator 1 "$md_id" "godot-engine" "$md_inst/$bin_file --main-pack %ROM%"
+    for bin_file in "${bin_files[@]}"; do
+        addEmulator 0 "$md_id" "godot-engine" "$md_inst/$bin_file --main-pack %ROM%"
+    done
+
     addSystem "godot-engine" "Godot" ".pck .zip"
 }
