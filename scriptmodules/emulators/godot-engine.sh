@@ -47,6 +47,7 @@ function configure_godot-engine() {
 
     if isPlatform "x86"; then
         bin_files=("godot-3.0-x11-x86-32.bin" "godot-3.1-x11-x86-32.bin")
+        id="x86"
     elif isPlatform "aarch64"; then
         bin_file="frt_094_310_arm64.bin"
         id="arm64"
@@ -59,10 +60,10 @@ function configure_godot-engine() {
     fi
 
     if isPlatform "x86"; then
-        addEmulator 0 "godot-engine-3.0" "godot-engine" "$md_inst/${bin_files[0]} --main-pack %ROM%"
-        addEmulator 1 "godot-engine-3.1" "godot-engine" "$md_inst/${bin_files[1]} --main-pack %ROM%"
+        addEmulator 0 "godot-engine-3.0-$id" "godot-engine" "$md_inst/${bin_files[0]} --main-pack %ROM%"
+        addEmulator 1 "godot-engine-3.1-$id" "godot-engine" "$md_inst/${bin_files[1]} --main-pack %ROM%"
     else
-        addEmulator 1 "godot-engine-$id" "godot-engine" "$md_inst/$bin_file --main-pack %ROM%"
+        addEmulator 1 "godot-engine-frt-$id" "godot-engine" "$md_inst/$bin_file --main-pack %ROM%"
     fi
 
     addSystem "godot-engine" "Godot" ".pck .zip"
