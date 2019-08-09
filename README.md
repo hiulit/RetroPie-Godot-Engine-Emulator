@@ -120,7 +120,7 @@ Thanks to:
 ## LICENSE
 
 - Source code: [MIT License](/LICENSE).
-- Godot logo: [CC BY](https://creativecommons.org/licenses/by/3.0/)
-- Pixel Godot logo: [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+- Godot logo: [CC BY](https://creativecommons.org/licenses/by/3.0/).
+- Pixel Godot logo: [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 
 
