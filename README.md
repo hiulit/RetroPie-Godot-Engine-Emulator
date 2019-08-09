@@ -70,32 +70,34 @@ For the Raspberry Pi, the script will auto-detect if you are using a `0/1` or a 
 
 In this case, only one "emulator" will be installed, so if the game you are trying to play isn't working... Sorry.
  
-## How to create a new theme system for Godot
+## How to create a new Godot system for an EmulationStation theme
 
-As there is no way to create a script to automate this, because themes don't have the same structure,the best way is to manually create a new system in your preferred theme.
+As there is no way to create a script to automate this, because themes don't have the same structure, the best way is to manually create a new system in your preferred theme.
 
-* [Download](https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/system.svg) the Godot `system.svg`.
-* [Download](https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/controller.svg) the Godot `controller.svg`.
+* [Download](https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/develop/art/system.svg) the Godot `system.svg`.
+* [Download](https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/develop/art/controller.svg) the Godot `controller.svg`.
 * Copy any system folder in your theme (e.g. `/etc/emulationstation/themes/[THEME]/nes`).
 * Rename it as `godot-engine`.
-* Move the Godot logo and controller to the `godot-engine/art` folder.
+* Move the Godot `system.svg` and `controller.svg` to the `godot-engine/art` folder.
 
 **Note**
 
 The folder structure in the theme you are using might differ. Take a look at how this particular theme works to create the `godot-engine` folder accordingly. You might need to delete extra icons that are not needed.
 
-## Example using the default Carbon theme
+## Premade Godot systems
 
-```
-cd /home/pi/
-wget "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/system.svg"
-wget "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/controller.svg"
-sudo cp -R "/etc/emulationstation/themes/carbon/nes" "/etc/emulationstation/themes/carbon/godot-engine"
-sudo mv "/home/pi/system.svg" "/etc/emulationstation/themes/carbon/godot-engine/art"
-sudo mv "/home/pi/controller.svg" "/etc/emulationstation/themes/carbon/godot-engine/art"
-```
+I've created Godot systems for the default EmulationStation theme that comes in RetroPie, **Carbon theme**, and for my personal favourite theme, **Pixel theme**.
 
-![Godot system for RetroPie's Carbon theme](/example-images/godot-engine-carbon-theme.jpg)
+Copy the `theme/[THEME]/godot-engine` folder from this repository to `/etc/emulationstation/themes/[THEME]`.
+
+### Carbon theme
+
+![Godot system for EmulationStation's Carbon theme](/example-images/godot-engine-carbon-theme.jpg)
+
+### Pixel theme
+
+![Godot system for EmulationStation's Pixel theme](/example-images/godot-engine-pixel-theme.jpg)
+
 
 ## Changelog
 
