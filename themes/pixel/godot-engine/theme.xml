@@ -1,0 +1,49 @@
+<theme>
+    <formatVersion>3</formatVersion>
+    <include>./../pixel.xml</include>
+    <variables>
+        <themeColor>478CBF</themeColor>
+    </variables>
+    <view name="system">
+        <image name="background" extra="true">
+            <color>${themeColor}</color>
+        </image>
+        <image name="console_overlay" extra="true">
+            <path>./console.png</path>
+        </image>
+        <image name="logo">
+            <path>./logo.png</path>
+        </image>
+    </view>
+    <view name="basic">
+        <image name="logo">
+            <path>./logo.png</path>
+        </image>
+        <image name="background" extra="true">
+            <color>${themeColor}</color>
+        </image>
+        <image name="Border Overlay" extra="true">
+            <path>./../art/border_simple.png</path>
+        </image>
+        <textlist name="gamelist">
+            <selectedColor>${themeColor}</selectedColor>
+        </textlist>
+    </view>
+    <view name="detailed, video">
+        <image name="logo">
+            <path>./logo.png</path>
+        </image>
+        <image name="background" extra="true">
+            <color>${themeColor}</color>
+        </image>
+        <textlist name="gamelist">
+            <selectedColor>${themeColor}</selectedColor>
+        </textlist>
+        <image name="Bottom Console Image" extra="true">
+            <path>./console.png</path>
+        </image>
+        <text name="System_Desc" extra="true">
+            <text>Godot is a 2D and 3D cross-platform game engine released as open-source software under the MIT license.</text>
+        </text>
+    </view>
+</theme>
