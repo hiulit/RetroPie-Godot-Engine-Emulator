@@ -2,9 +2,9 @@
 
 A Godot "emulator" for RetroPie.
 
-Thanks to [@efornara](https://github.com/efornara) (for creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt)) you can now play* games made with [Godot](https://godotengine.org/) in your Raspberry Pi (and other single board cumputers) using [RetroPie](https://retropie.org.uk/).
+Thanks to [@efornara](https://github.com/efornara) (for creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt)) you can now play* games made with [Godot](https://godotengine.org/) on your Raspberry Pi (and other single board cumputers) using [RetroPie](https://retropie.org.uk/).
 
-If you are running RetroPie on an `x86` PC, the Godot "emulator" uses the **Linux/X11-32bits** template instead of **FRT** so most games should work fine.
+If you are running RetroPie on an `x86` PC, the Godot "emulator" uses the **Linux/X11-32bits** template instead of **FRT**, so most games should work fine.
 
 **\*Games that (would) work on a Raspberry Pi must be created with Godot 3.1 using GLES2 (or maybe Godot 2.x) and not using any 'fancy VFX' like particles and other CPU/GPU demanding stuff.**
 
@@ -48,7 +48,7 @@ These scripts assume that you are running them on a Raspberry Pi with the `Retro
 ./uninstall-godot-engine-scriptmodule.sh "/path/to/your/RetroPie-Setup"
 ./update-godot-engine-scriptmodule.sh "/path/to/your/RetroPie-Setup"
 ```
-## Install the Godot system from RetroPie-Setup
+## Install the Godot "emulator" from RetroPie-Setup
 
 Once you've [successfully installed](#install-the-scriptmodule) the scriptmodule, run `sudo /home/pi/RetroPie-Setup/retropie_setup.sh`  and then go to:
 
@@ -57,7 +57,7 @@ Once you've [successfully installed](#install-the-scriptmodule) the scriptmodule
 * godot-engine
 * Install from source
 
-A new `godot-engine` folder will be created in `/home/pi/RetroPie/roms/` where you can put your games, using `.pck` and `zip` extensions.
+A new `godot-engine` folder will be created in `/home/pi/RetroPie/roms/`, where you can put your games using `.pck` and `zip` extensions.
 
 If you are using an `x86` PC, two different emulators will be installed:
 
@@ -70,7 +70,7 @@ For the Raspberry Pi, the script will auto-detect if you are using a `0/1` or a 
 
 In this case, only one "emulator" will be installed, so if the game you are trying to play isn't working... Sorry.
  
-## How to create a new system for Godot
+## How to create a new theme system for Godot
 
 As there is no way to create a script to automate this, because themes don't have the same structure,the best way is to manually create a new system in your preferred theme.
 
@@ -111,7 +111,16 @@ Me 😛 [@hiulit](https://github.com/hiulit).
 Thanks to:
 
 - Emanuele Fornara [@efornara](https://github.com/efornara) - For creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt).
+- Andrea Calabró - For creating the **Godot logo**. Changes made to it:
+  - Created an outline version.
+- Alícia Folgarona Ribot (Alfórium Studios) [@alforiumstudios](https://twitter.com/alforiumstudios) - For creating the **Pixel Godot logo**. Changes made to it:
+  - New colors.
+  - Added white outline.
 
 ## LICENSE
 
-[MIT License](/LICENSE).
+- Source code: [MIT License](/LICENSE).
+- Godot logo: [CC BY](https://creativecommons.org/licenses/by/3.0/)
+- Pixel Godot logo: [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+
