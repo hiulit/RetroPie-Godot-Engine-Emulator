@@ -2,7 +2,7 @@
 
 A Godot "emulator" for RetroPie.
 
-Thanks to [@efornara](https://github.com/efornara) (for creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt)) you can now play* games made with [Godot](https://godotengine.org/) on your Raspberry Pi (and other single board cumputers) using [RetroPie](https://retropie.org.uk/).
+Thanks to [@efornara](https://github.com/efornara) (for creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt)) you can now **play\*** games made with [Godot](https://godotengine.org/) on your Raspberry Pi (and other single board cumputers) using [RetroPie](https://retropie.org.uk/).
 
 If you are running RetroPie on an `x86` PC, the Godot "emulator" uses the **Linux/X11-32bits** template instead of **FRT**, so most games should work fine.
 
@@ -50,7 +50,13 @@ These scripts assume that you are running them on a Raspberry Pi with the `Retro
 ```
 ## Install the Godot "emulator" from RetroPie-Setup
 
-Once you've [successfully installed](#install-the-scriptmodule) the scriptmodule, run `sudo /home/pi/RetroPie-Setup/retropie_setup.sh`  and then go to:
+Once you've [successfully installed](#install-the-scriptmodule) the scriptmodule, run:
+
+```
+sudo /home/pi/RetroPie-Setup/retropie_setup.sh
+```
+
+and then go to:
 
 * Manage packages
 * Manage optional packages
@@ -59,16 +65,20 @@ Once you've [successfully installed](#install-the-scriptmodule) the scriptmodule
 
 A new `godot-engine` folder will be created in `/home/pi/RetroPie/roms/`, where you can put your games using `.pck` and `zip` extensions.
 
-If you are using an `x86` PC, two different emulators will be installed:
+The script installs different versions of the "emulator" for maximum compatibility:
 
-* `godot-engine-3.0` 
-* `godot-engine-3.1 (default)`
+- `2.1.6`
+- `3.0.6`
+- `3.1.0`
+- `3.1.1`
 
 If the game you are trying to play doesn't work, try changing the "emulator" in the [runcommand](https://github.com/RetroPie/RetroPie-Setup/wiki/runcommand).
 
-For the Raspberry Pi, the script will auto-detect if you are using a `0/1` or a `2/3` and it will install the proper "emulator". Same for any `arm64` single computer board.
+If you are using an `x86` PC, the "emulators" used are the Godot's export templates downloaded from https://godotengine.org/download/.
 
-In this case, only one "emulator" will be installed, so if the game you are trying to play isn't working... Sorry.
+For the Raspberry Pi, the script will auto-detect if you are using a `0/1` or a `2/3` and it will install the proper **FRT** "emulators". Same for any `arm64` single computer board.
+
+In case none of the "emulators" work... Sorry.
  
 ## How to create a new Godot system for an EmulationStation theme
 
