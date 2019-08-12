@@ -123,6 +123,36 @@ If you are using an `x86` PC, the "emulators" used are the Godot's export templa
 For the Raspberry Pi, the script will auto-detect if you are using a `0/1` or a `2/3` and it will install the proper **FRT** "emulators". Same for any `arm64` single computer board.
 
 In case none of the "emulators" work... Sorry.
+
+## Uninstall the Godot "emulator" from RetroPie-Setup
+
+Run:
+
+```
+sudo /home/pi/RetroPie-Setup/retropie_setup.sh
+```
+
+and then go to:
+
+* Manage packages
+* Manage optional packages
+* godot-engine
+* Remove
+
+## Update the Godot "emulator" from RetroPie-Setup
+
+Run:
+
+```
+sudo /home/pi/RetroPie-Setup/retropie_setup.sh
+```
+
+and then go to:
+
+* Manage packages
+* Manage optional packages
+* godot-engine
+* Update from source
  
 ## How to create a new Godot system for an EmulationStation theme
 
