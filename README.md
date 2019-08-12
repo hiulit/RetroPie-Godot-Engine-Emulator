@@ -8,7 +8,7 @@ If you are running RetroPie on an `x86` PC, the Godot "emulator" uses the **Linu
 
 **\*Games that (would) work on a Raspberry Pi must have been created with Godot 3.1 using GLES2 (or maybe Godot 2.x) and not using any 'fancy VFX' like particles and other CPU/GPU demanding stuff.**
 
-## Install script
+## Install the script
 
 ```
 cd /home/pi/
@@ -16,12 +16,9 @@ curl "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulat
 sudo chmod +x setup-godot-engine-scriptmodule.sh
 ```
 
-## Update script
+## Update the script
 
-```
-cd /home/pi/
-git pull
-```
+Same as [Install the script](/#install-script).
 
 ## Usage
 
