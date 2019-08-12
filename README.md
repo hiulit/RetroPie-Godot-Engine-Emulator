@@ -18,7 +18,7 @@ sudo chmod +x setup-godot-engine-scriptmodule.sh
 
 ## Update the script
 
-Same as [Install the script](/#install-script).
+Same as [Install the script](/#install-the-script).
 
 ## Usage
 
