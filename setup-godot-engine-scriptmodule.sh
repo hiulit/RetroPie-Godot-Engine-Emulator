@@ -89,6 +89,7 @@ function install() {
         echo "------------------------------"
         echo "Copy your Godot games to '$RP_ROMS_DIR/godot-engine'."
         echo "Godot games extensions: .pck .zip."
+        echo
     else
         echo "ERROR: Couldn't install 'godot-engine.sh' scriptmodule." >&2
     fi
@@ -97,16 +98,17 @@ function install() {
 
 function uninstall() {
     if [[ -d "/opt/retropie/emulators/godot-engine" ]]; then
-        echo "'godot-engine' emulator is still installed."
-        echo
-        echo "To uninstall 'godot-engine' run: 'sudo $RPS_DIR/retropie_setup.sh'."
-        echo
-        echo "Go to:"
-        echo
-        echo "|- Manage packages"
-        echo "  |- Manage optional packages"
-        echo "    |- godot-engine"
-        echo "      |- Remove"
+        echo "'godot-engine' emulator is still installed." >&2
+        echo >&2
+        echo "To uninstall 'godot-engine' run: 'sudo $RPS_DIR/retropie_setup.sh'." >&2
+        echo >&2
+        echo "Go to:" >&2
+        echo >&2
+        echo "|- Manage packages" >&2
+        echo "  |- Manage optional packages" >&2
+        echo "    |- godot-engine" >&2
+        echo "      |- Remove" >&2
+        echo >&2
         exit 1
     fi
 
@@ -124,6 +126,15 @@ function uninstall() {
 
 
 function update() {
+    if [[ ! -f "$RPS_DIR/scriptmodules/emulators/godot-engine.sh" ]]; then
+        echo >&2
+        echo "ERROR: Can't update the scriptmodule!" >&2
+        echo "'$RPS_DIR/scriptmodules/emulators/godot-engine.sh' is not installed." >&2
+        echo >&2
+        echo "Run '$0 --install' to install the scriptmodule." >&2
+        exit 1
+    fi
+
     echo
     echo "Updating 'godot-engine.sh' scriptmodule ..."
 
