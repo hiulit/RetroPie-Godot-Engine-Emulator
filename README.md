@@ -8,45 +8,88 @@ If you are running RetroPie on an `x86` PC, the Godot "emulator" uses the **Linu
 
 **\*Games that (would) work on a Raspberry Pi must have been created with Godot 3.1 using GLES2 (or maybe Godot 2.x) and not using any 'fancy VFX' like particles and other CPU/GPU demanding stuff.**
 
-## Setup
+## Install script
 
 ```
 cd /home/pi/
-curl "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/install-godot-engine-scriptmodule.sh" -o "install-godot-engine-scriptmodule.sh"
-curl "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/uninstall-godot-engine-scriptmodule.sh" -o "uninstall-godot-engine-scriptmodule.sh"
-curl "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/update-godot-engine-scriptmodule.sh" -o update-godot-engine-scriptmodule.sh
+curl "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/setup-godot-engine-scriptmodule.sh" -o "setup-godot-engine-scriptmodule.sh"
 sudo chmod +x install-godot-engine-scriptmodule.sh
-sudo chmod +x uninstall-godot-engine-scriptmodule.sh
-sudo chmod +x update-godot-engine-scriptmodule.sh
 ```
 
-## Install the scriptmodule
+## Update script
 
 ```
 cd /home/pi/
-./install-godot-engine-scriptmodule.sh
+git pull
 ```
 
-## Uninstall the scriptmodule
+## Usage
 
 ```
-cd /home/pi/
-./uninstall-godot-engine-scriptmodule.sh
+./setup-godot-engine-scriptmodule.sh [OPTIONS]
 ```
 
-## Update the scriptmodule
+If no options are passed, you will be prompted with a usage example:
 
 ```
-cd /home/pi/
-./update-godot-engine-scriptmodule.sh
-```
+USAGE: ./setup-godot-engine-scriptmodule.sh [OPTIONS]
 
-These scripts assume that you are running them on a Raspberry Pi with the `RetroPie-Setup` folder being stored in `/home/pi/RetroPie-Setup`. If your setup differs, you can pass the path where your `RetroPie-Setup` folder is stored as a parameter, like this:
+Use '--help' to see all the options.
+```
+## Options
+
+* `--help`: Print the help message and exit.
+* `--install`: Install scriptmodule.
+* `--uninstall`: Uninstall scriptmodule.
+* `--update`: Update scriptmodule.
+* `--version`: Show script version.
+
+## Examples
+
+### `--help`
+
+Print the help message and exit.
+
+#### Example
+
+`./setup-godot-engine-scriptmodule.sh --help`
+
+### `--install`
+
+Install scriptmodule.
+
+#### Example
+
+`./setup-godot-engine-scriptmodule.sh --install`
+
+### `--uninstall`
+
+Uninstall scriptmodule.
+
+#### Example
+
+`./setup-godot-engine-scriptmodule.sh --uninstall`
+
+### `--update`
+
+Update scriptmodule.
+
+#### Example
+
+`./setup-godot-engine-scriptmodule.sh --update`
+
+### `--version`
+
+Show script version.
+
+#### Example
+
+`./setup-godot-engine-scriptmodule.sh --version`
+
+The script assumes that you are running it on a Raspberry Pi with the `RetroPie-Setup` folder being stored in `/home/pi/RetroPie-Setup`. If your setup differs, you can pass the path where your `RetroPie-Setup` folder is stored as a parameter, like this:
 
 ```
-./install-godot-engine-scriptmodule.sh "/path/to/your/RetroPie-Setup"
-./uninstall-godot-engine-scriptmodule.sh "/path/to/your/RetroPie-Setup"
-./update-godot-engine-scriptmodule.sh "/path/to/your/RetroPie-Setup"
+./setup-godot-engine-scriptmodule.sh [OPTION] "/path/to/your/RetroPie-Setup"
 ```
 ## Install the Godot "emulator" from RetroPie-Setup
 
