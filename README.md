@@ -94,7 +94,7 @@ Show script version.
 
 ## Install the Godot "emulator" from RetroPie-Setup
 
-Once you've [successfully installed](#install-the-scriptmodule) the scriptmodule, run:
+Once you've [successfully installed](#--install) the scriptmodule, run:
 
 ```
 sudo /home/pi/RetroPie-Setup/retropie_setup.sh
