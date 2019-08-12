@@ -36,6 +36,12 @@ USAGE: ./setup-godot-engine-scriptmodule.sh [OPTIONS]
 
 Use '--help' to see all the options.
 ```
+
+The script assumes that you are running it on a Raspberry Pi with the `RetroPie-Setup` folder being stored in `/home/pi/RetroPie-Setup`. If your setup differs, you can pass the path where your `RetroPie-Setup` folder is stored as a parameter, like this:
+
+```
+./setup-godot-engine-scriptmodule.sh [OPTION] "/path/to/your/RetroPie-Setup"
+```
 ## Options
 
 * `--help`: Print the help message and exit.
@@ -86,11 +92,6 @@ Show script version.
 
 `./setup-godot-engine-scriptmodule.sh --version`
 
-The script assumes that you are running it on a Raspberry Pi with the `RetroPie-Setup` folder being stored in `/home/pi/RetroPie-Setup`. If your setup differs, you can pass the path where your `RetroPie-Setup` folder is stored as a parameter, like this:
-
-```
-./setup-godot-engine-scriptmodule.sh [OPTION] "/path/to/your/RetroPie-Setup"
-```
 ## Install the Godot "emulator" from RetroPie-Setup
 
 Once you've [successfully installed](#install-the-scriptmodule) the scriptmodule, run:
