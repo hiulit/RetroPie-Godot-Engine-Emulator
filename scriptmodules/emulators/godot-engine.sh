@@ -14,7 +14,8 @@ rp_module_desc="Godot - Game Engine (https://godotengine.org/)"
 rp_module_help="Godot games extensions: .pck .zip."
 rp_module_help+="\n\nCopy your Godot games to:\n'$romdir/godot-engine'."
 rp_module_help+="\n\nAuthor: hiulit (https://github.com/hiulit)."
-rp_module_help+="\n\nCredits: Emanuele Fornara (https://github.com/efornara) for creating \"FRT - A Godot 'platform' targeting single board computers\" (https://github.com/efornara/frt)."
+rp_module_help+="\n\nCredits: https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator#credits"
+rp_module_help+="\n\nLicense: https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator#license"
 rp_module_licence="MIT https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/LICENSE"
 rp_module_section="opt"
 rp_module_flags="x86 aarch64 rpi1 rpi2 rpi3"
@@ -27,13 +28,33 @@ function sources_godot-engine() {
 
 function install_godot-engine() {
     if isPlatform "x86"; then
-        md_ret_files=("bin/godot-3.0-x11-x86-32.bin" "bin/godot-3.1-x11-x86-32.bin")
+        md_ret_files=(
+            "bin/godot_2.1.6_x11_32.bin"
+            "bin/godot_3.0.6_x11_32.bin"
+            "bin/godot_3.1.0_x11_32.bin"
+            "bin/godot_3.1.1_x11_32.bin"
+        )
     elif isPlatform "aarch64"; then
-        md_ret_files="bin/frt_094_310_arm64.bin"
+        md_ret_files=(
+            "bin/frt_2.1.6_arm64.bin"
+            "bin/frt_3.0.6_arm64.bin"
+            "bin/frt_3.1.0_arm64.bin"
+            "bin/frt_3.1.1_arm64.bin"
+        )
     elif isPlatform "rpi1"; then
-        md_ret_files="bin/frt_094_310_pi1.bin"
+        md_ret_files=(
+            "bin/frt_2.1.6_pi1.bin"
+            "bin/frt_3.0.6_pi1.bin"
+            "bin/frt_3.1.0_pi1.bin"
+            "bin/frt_3.1.1_pi1.bin"
+        )
     elif isPlatform "rpi2" || isPlatform "rpi3"; then
-        md_ret_files="bin/frt_094_310_pi2.bin"
+        md_ret_files=(
+            "bin/frt_2.1.6_pi2.bin"
+            "bin/frt_3.0.6_pi2.bin"
+            "bin/frt_3.1.0_pi2.bin"
+            "bin/frt_3.1.1_pi2.bin"
+        )
     fi
 }
 
@@ -41,30 +62,57 @@ function install_godot-engine() {
 function configure_godot-engine() {
     mkRomDir "godot-engine"
 
-    local bin_files
     local bin_file
+    local bin_files
+    local default
     local id
+    local index
+    local version
 
     if isPlatform "x86"; then
-        bin_files=("godot-3.0-x11-x86-32.bin" "godot-3.1-x11-x86-32.bin")
         id="x86"
+        bin_files=(
+            "godot_2.1.6_x11_32.bin"
+            "godot_3.0.6_x11_32.bin"
+            "godot_3.1.0_x11_32.bin"
+            "godot_3.1.1_x11_32.bin"
+        )
     elif isPlatform "aarch64"; then
-        bin_file="frt_094_310_arm64.bin"
-        id="arm64"
+        id="frt-arm64"
+        bin_files=(
+            "frt_2.1.6_arm64.bin"
+            "frt_3.0.6_arm64.bin"
+            "frt_3.1.0_arm64.bin"
+            "frt_3.1.1_arm64.bin"
+        )
     elif isPlatform "rpi1"; then
-        bin_file="frt_094_310_pi1.bin"
-        id="rpi0-1"
+        id="frt-rpi0-1"
+        bin_files=(
+            "frt_2.1.6_pi1.bin"
+            "frt_3.0.6_pi1.bin"
+            "frt_3.1.0_pi1.bin"
+            "frt_3.1.1_pi1.bin"
+        )
     elif isPlatform "rpi2" || isPlatform "rpi3"; then
-        bin_file="frt_094_310_pi2.bin"
-        id="rpi2-3"
+        id="frt-rpi2-3"
+        bin_files=(
+            "frt_2.1.6_pi2.bin"
+            "frt_3.0.6_pi2.bin"
+            "frt_3.1.0_pi2.bin"
+            "frt_3.1.1_pi2.bin"
+        )
     fi
 
-    if isPlatform "x86"; then
-        addEmulator 0 "godot-engine-3.0-$id" "godot-engine" "$md_inst/${bin_files[0]} --main-pack %ROM%"
-        addEmulator 1 "godot-engine-3.1-$id" "godot-engine" "$md_inst/${bin_files[1]} --main-pack %ROM%"
-    else
-        addEmulator 1 "godot-engine-frt-$id" "godot-engine" "$md_inst/$bin_file --main-pack %ROM%"
-    fi
+
+    for index in "${!bin_files[@]}"; do
+        default=0
+        [[ "$index" -eq "${#bin_files[@]}-1" ]] && default=1 # Default to the last item in 'bin_files'.
+        
+        version="${bin_files[$index]}"
+        version="$(echo $version | cut -d'_' -f 2)"
+        
+        addEmulator "$default" "$md_id-$version-$id" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
+    done
 
     addSystem "godot-engine" "Godot" ".pck .zip"
 }
