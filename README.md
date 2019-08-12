@@ -6,7 +6,7 @@ Thanks to [@efornara](https://github.com/efornara) (for creating [FRT - A Godot 
 
 If you are running RetroPie on an `x86` PC, the Godot "emulator" uses the **Linux/X11-32bits** template instead of **FRT**, so most games should work fine.
 
-**\*Games that (would) work on a Raspberry Pi must be created with Godot 3.1 using GLES2 (or maybe Godot 2.x) and not using any 'fancy VFX' like particles and other CPU/GPU demanding stuff.**
+**\*Games that (would) work on a Raspberry Pi must have been created with Godot 3.1 using GLES2 (or maybe Godot 2.x) and not using any 'fancy VFX' like particles and other CPU/GPU demanding stuff.**
 
 ## Setup
 
