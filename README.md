@@ -13,7 +13,7 @@ If you are running RetroPie on an `x86` PC, the Godot "emulator" uses the **Linu
 ```
 cd /home/pi/
 curl "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/setup-godot-engine-scriptmodule.sh" -o "setup-godot-engine-scriptmodule.sh"
-sudo chmod +x install-godot-engine-scriptmodule.sh
+sudo chmod +x setup-godot-engine-scriptmodule.sh
 ```
 
 ## Update script
