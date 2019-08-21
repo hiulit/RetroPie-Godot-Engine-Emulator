@@ -8,7 +8,7 @@ If you are running RetroPie on an `x86` PC, the Godot "emulator" uses the **Linu
 
 **\*Games that (would) work on a Raspberry Pi must have been created with Godot 3.1 using GLES2 (or maybe Godot 2.x) and not using any 'fancy VFX' like particles and other CPU/GPU demanding stuff.**
 
-## Install the script
+## Install the setup script
 
 ```
 cd /home/pi/
@@ -16,7 +16,7 @@ curl "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulat
 sudo chmod +x setup-godot-engine-scriptmodule.sh
 ```
 
-## Update the script
+## Update the setup script
 
 Same as [Install the script](#install-the-script).
 
@@ -155,8 +155,8 @@ and then go to:
 
 As there is no way to create a script to automate this, because themes don't have the same structure, the best way is to manually create a new system in your preferred theme.
 
-* [Download](https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/develop/art/system.svg) the Godot `system.svg`.
-* [Download](https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/develop/art/controller.svg) the Godot `controller.svg`.
+* [Download](https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/art/system.svg) the Godot `system.svg`.
+* [Download](https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/art/controller.svg) the Godot `controller.svg`.
 * Copy any system folder in your theme (e.g. `/etc/emulationstation/themes/[THEME]/nes`).
 * Rename it as `godot-engine`.
 * Move the Godot `system.svg` and `controller.svg` to the `godot-engine/art` folder.
