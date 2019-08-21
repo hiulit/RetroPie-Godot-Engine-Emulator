@@ -112,6 +112,8 @@ and then go to:
 
 A new `godot-engine` folder will be created in `/home/pi/RetroPie/roms/`, where you can put your games using `.pck` and `zip` extensions.
 
+For example, if you download a game from https://itch.io/, the downloaded `.zip` usually contains 2 files: the executable and the game. The later is most the times a `.pck` file and that's the one we want. Just copy it to `/home/pi/RetroPie/roms/godot-engine`.
+
 The script installs different versions of the "emulator" for maximum compatibility:
 
 - `2.1.6`
