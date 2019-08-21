@@ -1,10 +1,10 @@
 # RetroPie Godot Game Engine "Emulator"
 
-A Godot "emulator" for RetroPie.
+A scriptmodule to install a Godot "emulator" for RetroPie.
 
-Thanks to [@efornara](https://github.com/efornara) (for creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt)) you can now **play\*** games made with [Godot](https://godotengine.org/) on your Raspberry Pi (and other single board cumputers) using [RetroPie](https://retropie.org.uk/).
+Thanks to [@efornara](https://github.com/efornara) (for creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt)) you can now **play\*** games made with [Godot](https://godotengine.org/) on your Raspberry Pi (and other single board computers) using [RetroPie](https://retropie.org.uk/).
 
-If you are running RetroPie on an `x86` PC, the Godot "emulator" uses the **Linux/X11-32bits** template instead of **FRT**, so most games should work fine.
+If you are running RetroPie on an `x86` PC, the Godot "emulator" uses the **Linux/X11-32bits** export template instead of **FRT**, so most games should work fine.
 
 **\*Games that (would) work on a Raspberry Pi must have been created with Godot 3.1 using GLES2 (or maybe Godot 2.x) and not using any 'fancy VFX' like particles and other CPU/GPU demanding stuff.**
 
@@ -42,9 +42,9 @@ The script assumes that you are running it on a Raspberry Pi with the `RetroPie-
 ## Options
 
 * `--help`: Print the help message and exit.
-* `--install`: Install scriptmodule.
-* `--uninstall`: Uninstall scriptmodule.
-* `--update`: Update scriptmodule.
+* `--install`: Install the scriptmodule.
+* `--uninstall`: UnInstall the scriptmodule.
+* `--update`: Update the scriptmodule.
 * `--version`: Show script version.
 
 ## Examples
@@ -59,7 +59,7 @@ Print the help message and exit.
 
 ### `--install`
 
-Install scriptmodule.
+Install the scriptmodule.
 
 #### Example
 
@@ -67,7 +67,7 @@ Install scriptmodule.
 
 ### `--uninstall`
 
-Uninstall scriptmodule.
+UnInstall the scriptmodule.
 
 #### Example
 
@@ -75,7 +75,7 @@ Uninstall scriptmodule.
 
 ### `--update`
 
-Update scriptmodule.
+Update the scriptmodule.
 
 #### Example
 
@@ -115,9 +115,9 @@ The script installs different versions of the "emulator" for maximum compatibili
 
 If the game you are trying to play doesn't work, try changing the "emulator" in the [runcommand](https://github.com/RetroPie/RetroPie-Setup/wiki/runcommand).
 
-If you are using an `x86` PC, the "emulators" used are the Godot's export templates downloaded from https://godotengine.org/download/.
+If you are using an `x86` PC, the "emulators" used are Godot's export templates downloaded from https://godotengine.org/download/.
 
-For the Raspberry Pi, the script will auto-detect if you are using a `0/1` or a `2/3` and it will install the proper **FRT** "emulators". Same for any `arm64` single computer board.
+For the Raspberry Pi, the script will auto-detect if you are using a `0/1` or a `2/3` version and it will install the proper **FRT** "emulators". Same for any `arm64` single computer board.
 
 In case none of the "emulators" work... Sorry.
 
@@ -179,7 +179,6 @@ Copy the `theme/[THEME]/godot-engine` folder from this repository to `/etc/emula
 
 ![Godot system for EmulationStation's Pixel theme](/example-images/godot-engine-pixel-theme.jpg)
 
-
 ## Changelog
 
 See [CHANGELOG](/CHANGELOG.md).
@@ -187,7 +186,6 @@ See [CHANGELOG](/CHANGELOG.md).
 ## Authors
 
 Me 😛 [@hiulit](https://github.com/hiulit).
-
 
 ## Credits
 
@@ -205,5 +203,3 @@ Thanks to:
 - Source code: [MIT License](/LICENSE).
 - Godot logo: [CC BY](https://creativecommons.org/licenses/by/3.0/).
 - Pixel Godot logo: [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/).
-
-

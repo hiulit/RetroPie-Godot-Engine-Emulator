@@ -2,7 +2,7 @@
 # setup-godot-engine-scriptmodule.sh
 #
 # RetroPie Godot Game Engine 'Emulator'
-# A Godot 'emulator' for RetroPie.
+# A scriptmodule to install a Godot 'emulator' for RetroPie.
 #
 # Author: hiulit
 # Repository: https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator
@@ -26,7 +26,7 @@ readonly SCRIPT_DIR="$(cd "$(dirname $0)" && pwd)"
 readonly SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_FULL="$SCRIPT_DIR/$SCRIPT_NAME"
 readonly SCRIPT_TITLE="RetroPie Godot Game Engine 'Emulator'"
-readonly SCRIPT_DESCRIPTION="A Godot 'emulator' for RetroPie."
+readonly SCRIPT_DESCRIPTION="A scriptmodule to install a Godot 'emulator' for RetroPie."
 
 readonly REPO_SCRIPTMODULE_FILE="https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/scriptmodules/emulators/godot-engine.sh"
 
@@ -169,17 +169,17 @@ function get_options() {
                 echo
                 exit 0
                 ;;
-#H -i,  --install                Install scriptmodule.
+#H -i,  --install                Install the scriptmodule.
             -i|--install)
                 check_path "$2"
                 install
                 ;;
-#H -u,  --uninstall              Uninstall scriptmodule.
+#H -u,  --uninstall              UnInstall the scriptmodule.
             -u|--uninstall)
                 check_path "$2"
                 uninstall
                 ;;
-#H -up, --update                 Update scriptmodule.
+#H -up, --update                 Update the scriptmodule.
             -up|--update)
                 check_path "$2"
                 update
