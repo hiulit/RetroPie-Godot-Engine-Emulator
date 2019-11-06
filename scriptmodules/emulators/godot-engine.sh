@@ -27,21 +27,29 @@ godot_versions=(
     "3.1.1"
 )
 
-function download_file() {
-    local build_file
-    [[ "$platform" != "x11_32" ]] && build_file="godot_$file" || build_file="$file"
-    echo "> Dowloading '$file'..."
-    curl -sS "$url/$file" -o "$md_build/$build_file"
+function _download_file() {
+    local build_file="$file"
+
+    [[ "$platform" != "x11_32" ]] && build_file="godot_$file"
+    
+    echo "> Dowloading '$build_file'..."
+    echo
+    curl -LJO "$url/$file" -o "$md_build/$build_file"
     if [[ "$?" -eq 0 ]]; then
+        chmod +x "$md_build/$build_file"
+        echo
         echo "'$file' downloaded succsesfully!"
+        echo
     else
+        echo
         echo "Something went wrong when dowloading '$file'."
+        echo
     fi
 }
 
 
 function sources_godot-engine() {
-    local url="https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/blob/master/bin"
+    local url="https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/raw/master/bin"
     local platform
     local file
 
@@ -49,56 +57,26 @@ function sources_godot-engine() {
         if isPlatform "x86"; then
             platform="x11_32"
             file="godot_${version}_${platform}.bin"
-            download_file "$file"
+            _download_file
         elif isPlatform "aarch64"; then
             platform="arm64"
             file="frt_${version}_${platform}.bin"
-            download_file "$file"
+            _download_file
         elif isPlatform "rpi1"; then
             platform="pi1"
             file="frt_${version}_${platform}.bin"
-            download_file "$file"
+            _download_file
         elif isPlatform "rpi2" || isPlatform "rpi3"; then
             platform="pi2"
             file="frt_${version}_${platform}.bin"
-            download_file "$file"
+            _download_file
         fi
     done
-
 }
 
 
 function install_godot-engine() {
     md_ret_files=($(ls .))
-    # if isPlatform "x86"; then
-    #     md_ret_files=(
-    #         "godot_2.1.6_x11_32.bin"
-    #         "godot_3.0.6_x11_32.bin"
-    #         "godot_3.1.0_x11_32.bin"
-    #         "godot_3.1.1_x11_32.bin"
-    #     )
-    # elif isPlatform "aarch64"; then
-    #     md_ret_files=(
-    #         "godot_frt_2.1.6_arm64.bin"
-    #         "godot_frt_3.0.6_arm64.bin"
-    #         "godot_frt_3.1.0_arm64.bin"
-    #         "godot_frt_3.1.1_arm64.bin"
-    #     )
-    # elif isPlatform "rpi1"; then
-    #     md_ret_files=(
-    #         "godot_frt_2.1.6_pi1.bin"
-    #         "godot_frt_3.0.6_pi1.bin"
-    #         "godot_frt_3.1.0_pi1.bin"
-    #         "godot_frt_3.1.1_pi1.bin"
-    #     )
-    # elif isPlatform "rpi2" || isPlatform "rpi3"; then
-    #     md_ret_files=(
-    #         "godot_frt_2.1.6_pi2.bin"
-    #         "godot_frt_3.0.6_pi2.bin"
-    #         "godot_frt_3.1.0_pi2.bin"
-    #         "godot_frt_3.1.1_pi2.bin"
-    #     )
-    # fi
 }
 
 
@@ -112,40 +90,7 @@ function configure_godot-engine() {
     local index
     local version
 
-    if isPlatform "x86"; then
-        id="x86"
-        bin_files=(
-            "godot_2.1.6_x11_32.bin"
-            "godot_3.0.6_x11_32.bin"
-            "godot_3.1.0_x11_32.bin"
-            "godot_3.1.1_x11_32.bin"
-        )
-    elif isPlatform "aarch64"; then
-        id="frt-arm64"
-        bin_files=(
-            "frt_2.1.6_arm64.bin"
-            "frt_3.0.6_arm64.bin"
-            "frt_3.1.0_arm64.bin"
-            "frt_3.1.1_arm64.bin"
-        )
-    elif isPlatform "rpi1"; then
-        id="frt-rpi0-1"
-        bin_files=(
-            "frt_2.1.6_pi1.bin"
-            "frt_3.0.6_pi1.bin"
-            "frt_3.1.0_pi1.bin"
-            "frt_3.1.1_pi1.bin"
-        )
-    elif isPlatform "rpi2" || isPlatform "rpi3"; then
-        id="frt-rpi2-3"
-        bin_files=(
-            "frt_2.1.6_pi2.bin"
-            "frt_3.0.6_pi2.bin"
-            "frt_3.1.0_pi2.bin"
-            "frt_3.1.1_pi2.bin"
-        )
-    fi
-
+    bin_files=($(ls .))
 
     for index in "${!bin_files[@]}"; do
         default=0
