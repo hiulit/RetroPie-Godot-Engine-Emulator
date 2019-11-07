@@ -148,38 +148,47 @@ function gui_godot-engine() {
     local cmd
     local choice
 
-    local use_frt=0
+    local use_frt
     local frt_keyboard
 
-    dialog \
-        --backtitle "Godot - Game Engine Configuration" \
-        --title "" \
-        --yesno "Would you like you use a GPIO/Virtual keyboard?" 10 60 2>&1 >/dev/tty
-
-    if [[ "$?" -eq 0 ]]; then
-        while IFS= read -r line; do
-            line="$(echo "$line" | sed -e 's/^"//' -e 's/"$//')" # Remove leading and trailing double quotes.
-            options+=("$i" "$line")
-            ((i++))
-        done < <(cat "/proc/bus/input/devices" | grep "N: Name" | cut -d= -f2)
-
-        cmd=(dialog \
+    if isPlatform "x86"; then
+        dialog \
+            --backtitle "Godot - Game Engine Configuration" \
+            --title "Info" \
+            --ok-label "OK" \
+            --msgbox "There are no configuration options for the 'x86' platform. Only for single board computers, such as the Raspberry Pi." \
+            10 60 2>&1 >/dev/tty
+    else
+        dialog \
             --backtitle "Godot - Game Engine Configuration" \
             --title "" \
-            --ok-label "OK" \
-            --cancel-label "Exit" \
-            --menu "Choose an option." \
-            15 60 15)
-
-        choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
+            --yesno "Would you like to you use a GPIO/Virtual keyboard?" 10 60 2>&1 >/dev/tty
 
         if [[ "$?" -eq 0 ]]; then
-            use_frt=1
-            frt_keyboard="${options[choice*2-1]}"
-            configure_godot-engine "$use_frt" "$frt_keyboard"
-        else
-            use_frt=0
-            configure_godot-engine "$use_frt"
+            while IFS= read -r line; do
+                line="$(echo "$line" | sed -e 's/^"//' -e 's/"$//')" # Remove leading and trailing double quotes.
+                options+=("$i" "$line")
+                ((i++))
+            done < <(cat "/proc/bus/input/devices" | grep "N: Name" | cut -d= -f2)
+
+            cmd=(dialog \
+                --backtitle "Godot - Game Engine Configuration" \
+                --title "" \
+                --ok-label "OK" \
+                --cancel-label "Exit" \
+                --menu "Choose an option." \
+                15 60 15)
+
+            choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
+
+            if [[ "$?" -eq 0 ]]; then
+                use_frt=1
+                frt_keyboard="${options[choice*2-1]}"
+                configure_godot-engine "$use_frt" "$frt_keyboard"
+            else
+                use_frt=0
+                configure_godot-engine "$use_frt"
+            fi
         fi
     fi
 }
