@@ -180,7 +180,7 @@ and then go to:
 
 You will be prompted with a menu showing all the results from the command `cat /proc/bus/input/devices`. Select the GPIO/Virtual keyboard that you want.
 
-## Remove the GPIO/Virtual keyboard
+### Remove the GPIO/Virtual keyboard
 
 If you don't want to use the GPIO/Virtual keyboard anymore, run:
 
