@@ -20,7 +20,8 @@ rp_module_licence="MIT https://raw.githubusercontent.com/hiulit/RetroPie-Godot-G
 rp_module_section="opt"
 rp_module_flags="x86 aarch64 rpi1 rpi2 rpi3"
 
-godot_versions=(
+SCRIPT_VERSION="1.2.0"
+GODOT_VERSIONS=(
     "2.1.6"
     "3.0.6"
     "3.1.0"
@@ -29,19 +30,14 @@ godot_versions=(
 
 
 function _download_file() {
-    local build_file="$file"
-
-    # Rename the file name depending on the platform.
-    [[ "$platform" != "x11_32" ]] && build_file="godot_$file"
-
-    echo "> Downloading '$build_file'..."
+    echo "> Downloading '$file'..."
     echo
     # Download the file and rename it.
-    curl -LJ "$url/$file" -o "$md_build/$build_file"
+    curl -LJ "$url/$file" -o "$md_build/$file"
     if [[ "$?" -eq 0 ]]; then
-        chmod +x "$md_build/$build_file"
+        chmod +x "$md_build/$file"
         echo
-        echo "'$build_file' downloaded successfully!"
+        echo "'$file' downloaded successfully!"
         echo
     else
         echo
@@ -52,11 +48,11 @@ function _download_file() {
 
 
 function sources_godot-engine() {
-    local url="https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/raw/master/bin"
+    local url="https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/releases/download/v${SCRIPT_VERSION}"
     local platform
     local file
 
-    for version in "${godot_versions[@]}"; do
+    for version in "${GODOT_VERSIONS[@]}"; do
         if isPlatform "x86"; then
             platform="x11_32"
             file="godot_${version}_${platform}.bin"
@@ -118,13 +114,9 @@ function configure_godot-engine() {
         
         # Get the version from the file name.
         version="${bin_files[$index]}"
-        # Cut from different "_" depending on the id.
-        if [[ "$id" == "x86" ]]; then
-            version="$(echo $version | cut -d'_' -f 2)"
-        else
-            version="$(echo $version | cut -d'_' -f 3)"
-        fi
-        
+        # Cut between "_"
+        version="$(echo $version | cut -d'_' -f 2)"
+
         if [[ "$id" != "x86" && $use_frt -eq 1 ]]; then
             addEmulator "$default" "$md_id-$version-$id" "godot-engine" "FRT_KEYBOARD_ID='$frt_keyboard' $md_inst/${bin_files[$index]} --main-pack %ROM%"
         else
