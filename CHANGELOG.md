@@ -4,6 +4,17 @@
 
 * Up to date
 
+## [1.2.1] - 2019-11-08
+
+### Changed
+
+* Removed bin files from the repository. The bin files are now in its own [release](https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/releases).
+* Now the scriptmodule's download url is connected to the script's version.
+
+### Deprecated
+
+* Don't use versions prior to **v1.2.0**. The download url won't work.
+
 ## [1.2.0] - 2019-11-08
 
 ### Added
