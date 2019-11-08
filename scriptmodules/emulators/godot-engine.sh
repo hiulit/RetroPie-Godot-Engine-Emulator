@@ -41,7 +41,7 @@ function _download_file() {
     if [[ "$?" -eq 0 ]]; then
         chmod +x "$md_build/$build_file"
         echo
-        echo "'$build_file' downloaded succsesfully!"
+        echo "'$build_file' downloaded successfully!"
         echo
     else
         echo
