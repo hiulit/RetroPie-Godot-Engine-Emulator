@@ -27,13 +27,16 @@ godot_versions=(
     "3.1.1"
 )
 
+
 function _download_file() {
     local build_file="$file"
 
+    # Rename the file name depending on the platform.
     [[ "$platform" != "x11_32" ]] && build_file="godot_$file"
 
     echo "> Downloading '$build_file'..."
     echo
+    # Download the file and rename it.
     curl -LJ "$url/$file" -o "$md_build/$build_file"
     if [[ "$?" -eq 0 ]]; then
         chmod +x "$md_build/$build_file"
@@ -113,8 +116,14 @@ function configure_godot-engine() {
         default=0
         [[ "$index" -eq "${#bin_files[@]}-1" ]] && default=1 # Default to the last item in 'bin_files'.
         
+        # Get the version from the file name.
         version="${bin_files[$index]}"
-        version="$(echo $version | cut -d'_' -f 2)"
+        # Cut from different "_" depending on the id.
+        if [[ "$id" == "x86" ]]; then
+            version="$(echo $version | cut -d'_' -f 2)"
+        else
+            version="$(echo $version | cut -d'_' -f 3)"
+        fi
         
         if [[ "$id" != "x86" && $use_frt -eq 1 ]]; then
             addEmulator "$default" "$md_id-$version-$id" "godot-engine" "FRT_KEYBOARD_ID='$frt_keyboard' $md_inst/${bin_files[$index]} --main-pack %ROM%"
@@ -140,8 +149,8 @@ function gui_godot-engine() {
             --backtitle "Godot - Game Engine Configuration" \
             --title "Info" \
             --ok-label "OK" \
-            --msgbox "There are no configuration options for the 'x86' platform. Only for single board computers, such as the Raspberry Pi." \
-            10 60 2>&1 >/dev/tty
+            --msgbox "There are no configuration options for the 'x86' platform.\n\nConfiguration options are only available for single board computers, such as the Raspberry Pi." \
+            10 65 2>&1 >/dev/tty
     else
         dialog \
             --backtitle "Godot - Game Engine Configuration" \
