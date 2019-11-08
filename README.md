@@ -49,7 +49,7 @@ The script assumes that you are running it on a Raspberry Pi with the `RetroPie-
 
 * `--help`: Print the help message and exit.
 * `--install`: Install the scriptmodule.
-* `--uninstall`: UnInstall the scriptmodule.
+* `--uninstall`: Uninstall the scriptmodule.
 * `--update`: Update the scriptmodule.
 * `--version`: Show script version.
 
@@ -158,6 +158,42 @@ and then go to:
 * Manage optional packages
 * godot-engine
 * Update from source
+
+## Using a GPIO/Virtual keyboard
+
+**Warning! When using a GPIO/Virtual keyboard, the actual keyboard won't work anymore. But you can always remove the GPIO/Virtual keyboard (see below).**
+
+As of **v1.2.0**, when using the **FRT** emulator, you can use a GPIO/Virtual keyboard, such as [GPIOnext](https://github.com/mholgatem/GPIOnext) or [Adafruit's Retrogame](https://github.com/adafruit/Adafruit-Retrogame).
+
+### Add a GPIO/Virtual keyboard
+
+Run:
+
+```
+sudo /home/pi/RetroPie-Setup/retropie_setup.sh
+```
+
+and then go to:
+
+* Configuration/tools
+* godot-engine
+
+You will be prompted with a menu showing all the results from the command `cat /proc/bus/input/devices`. Select the GPIO/Virtual keyboard that you want.
+
+## Remove the GPIO/Virtual keyboard
+
+If you don't want to use the GPIO/Virtual keyboard anymore, run:
+
+```
+sudo /home/pi/RetroPie-Setup/retropie_setup.sh
+```
+
+and then go to:
+
+* Configuration/tools
+* godot-engine
+
+Select **No** when asked if you want to use a GPIO/Virtual keyboard.
  
 ## How to create a new Godot system for an EmulationStation theme
 
