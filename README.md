@@ -25,7 +25,10 @@ sudo chmod +x setup-godot-engine-scriptmodule.sh
 
 ## Update the setup script
 
-Same as [Install the script](#install-the-script).
+```
+cd RetroPie-Godot-Game-Engine-Emulator/
+git pull
+```
 
 ## Usage
 
