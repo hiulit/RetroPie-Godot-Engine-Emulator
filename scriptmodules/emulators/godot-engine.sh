@@ -178,10 +178,10 @@ function gui_godot-engine() {
                 use_frt=1
                 frt_keyboard="${options[choice*2-1]}"
                 configure_godot-engine "$use_frt" "$frt_keyboard"
-            else
-                use_frt=0
-                configure_godot-engine "$use_frt"
             fi
+        elif [[ "$?" -eq 1 ]]; then
+            use_frt=0
+            configure_godot-engine "$use_frt"
         fi
     fi
 }
