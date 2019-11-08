@@ -108,6 +108,8 @@ function configure_godot-engine() {
         id="frt-rpi2-3"
     fi
 
+    [[ -f "/opt/retropie/configs/godot-engine/emulators.cfg" ]] && rm "/opt/retropie/configs/godot-engine/emulators.cfg"
+
     for index in "${!bin_files[@]}"; do
         default=0
         [[ "$index" -eq "${#bin_files[@]}-1" ]] && default=1 # Default to the last item in 'bin_files'.
