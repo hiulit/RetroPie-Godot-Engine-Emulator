@@ -12,7 +12,7 @@ You can find Godot games using the following links:
 * https://itch.io/games/made-with-godot
 * https://itch.io/games/tag-godot
 
-**\*Games that (would) work on a Raspberry Pi must have been created with Godot 3.1 using GLES2 (or maybe Godot 2.x) and not using any 'fancy VFX' like particles and other CPU/GPU demanding stuff.**
+**\*Games that (would) work on a Raspberry Pi must have been created with Godot 3.1.x using GLES2 (or maybe Godot 2.x.x) and not using any 'fancy VFX' like particles and other CPU/GPU demanding stuff.**
 
 ## Install the setup script
 
@@ -73,7 +73,7 @@ Install the scriptmodule.
 
 ### `--uninstall`
 
-UnInstall the scriptmodule.
+Uninstall the scriptmodule.
 
 #### Example
 
