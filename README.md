@@ -18,7 +18,8 @@ You can find Godot games using the following links:
 
 ```
 cd /home/pi/
-curl "https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/setup-godot-engine-scriptmodule.sh" -o "setup-godot-engine-scriptmodule.sh"
+git clone https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator.git
+cd RetroPie-Godot-Game-Engine-Emulator/
 sudo chmod +x setup-godot-engine-scriptmodule.sh
 ```
 

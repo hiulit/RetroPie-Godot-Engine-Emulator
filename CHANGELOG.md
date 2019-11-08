@@ -4,6 +4,13 @@
 
 * Up to date
 
+## [1.2.2] - 2019-11-08
+
+### Added
+
+* Remove `emulators.cfg` before creating a new one.
+* New documentation on how to properly install the script.
+
 ## [1.2.1] - 2019-11-08
 
 ### Changed
