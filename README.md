@@ -122,8 +122,8 @@ The script installs different versions of the "emulator" for maximum compatibili
 
 - `2.1.6`
 - `3.0.6`
-- `3.1.0`
-- `3.1.1`
+- `3.1.2`
+- `3.2.0`
 
 If the game you are trying to play doesn't work, try changing the "emulator" in the [runcommand](https://github.com/RetroPie/RetroPie-Setup/wiki/runcommand).
 

@@ -4,6 +4,13 @@
 
 * Up to date
 
+## [1.2.3] - 2020-02-04
+
+### Changed
+
+* Updated FRT binaries to [v0.9.7](https://github.com/efornara/frt/releases/tag/0.9.7).
+* Updated Godot versions (`2.1.6`, `3.0.6`, `3.1.2` and `3.2.0`).
+
 ## [1.2.2] - 2019-11-08
 
 ### Added

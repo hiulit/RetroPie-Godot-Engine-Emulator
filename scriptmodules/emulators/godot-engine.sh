@@ -20,12 +20,12 @@ rp_module_licence="MIT https://raw.githubusercontent.com/hiulit/RetroPie-Godot-G
 rp_module_section="opt"
 rp_module_flags="x86 aarch64 rpi1 rpi2 rpi3"
 
-SCRIPT_VERSION="1.2.2"
+SCRIPT_VERSION="1.2.3"
 GODOT_VERSIONS=(
     "2.1.6"
     "3.0.6"
-    "3.1.0"
-    "3.1.1"
+    "3.1.2"
+    "3.2.0"
 )
 
 
