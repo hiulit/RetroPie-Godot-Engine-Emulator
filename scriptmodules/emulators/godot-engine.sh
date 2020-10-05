@@ -18,7 +18,7 @@ rp_module_help+="\n\nCredits: https://github.com/hiulit/RetroPie-Godot-Game-Engi
 rp_module_help+="\n\nLicense: https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator#license"
 rp_module_licence="MIT https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/LICENSE"
 rp_module_section="opt"
-rp_module_flags="x86 aarch64 rpi1 rpi2 rpi3"
+rp_module_flags="x86 aarch64 rpi1 rpi2 rpi3 rpi4"
 
 SCRIPT_VERSION="1.2.3"
 GODOT_VERSIONS=(
@@ -53,7 +53,7 @@ function sources_godot-engine() {
     local file
 
     for version in "${GODOT_VERSIONS[@]}"; do
-        if isPlatform "x86"; then
+        if isPlatform "x86" || isPlatform "rpi4"; then
             platform="x11_32"
             file="godot_${version}_${platform}.bin"
             _download_file
