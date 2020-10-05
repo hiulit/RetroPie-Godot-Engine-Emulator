@@ -53,7 +53,7 @@ function sources_godot-engine() {
     local file
 
     for version in "${GODOT_VERSIONS[@]}"; do
-        if isPlatform "x86" || isPlatform "rpi4"; then
+        if isPlatform "x86"; then
             platform="x11_32"
             file="godot_${version}_${platform}.bin"
             _download_file
@@ -65,7 +65,7 @@ function sources_godot-engine() {
             platform="pi1"
             file="frt_${version}_${platform}.bin"
             _download_file
-        elif isPlatform "rpi2" || isPlatform "rpi3"; then
+        elif isPlatform "rpi2" || isPlatform "rpi3" || isPlatform "rpi4"; then
             platform="pi2"
             file="frt_${version}_${platform}.bin"
             _download_file
