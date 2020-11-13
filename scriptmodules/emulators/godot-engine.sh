@@ -18,7 +18,7 @@ rp_module_help+="\n\nCredits: https://github.com/hiulit/RetroPie-Godot-Game-Engi
 rp_module_help+="\n\nLicense: https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator#license"
 rp_module_licence="MIT https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/LICENSE"
 rp_module_section="opt"
-rp_module_flags="x86 aarch64 rpi1 rpi2 rpi3"
+rp_module_flags="x86 aarch64 rpi1 rpi2 rpi3 rpi4"
 
 SCRIPT_VERSION="1.2.3"
 GODOT_VERSIONS=(
@@ -26,6 +26,14 @@ GODOT_VERSIONS=(
     "3.0.6"
     "3.1.2"
     "3.2.0"
+)
+SUPPORTED_PLATFORMS=(
+    "x86"
+    "aarch64"
+    "rpi1"
+    "rpi2"
+    "rpi3"
+    "rpi4"
 )
 
 
@@ -52,21 +60,38 @@ function sources_godot-engine() {
     local platform
     local file
 
+    if isPlatform "x86"; then
+        platform="x11_32"
+    elif isPlatform "aarch64"; then
+        platform="arm64"
+    elif isPlatform "rpi1"; then
+        platform="pi1"
+    elif isPlatform "rpi2" || isPlatform "rpi3" || isPlatform "rpi4"; then
+        platform="pi2"
+    fi
+
+    if [[ -z "$platform" ]]; then
+        echo
+        echo "ERROR: Can't install 'Godot - Game Engine'. Your device is not currently supported." >&2
+        echo
+        echo "The supported platforms/architectures are:"
+        for supported_platform in "${SUPPORTED_PLATFORMS[@]}"; do
+            echo "- $supported_platform"
+        done
+        echo
+    fi
+
     for version in "${GODOT_VERSIONS[@]}"; do
-        if isPlatform "x86"; then
-            platform="x11_32"
+        if [[ "$platform" == "x11_32" ]]; then
             file="godot_${version}_${platform}.bin"
             _download_file
-        elif isPlatform "aarch64"; then
-            platform="arm64"
+        elif [[ "$platform" == "arm64" ]]; then
             file="frt_${version}_${platform}.bin"
             _download_file
-        elif isPlatform "rpi1"; then
-            platform="pi1"
+        elif [[ "$platform" == "pi1" ]]; then
             file="frt_${version}_${platform}.bin"
             _download_file
-        elif isPlatform "rpi2" || isPlatform "rpi3"; then
-            platform="pi2"
+        elif [[ "$platform" == "pi2" ]]; then
             file="frt_${version}_${platform}.bin"
             _download_file
         fi
@@ -104,7 +129,7 @@ function configure_godot-engine() {
         id="frt-arm64"
     elif isPlatform "rpi1"; then
         id="frt-rpi0-1"
-    elif isPlatform "rpi2" || isPlatform "rpi3"; then
+    elif isPlatform "rpi2" || isPlatform "rpi3" || isPlatform "rpi4"; then
         id="frt-rpi2-3"
     fi
 
