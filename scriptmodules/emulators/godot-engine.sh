@@ -79,6 +79,7 @@ function sources_godot-engine() {
             echo "- $supported_platform"
         done
         echo
+        exit 1
     fi
 
     for version in "${GODOT_VERSIONS[@]}"; do
