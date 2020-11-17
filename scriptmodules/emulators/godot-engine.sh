@@ -20,12 +20,12 @@ rp_module_licence="MIT https://raw.githubusercontent.com/hiulit/RetroPie-Godot-G
 rp_module_section="opt"
 rp_module_flags="x86 aarch64 rpi1 rpi2 rpi3 rpi4"
 
-SCRIPT_VERSION="1.2.3"
+SCRIPT_VERSION="1.3.0-alpha"
 GODOT_VERSIONS=(
     "2.1.6"
     "3.0.6"
     "3.1.2"
-    "3.2.0"
+    "3.2.3"
 )
 SUPPORTED_PLATFORMS=(
     "x86"
@@ -60,16 +60,20 @@ function sources_godot-engine() {
     local platform
     local file
 
+    # Check if the platform is supported.
     if isPlatform "x86"; then
         platform="x11_32"
     elif isPlatform "aarch64"; then
         platform="arm64"
     elif isPlatform "rpi1"; then
         platform="pi1"
-    elif isPlatform "rpi2" || isPlatform "rpi3" || isPlatform "rpi4"; then
+    elif isPlatform "rpi2" || isPlatform "rpi3"; then
         platform="pi2"
+    elif isPlatform "rpi4"; then
+        platform="pi4"
     fi
 
+    # Throw an error if the platform is not supported.
     if [[ -z "$platform" ]]; then
         echo
         echo "ERROR: Can't install 'Godot - Game Engine'. Your device is not currently supported." >&2
@@ -82,6 +86,7 @@ function sources_godot-engine() {
         exit 1
     fi
 
+    # Download all the versions of the Godot binaries for the current the platform.
     for version in "${GODOT_VERSIONS[@]}"; do
         if [[ "$platform" == "x11_32" ]]; then
             file="godot_${version}_${platform}.bin"
@@ -94,6 +99,11 @@ function sources_godot-engine() {
             _download_file
         elif [[ "$platform" == "pi2" ]]; then
             file="frt_${version}_${platform}.bin"
+            _download_file
+        elif [[ "$platform" == "pi4" ]]; then
+            file="frt_${version}_${platform}.bin"
+            _download_file
+            file="godot_${version}_${platform}.bin"
             _download_file
         fi
     done
@@ -114,6 +124,7 @@ function configure_godot-engine() {
     local bin_files
     local default
     local id
+    local id_rpi4
     local index
     local version
 
@@ -130,8 +141,11 @@ function configure_godot-engine() {
         id="frt-arm64"
     elif isPlatform "rpi1"; then
         id="frt-rpi0-1"
-    elif isPlatform "rpi2" || isPlatform "rpi3" || isPlatform "rpi4"; then
+    elif isPlatform "rpi2" || isPlatform "rpi3"; then
         id="frt-rpi2-3"
+    elif isPlatform "rpi4"; then
+        id="frt-rpi4"
+        id_rpi4="rpi4"
     fi
 
     [[ -f "/opt/retropie/configs/godot-engine/emulators.cfg" ]] && rm "/opt/retropie/configs/godot-engine/emulators.cfg"
@@ -142,13 +156,18 @@ function configure_godot-engine() {
         
         # Get the version from the file name.
         version="${bin_files[$index]}"
-        # Cut between "_"
+        # Cut between "_".
         version="$(echo $version | cut -d'_' -f 2)"
 
         if [[ "$id" != "x86" && $use_frt -eq 1 ]]; then
             addEmulator "$default" "$md_id-$version-$id" "godot-engine" "FRT_KEYBOARD_ID='$frt_keyboard' $md_inst/${bin_files[$index]} --main-pack %ROM%"
         else
-            addEmulator "$default" "$md_id-$version-$id" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
+            if [[ -n "$id_rpi4" ]]; then
+                addEmulator "$default" "$md_id-$version-$id_rpi4" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
+                addEmulator 0 "$md_id-$version-$id" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
+            else
+                addEmulator "$default" "$md_id-$version-$id" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
+            fi
         fi
     done
 
