@@ -4,6 +4,19 @@
 
 * Up to date
 
+## [1.3.0] - 2020-11-XX
+
+### Added
+
+* Support for the Raspberry Pi 4.
+* New Godot binaries compiled specifically for the Raspberry Pi 4 (`godot-engine-x.x.x-rpi4`).
+* A [compatibility list](https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/blob/master/COMPATIBILITY_LIST.md) to check which games work.
+
+### Changed
+
+* Updated FRT binaries to [v0.9.8](https://github.com/efornara/frt/releases/tag/0.9.8).
+* Updated Godot versions (`3.2.3`).
+
 ## [1.2.3] - 2020-02-04
 
 ### Changed
