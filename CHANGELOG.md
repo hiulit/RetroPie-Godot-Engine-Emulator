@@ -10,6 +10,7 @@
 
 * Support for the Raspberry Pi 4.
 * New Godot binaries compiled specifically for the Raspberry Pi 4 (`godot-engine-x.x.x-rpi4`).
+* A new option in the scriptmodule's configuration menu to force Godot to use the GLES2 video driver on single-board computers, such as the Raspberry Pi.
 * A [compatibility list](https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/blob/master/COMPATIBILITY_LIST.md) to check which games work.
 
 ### Changed
