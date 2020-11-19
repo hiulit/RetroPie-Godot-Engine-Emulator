@@ -19,6 +19,8 @@ You can find Godot games using the following links:
 
 When you download a game from https://itch.io/, you have to look for a `.pck` file. Those files will most likely be found on Linux downloads (maybe on Windows too).
 
+Take a look at the [compatibility list](https://docs.google.com/spreadsheets/d/1ybU_NHqhnJmZnlP9YDDGEf4BJ5nInbfsVVQtQCM7rYw/edit?usp=sharing) to check which games work. Everyone can contribute to the list.
+
 ## Install the setup script
 
 ```
