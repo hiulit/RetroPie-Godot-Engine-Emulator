@@ -4,6 +4,20 @@
 
 * Up to date
 
+## [1.3.0] - 2020-11-23
+
+### Added
+
+* Support for the Raspberry Pi 4.
+* New Godot binaries compiled specifically for the Raspberry Pi 4 (`godot-engine-x.x.x-rpi4`).
+* A new option in the scriptmodule's configuration menu to force Godot to use the GLES2 video driver on single-board computers, such as the Raspberry Pi.
+* A [compatibility list](https://docs.google.com/spreadsheets/d/1ybU_NHqhnJmZnlP9YDDGEf4BJ5nInbfsVVQtQCM7rYw/edit?usp=sharing) to check which games work.
+
+### Changed
+
+* Updated FRT binaries to [v0.9.8](https://github.com/efornara/frt/releases/tag/0.9.8).
+* Updated Godot versions (`3.2.3`).
+
 ## [1.2.3] - 2020-02-04
 
 ### Changed

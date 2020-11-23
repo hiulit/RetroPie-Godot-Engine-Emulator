@@ -21,7 +21,7 @@ home="$(eval echo ~$user)"
 readonly RP_DIR="$home/RetroPie"
 readonly RP_ROMS_DIR="$RP_DIR/roms"
 
-readonly SCRIPT_VERSION="1.2.3"
+readonly SCRIPT_VERSION="1.3.0"
 readonly SCRIPT_DIR="$(cd "$(dirname $0)" && pwd)"
 readonly SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_FULL="$SCRIPT_DIR/$SCRIPT_NAME"
@@ -103,7 +103,7 @@ function uninstall() {
     if [[ ! -f "$RPS_DIR/$SCRIPTMODULE_FILE" ]]; then
         echo >&2
         echo "ERROR: Can't uninstall the scriptmodule!" >&2
-        echo "'godot-engine' scriptmodule is not installed.">&2
+        echo "'godot-engine' scriptmodule is not installed." >&2
         exit 1
     fi
 
