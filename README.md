@@ -8,7 +8,7 @@ Thanks to [@efornara](https://github.com/efornara) (for creating [FRT - A Godot 
 
 If you are running RetroPie on an `x86` Linux PC, the Godot "emulator" uses the **Linux/X11-32bits** export template instead of **FRT**, so most games should work fine.
 
-## Where to find games
+## Where to find games made with Godot
 
 There are plenty of games made with Godot, most of them hosted on https://itch.io/.
 
@@ -17,9 +17,11 @@ You can find Godot games using the following links:
 * https://itch.io/games/made-with-godot
 * https://itch.io/games/tag-godot
 
+Most games are free to dowload and some are "pay what you want" with a suggested price. If you like the game, consider supporting the authors 😊.
+
 **NOTE**:
 
-When you download a game from https://itch.io/, you have to look for a `.pck` file. Those files will most likely be found on **Linux** downloads (maybe on the **Windows** downloads too).
+When you download a game from https://itch.io/, you have to look for a `.pck` file to be able to play the game using the Godot "emulator". Those files will most likely be found on **Linux** downloads (maybe on **Windows** downloads too).
 
 If you can't find a `.pck` file on neither the Linux nor the Windows downloads, you can try the **Mac/OSX** downloads. You'll have to:
 
