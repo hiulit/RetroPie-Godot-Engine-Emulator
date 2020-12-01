@@ -1,4 +1,4 @@
-# RetroPie Godot Game Engine "Emulator"
+# RetroPie Godot Game Engine "Emulator" ![GitHub release (latest by date)](https://img.shields.io/github/v/release/hiulit/RetroPie-Godot-Game-Engine-Emulator)
 
 A scriptmodule to install a Godot "emulator" for RetroPie.
 
