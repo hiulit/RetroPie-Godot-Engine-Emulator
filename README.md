@@ -4,9 +4,11 @@ A scriptmodule to install a Godot "emulator" for RetroPie.
 
 Thanks to [@efornara](https://github.com/efornara) (for creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt)) you can now **play\*** games made with [Godot](https://godotengine.org/) on the Raspberry Pi (and other single-board computers) using [RetroPie](https://retropie.org.uk/).
 
-**\*Games that (would) work on a Raspberry Pi must have been created with Godot version >= 3.1.x using GLES2 (or maybe Godot 2.x.x) and that they must not use any "fancy VFX", like particles and other CPU/GPU demanding stuff.**
+**\*Games that (would) work on a Raspberry Pi must have been created with Godot version >= 3.1.x using GLES2 (or Godot 2.x.x) and they must not use any "fancy VFX", like particles, heavy shaders and other CPU/GPU demanding stuff.**
 
-If you are running RetroPie on an `x86` PC, the Godot "emulator" uses the **Linux/X11-32bits** export template instead of **FRT**, so most games should work fine.
+If you are running RetroPie on an `x86` Linux PC, the Godot "emulator" uses the **Linux/X11-32bits** export template instead of **FRT**, so most games should work fine.
+
+## Where to find games
 
 There are plenty of games made with Godot, most of them hosted on https://itch.io/.
 
@@ -17,7 +19,14 @@ You can find Godot games using the following links:
 
 **NOTE**:
 
-When you download a game from https://itch.io/, you have to look for a `.pck` file. Those files will most likely be found on Linux downloads (maybe on Windows too).
+When you download a game from https://itch.io/, you have to look for a `.pck` file. Those files will most likely be found on **Linux** downloads (maybe on the **Windows** downloads too).
+
+If you can't find a `.pck` file on neither the Linux nor the Windows downloads, you can try the **Mac/OSX** downloads. You'll have to:
+
+* Unzip the `.zip` file.
+* Go to `Contents -> Resources` and in this folder there sould be the `.pck` file.
+
+## Compatibility list
 
 Take a look at the [compatibility list](https://docs.google.com/spreadsheets/d/1ybU_NHqhnJmZnlP9YDDGEf4BJ5nInbfsVVQtQCM7rYw/edit?usp=sharing) to check which games work. Everyone can contribute to the list.
 
@@ -62,7 +71,7 @@ The script assumes that you are running it on a Raspberry Pi with the `RetroPie-
 * `--install`: Install the scriptmodule.
 * `--uninstall`: Uninstall the scriptmodule.
 * `--update`: Update the scriptmodule.
-* `--version`: Show script version.
+* `--version`: Show the script's version.
 
 ## Examples
 
@@ -100,7 +109,7 @@ Update the scriptmodule.
 
 ### `--version`
 
-Show script version.
+Show the script's version.
 
 #### Example
 
