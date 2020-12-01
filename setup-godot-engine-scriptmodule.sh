@@ -192,13 +192,13 @@ function get_options() {
                 check_path "$2"
                 update
                 ;;
-#H -v,  --version                Show script version.
+#H -v,  --version                Show the script's version.
             -v|--version)
                 echo "$SCRIPT_VERSION"
                 ;;
             *)
                 echo >&2
-                echo "ERROR: invalid option '$1'" >&2
+                echo "ERROR: Invalid option '$1'." >&2
                 exit 2
                 ;;
         esac
