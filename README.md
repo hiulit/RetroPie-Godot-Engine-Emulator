@@ -4,7 +4,7 @@ A scriptmodule to install a Godot "emulator" for RetroPie.
 
 Thanks to [@efornara](https://github.com/efornara) (for creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt)) you can now **play\*** games made with [Godot](https://godotengine.org/) on the Raspberry Pi (and other single-board computers) using [RetroPie](https://retropie.org.uk/).
 
-**\*Games that (would) work on a Raspberry Pi must have been created with Godot version >= 3.1.x using GLES2 (or Godot 2.x.x) and they must not use any "fancy VFX", like particles, heavy shaders and other CPU/GPU demanding stuff and should preferably be 2D.**
+**\*Games that (would) work on a Raspberry Pi must have been created with Godot version >= 3.1.x using GLES2 (or Godot 2.x.x), they must not use any "fancy VFX", like particles, heavy shaders and other CPU/GPU demanding stuff and should preferably be 2D.**
 
 If you are running RetroPie on an `x86` Linux PC, the Godot "emulator" uses the **Linux/X11-32bits** export template instead of **FRT**, so most games should work fine.
 
@@ -17,7 +17,7 @@ You can find Godot games using the following links:
 - https://itch.io/games/made-with-godot
 - https://itch.io/games/tag-godot
 
-Most games are free to dowload, some are "pay what you want" with a suggested price and a few are paid. If you like the game, consider supporting the authors 😊.
+Most games are free to dowload, some are "pay what you want" with a suggested price (including free) and a few are paid. If you like the game, consider supporting the authors 😊.
 
 **NOTE**:
 
@@ -137,16 +137,20 @@ A new `godot-engine` folder will be created in `/home/pi/RetroPie/roms/`, where 
 
 For example, if you download a game from https://itch.io/, the downloaded `.zip` usually contains 2 files: the executable and the game. The later is, most of the times, a `.pck` file. That's the one we want. Just copy it to `/home/pi/RetroPie/roms/godot-engine`.
 
-The script installs different versions of the "emulator" for maximum compatibility:
+The script installs different versions of the Godot "emulator" for maximum compatibility:
 
 - `2.1.6`
 - `3.0.6`
 - `3.1.2`
 - `3.2.3`
 
-If you are using an `x86` PC, the "emulators" used are Godot's export templates downloaded from https://godotengine.org/download/.
+### x86 Linux PC "emulator"
+
+If you are using an `x86` Linux PC, the "emulators" used are Godot's export templates downloaded from https://godotengine.org/download/.
 
 - `godot-engine-x.x.x-x86`
+
+### Raspberry Pi "emulator"
 
 For the Raspberry Pi, the script will auto-detect if you are using a `0/1`, a `2/3` or a `4` version and it will install the proper **FRT** "emulators".
 
@@ -157,6 +161,8 @@ For the Raspberry Pi, the script will auto-detect if you are using a `0/1`, a `2
 In the case of the **Raspberry Pi 4**, the script will install additional Godot "emulators" specifically compiled for it.
 
 - `godot-engine-x.x.x-rpi4`
+
+### Other single-board computers "emulator"
 
 For any `arm64` single-board computer, the script will install the proper **FRT** "emulators".
 
@@ -196,7 +202,7 @@ and then go to:
 
 **Warning! When using a GPIO/Virtual keyboard, the actual keyboard won't work anymore. But you can always remove the GPIO/Virtual keyboard (see below).**
 
-As of **v1.2.0**, when using the **FRT** emulator, you can use a GPIO/Virtual keyboard, such as [GPIOnext](https://github.com/mholgatem/GPIOnext) or [Adafruit's Retrogame](https://github.com/adafruit/Adafruit-Retrogame).
+As of **v1.2.0**, when using the **FRT** "emulator", you can use a GPIO/Virtual keyboard, such as [GPIOnext](https://github.com/mholgatem/GPIOnext) or [Adafruit's Retrogame](https://github.com/adafruit/Adafruit-Retrogame).
 
 ### Add/Remove a GPIO/Virtual keyboard
 
@@ -232,7 +238,7 @@ If the game you are trying to play doesn't work, it will most likely be because 
 
 Try changing the Godot "emulator" version in the [runcommand](https://github.com/RetroPie/RetroPie-Setup/wiki/runcommand).
 
-If you downloaded the game from https://itch.io, there a good chance the author has stated which version of Godot that game uses.
+If you downloaded the game from https://itch.io, there's a good chance the author stated which version of Godot that game uses.
 
 In case none of the "emulators" work... **Sorry 😔**.
 
@@ -310,17 +316,18 @@ Me 😛 [@hiulit](https://github.com/hiulit).
 
 Thanks to:
 
-- Emanuele Fornara [@efornara](https://github.com/efornara) - For creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt).
+- Juan Linietsky ([@reduz](https://github.com/reduz)), Ariel Manzur ([@punto-](https://github.com/punto-)), Rémi Verschelde ([@akien-mga](https://github.com/akien-mga)) and all the Godot contributors - For creating and maintaining the [Godot Engine](https://github.com/godotengine/godot).
+- Emanuele Fornara ([@efornara](https://github.com/efornara)) - For creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt).
 - Andrea Calabró - For creating the **Godot logo**. Changes made to it:
   - Created an outline version.
-- Alícia Folgarona Ribot (Alfórium Studios) [@alforiumstudios](https://twitter.com/alforiumstudios) - For creating the **Pixel Godot logo**. Changes made to it:
+- Alícia Folgarona Ribot (Alfórium Studios - [@alforiumstudios](https://twitter.com/alforiumstudios)) - For creating the **Pixel Godot logo**. Changes made to it:
   - New colors.
   - Added white outline.
 
 ## LICENSE
 
 - Source code: [MIT License](/LICENSE).
-- Godot logo: [CC BY](https://creativecommons.org/licenses/by/3.0/).
-- Pixel Godot logo: [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 - Godot - Game Engine: [MIT License](/LICENSE_GODOT).
 - FRT - A Godot platform targeting single board computers: [MIT License](/LICENSE_FRT).
+- Godot logo: [CC BY](https://creativecommons.org/licenses/by/3.0/).
+- Pixel Godot logo: [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/).
