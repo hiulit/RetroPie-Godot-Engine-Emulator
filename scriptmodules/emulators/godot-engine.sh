@@ -25,7 +25,7 @@ rp_module_flags="x86 aarch64 rpi1 rpi2 rpi3 rpi4"
 
 # Global variables ##################################
 
-SCRIPT_VERSION="1.3.0"
+SCRIPT_VERSION="1.3.1"
 GODOT_VERSIONS=(
     "2.1.6"
     "3.0.6"
@@ -33,6 +33,7 @@ GODOT_VERSIONS=(
     "3.2.3"
 )
 GODOT_ONLY_RPI_4_VERSIONS=(
+    "2.1.6"
     "3.1.2"
     "3.2.3" 
 )

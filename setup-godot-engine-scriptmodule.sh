@@ -21,7 +21,7 @@ home="$(eval echo ~$user)"
 readonly RP_DIR="$home/RetroPie"
 readonly RP_ROMS_DIR="$RP_DIR/roms"
 
-readonly SCRIPT_VERSION="1.3.0"
+readonly SCRIPT_VERSION="1.3.1"
 readonly SCRIPT_DIR="$(cd "$(dirname $0)" && pwd)"
 readonly SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_FULL="$SCRIPT_DIR/$SCRIPT_NAME"
