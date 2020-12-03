@@ -144,7 +144,7 @@ The script installs different versions of the Godot "emulator" for maximum compa
 - `3.1.2`
 - `3.2.3`
 
-### x86 Linux PC "emulator"
+### Linux PC (x86) "emulator"
 
 If you are using an `x86` Linux PC, the "emulators" used are Godot's export templates downloaded from https://godotengine.org/download/.
 
@@ -162,7 +162,7 @@ In the case of the **Raspberry Pi 4**, the script will install additional Godot 
 
 - `godot-engine-x.x.x-rpi4`
 
-### Other single-board computers "emulator"
+### Other single-board computers (arm64) "emulator"
 
 For any `arm64` single-board computer, the script will install the proper **FRT** "emulators".
 
