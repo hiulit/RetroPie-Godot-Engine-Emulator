@@ -234,6 +234,8 @@ If you want to to reverse that action, follow the same steps and select **No**.
 
 ### A game doesn't launch or crashes
 
+> Useful information about errors can be found at `/dev/shm/runcommand.log`.
+
 If the game you are trying to play doesn't work, it will most likely be because it was made with another version of Godot.
 
 Try changing the Godot "emulator" version in the [runcommand](https://github.com/RetroPie/RetroPie-Setup/wiki/runcommand).
