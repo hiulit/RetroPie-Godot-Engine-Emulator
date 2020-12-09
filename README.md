@@ -8,6 +8,28 @@ Thanks to [@efornara](https://github.com/efornara) (for creating [FRT - A Godot 
 
 If you are running RetroPie on an `x86` Linux PC, the Godot "emulator" uses the **Linux/X11-32bits** export template instead of **FRT**, so most games should work fine.
 
+## Table of contents
+
+- [Where to find games made with Godot](#where-to-find-games-made-with-godot).
+- [Compatibility list](#compatibility-list).
+- [Setup script](#setup-script).
+  - [Installation](#installation).
+  - [Updating](#updating).
+  - [Usage](#usage).
+  - [Options](#options).
+- [Install the Godot "emulator" from RetroPie-Setup](#install-the-godot-emulator-from-retropie-setup).
+- [Uninstall the Godot "emulator" from RetroPie-Setup](#uninstall-the-godot-emulator-from-retropie-setup).
+- [Update the Godot "emulator" from RetroPie-Setup](#update-the-godot-emulator-from-retropie-setup).
+- [Types of Godot "emulators"](#types-of-godot-emulators).
+  - [Linux PC (x86) "emulator"](#linux-pc-x86-emulator).
+  - [Raspberry Pi "emulator"](#raspberry-pi-emulator).
+  - [Other single-board computers (arm64) "emulator"](#other-single-board-computers-arm64-emulator).
+- [How to install Godot games](#how-to-install-godot-games).
+- [Using a GPIO/Virtual keyboard](#using-a-gpiovirtual-keyboard).
+- [Troubleshooting](#troubleshooting).
+- [How to create a new Godot system for an EmulationStation theme](#how-to-create-a-new-godot-system-for-an-emulationstation-theme).
+- [Pre-made Godot systems](#pre-made-godot-systems).
+
 ## Where to find games made with Godot
 
 There are plenty of games made with Godot, most of them hosted on https://itch.io.
@@ -19,21 +41,12 @@ You can find Godot games using the following links:
 
 Most games are free to dowload, some are "pay what you want" with a suggested price (including free) and a few are paid. If you like the game, consider supporting the authors 😊.
 
-**NOTE**:
-
-When you download a game from https://itch.io, you have to look for a `.pck` file to be able to play the game using the Godot "emulator". Those files will most likely be found on **Linux downloads** (maybe on **Windows downloads**
- too).
-
-If you can't find a `.pck` file on neither the Linux nor the Windows downloads, you can try the **Mac/OSX downloads**. You'll have to:
-
-- Unzip the `.zip` file.
-- Go to `Contents -> Resources` and in this folder there sould be the `.pck` file.
-
 ## Compatibility list
 
 Take a look at the [compatibility list](https://docs.google.com/spreadsheets/d/1ybU_NHqhnJmZnlP9YDDGEf4BJ5nInbfsVVQtQCM7rYw/edit?usp=sharing) to check which games work. Everyone can contribute to the list.
 
-## Install the setup script
+## Setup script
+### Installation
 
 ```
 cd /home/pi/
@@ -42,14 +55,14 @@ cd RetroPie-Godot-Game-Engine-Emulator/
 sudo chmod +x setup-godot-engine-scriptmodule.sh
 ```
 
-## Update the setup script
+### Updating
 
 ```
 cd RetroPie-Godot-Game-Engine-Emulator/
 git pull
 ```
 
-## Usage
+### Usage
 
 ```
 ./setup-godot-engine-scriptmodule.sh [OPTIONS]
@@ -68,7 +81,7 @@ The script assumes that you are running it on a Raspberry Pi with the `RetroPie-
 ```
 ./setup-godot-engine-scriptmodule.sh [OPTION] "/path/to/your/RetroPie-Setup"
 ```
-## Options
+### Options
 
 - `--help`: Print the help message and exit.
 - `--install`: Install the scriptmodule.
@@ -76,45 +89,34 @@ The script assumes that you are running it on a Raspberry Pi with the `RetroPie-
 - `--update`: Update the scriptmodule.
 - `--version`: Show the script's version.
 
-## Examples
 
-### `--help`
+#### `--help`
 
 Print the help message and exit.
 
-#### Example
-
 `./setup-godot-engine-scriptmodule.sh --help`
 
-### `--install`
+#### `--install`
 
 Install the scriptmodule.
 
-#### Example
-
 `./setup-godot-engine-scriptmodule.sh --install`
 
-### `--uninstall`
+#### `--uninstall`
 
 Uninstall the scriptmodule.
 
-#### Example
-
 `./setup-godot-engine-scriptmodule.sh --uninstall`
 
-### `--update`
+#### `--update`
 
 Update the scriptmodule.
 
-#### Example
-
 `./setup-godot-engine-scriptmodule.sh --update`
 
-### `--version`
+#### `--version`
 
 Show the script's version.
-
-#### Example
 
 `./setup-godot-engine-scriptmodule.sh --version`
 
@@ -133,10 +135,6 @@ and then go to:
 - godot-engine
 - Install from source
 
-A new `godot-engine` folder will be created in `/home/pi/RetroPie/roms/`, where you can put your games using the `.pck` and `.zip` extensions.
-
-For example, if you download a game from https://itch.io/, the downloaded `.zip` usually contains 2 files: the executable and the game. The later is, most of the times, a `.pck` file. That's the one we want. Just copy it to `/home/pi/RetroPie/roms/godot-engine`.
-
 The script installs different versions of the Godot "emulator" for maximum compatibility:
 
 - `2.1.6`
@@ -144,29 +142,7 @@ The script installs different versions of the Godot "emulator" for maximum compa
 - `3.1.2`
 - `3.2.3`
 
-### Linux PC (x86) "emulator"
-
-If you are using an `x86` Linux PC, the "emulators" used are Godot's export templates downloaded from https://godotengine.org/download/.
-
-- `godot-engine-x.x.x-x86`
-
-### Raspberry Pi "emulator"
-
-For the Raspberry Pi, the script will auto-detect if you are using a `0/1`, a `2/3` or a `4` version and it will install the proper **FRT** "emulators".
-
-- `godot-engine-x.x.x-frt-rpi0-1`
-- `godot-engine-x.x.x-frt-rpi2-3`
-- `godot-engine-x.x.x-frt-rpi4`
-
-In the case of the **Raspberry Pi 4**, the script will install additional Godot "emulators" specifically compiled for it.
-
-- `godot-engine-x.x.x-rpi4`
-
-### Other single-board computers (arm64) "emulator"
-
-For any `arm64` single-board computer, the script will install the proper **FRT** "emulators".
-
-- `godot-engine-x.x.x-frt-arm64`
+A new `godot-engine` folder will be created in `/home/pi/RetroPie/roms/`, where you can [install the Godot games](#how-to-install-godot-games) using the `.pck` and `.zip` extensions.
 
 ## Uninstall the Godot "emulator" from RetroPie-Setup
 
@@ -197,6 +173,51 @@ and then go to:
 - Manage optional packages
 - godot-engine
 - Update from source
+
+## Types of Godot "emulators"
+
+### Linux PC (x86) "emulator"
+
+If you are using an `x86` Linux PC, the "emulators" used are Godot's export templates downloaded from https://godotengine.org/download/.
+
+- `godot-engine-x.x.x-x86`
+
+### Raspberry Pi "emulator"
+
+For the Raspberry Pi, the script will auto-detect if you are using a `0/1`, a `2/3` or a `4` version and it will install the proper **FRT** "emulators".
+
+- `godot-engine-x.x.x-frt-rpi0-1`
+- `godot-engine-x.x.x-frt-rpi2-3`
+- `godot-engine-x.x.x-frt-rpi4`
+
+In the case of the **Raspberry Pi 4**, the script will install additional Godot "emulators" specifically compiled for it.
+
+- `godot-engine-x.x.x-rpi4`
+
+### Other single-board computers (arm64) "emulator"
+
+For any `arm64` single-board computer, the script will install the proper **FRT** "emulators".
+
+- `godot-engine-x.x.x-frt-arm64`
+
+## How to install Godot games
+
+When you download a game from https://itch.io, the downloaded `.zip` usually contains 2 files:
+
+- The Godot executable.
+- The game data.
+
+The later is, most of the times, a `.pck` file. That's the one we want!
+
+Those `.pck` files will most likely be found on **Linux downloads** (maybe on **Windows downloads**
+too).
+
+If you can't find a `.pck` file on neither the Linux nor the Windows downloads, you can try the **Mac/OSX downloads**. You'll have to:
+
+- Unzip the `.zip` file.
+- Go to `Contents -> Resources`. There sould be the `.pck` file in this folder.
+
+To install it, just copy the `.pck` file to `/home/pi/RetroPie/roms/godot-engine`.
 
 ## Using a GPIO/Virtual keyboard
 
@@ -290,13 +311,14 @@ As there is no way to create a script to automate this, because themes don't hav
 
 The folder structure in the theme you are using might differ. Take a look at how this particular theme works to create the `godot-engine` folder accordingly. You might need to delete extra icons that are not needed.
 
-## Premade Godot systems
+## Pre-made Godot systems
 
-I've created a couple of ready-to-use Godot systems.
+I've created a couple of ready-to-use Godot systems:
 
-One for the default EmulationStation theme that comes in RetroPie, **Carbon theme**, and the other, my personal favourite theme, for the **Pixel theme**.
+- For the **Carbon theme**, which is the default EmulationStation theme that comes in RetroPie.
+- For the **Pixel theme**, my personal favourite theme.
 
-Copy the `theme/[THEME]/godot-engine` folder from this repository to `/etc/emulationstation/themes/[THEME]`.
+To install a Godot system, copy the `theme/[THEME]/godot-engine` folder from this repository to `/etc/emulationstation/themes/[THEME]`.
 
 ### Carbon theme
 
