@@ -351,7 +351,7 @@ Thanks to:
 ## LICENSE
 
 - Source code: [MIT License](/LICENSE).
-- Godot - Game Engine: [MIT License](/LICENSE_GODOT).
-- FRT - A Godot platform targeting single board computers: [MIT License](/LICENSE_FRT).
+- Godot - Game Engine: [MIT License](/LICENSE_GODOT.txt).
+- FRT - A Godot platform targeting single board computers: [MIT License](/LICENSE_FRT.txt).
 - Godot logo: [CC BY](https://creativecommons.org/licenses/by/3.0/).
 - Pixel Godot logo: [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/).
