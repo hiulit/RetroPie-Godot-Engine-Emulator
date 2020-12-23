@@ -30,7 +30,7 @@ If you are running RetroPie on an `x86` Linux PC, the Godot "emulator" uses the 
 - [How to create a new Godot system for an EmulationStation theme](#how-to-create-a-new-godot-system-for-an-emulationstation-theme).
 - [Pre-made Godot systems](#pre-made-godot-systems).
 
-## Where to find games made with Godot
+## 🎮 Where to find games made with Godot
 
 There are plenty of games made with Godot, most of them hosted on https://itch.io.
 
@@ -41,11 +41,14 @@ You can find Godot games using the following links:
 
 Most games are free to dowload, some are "pay what you want" with a suggested price (including free) and a few are paid. If you like the game, consider supporting the authors 😊.
 
-## Compatibility list
+## ✔️ Compatibility list
 
-Take a look at the [compatibility list](https://docs.google.com/spreadsheets/d/1ybU_NHqhnJmZnlP9YDDGEf4BJ5nInbfsVVQtQCM7rYw/edit?usp=sharing) to check which games work. Everyone can contribute to the list.
+Take a look at the [compatibility list](https://docs.google.com/spreadsheets/d/1ybU_NHqhnJmZnlP9YDDGEf4BJ5nInbfsVVQtQCM7rYw/edit?usp=sharing) to check which games work.
 
-## Setup script
+Everyone can contribute to the list by starting a [discussion](https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/discussions).
+
+## ⌨️ Setup script
+
 ### Installation
 
 ```
@@ -135,12 +138,20 @@ and then go to:
 - godot-engine
 - Install from source
 
-The script installs different versions of the Godot "emulator" for maximum compatibility:
+The script installs all the major versions of the Godot "emulator" for maximum compatibility:
 
 - `2.1.6`
-- `3.0.6`
+- `3.0.6` \*
+- `3.1.0`
+- `3.1.1`
 - `3.1.2`
+- `3.2.0`
+- `3.2.1`
+- `3.2.2`
 - `3.2.3`
+- `3.2.4 beta 4`
+
+\* *Only available when using the FRT "emulator"*.
 
 A new `godot-engine` folder will be created in `/home/pi/RetroPie/roms/`, where you can [install the Godot games](#how-to-install-godot-games) using the `.pck` and `.zip` extensions.
 
@@ -334,7 +345,16 @@ See [CHANGELOG](/CHANGELOG.md).
 
 ## Author
 
-Me 😛 [@hiulit](https://github.com/hiulit).
+👤 **hiulit**
+
+- Twitter: [@hiulit](https://twitter.com/hiulit)
+- GitHub: [@hiulit](https://github.com/kefhiulitranabg)
+
+## Show your support
+
+Please ⭐️ this repository if this project helped you!
+
+<a href="https://www.patreon.com/bePatron?u=14968484" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
 
 ## Credits
 
@@ -348,7 +368,7 @@ Thanks to:
   - New colors.
   - Added white outline.
 
-## LICENSE
+## 📝 Licenses
 
 - Source code: [MIT License](/LICENSE).
 - Godot - Game Engine: [MIT License](/LICENSE_GODOT.txt).
