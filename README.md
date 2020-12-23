@@ -370,11 +370,11 @@ Please ⭐️ this repository if this project helped you!
 
 Thanks to:
 
-- Juan Linietsky ([@reduz](https://github.com/reduz)), Ariel Manzur ([@punto-](https://github.com/punto-)), Rémi Verschelde ([@akien-mga](https://github.com/akien-mga)) and all the Godot contributors - For creating and maintaining the [Godot Engine](https://github.com/godotengine/godot).
-- Emanuele Fornara ([@efornara](https://github.com/efornara)) - For creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt).
-- Andrea Calabró - For creating the **Godot logo**. Changes made to it:
+- **Juan Linietsky** ([@reduz](https://github.com/reduz)), **Ariel Manzur** ([@punto-](https://github.com/punto-)), **Rémi Verschelde** ([@akien-mga](https://github.com/akien-mga)) and **all the Godot contributors** - For creating and maintaining the [Godot Engine](https://github.com/godotengine/godot).
+- **Emanuele Fornara** ([@efornara](https://github.com/efornara)) - For creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt).
+- **Andrea Calabró** - For creating the "Godot logo". Changes made to it:
   - Created an outline version.
-- Alícia Folgarona Ribot (Alfórium Studios - [@alforiumstudios](https://twitter.com/alforiumstudios)) - For creating the **Pixel Godot logo**. Changes made to it:
+- **Alícia Folgarona Ribot** (Alfórium Studios - [@alforiumstudios](https://twitter.com/alforiumstudios)) - For creating the "Pixel Godot logo". Changes made to it:
   - New colors.
   - Added white outline.
 
