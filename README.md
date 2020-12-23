@@ -47,7 +47,7 @@ Take a look at the [compatibility list](https://docs.google.com/spreadsheets/d/1
 
 Everyone can contribute to the list by starting a [discussion](https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/discussions).
 
-## ⌨️ Setup script
+## 🚀 Setup script
 
 ### Installation
 
@@ -201,7 +201,7 @@ For the Raspberry Pi, the script will auto-detect if you are using a `0/1`, a `2
 - `godot-engine-x.x.x-frt-rpi2-3`
 - `godot-engine-x.x.x-frt-rpi4`
 
-In the case of the **Raspberry Pi 4**, the script will install additional Godot "emulators" specifically compiled for it.
+In the case of the **Raspberry Pi 4**, the script will install additional Godot "emulators" specifically compiled for it, using the X11 platform.
 
 - `godot-engine-x.x.x-rpi4`
 
@@ -262,7 +262,7 @@ You will be prompted with a menu showing all the results from the command `cat /
 If you want to to reverse that action, follow the same steps and select **No**.
 
  
-## Troubleshooting
+## ℹ️ Troubleshooting
 
 ### A game doesn't launch or crashes
 
@@ -350,13 +350,23 @@ See [CHANGELOG](/CHANGELOG.md).
 - Twitter: [@hiulit](https://twitter.com/hiulit)
 - GitHub: [@hiulit](https://github.com/kefhiulitranabg)
 
-## Show your support
+## 🤝 Contributing
+
+Feel free to:
+
+- [Open an issue](https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/issues) if you find a bug.
+- [Create a pull request](https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/pulls) if you have a new cool feature to add to the project.
+- [Start a new discussion]() about a feature request.
+
+## 🙌 Show your support
 
 Please ⭐️ this repository if this project helped you!
 
-<a href="https://www.patreon.com/bePatron?u=14968484" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
+<a href="https://www.patreon.com/hiulit">
+  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+</a>
 
-## Credits
+## 👏 Credits
 
 Thanks to:
 
