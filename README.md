@@ -10,25 +10,25 @@ If you are running RetroPie on an `x86` Linux PC, the Godot "emulator" uses the 
 
 ## Table of contents
 
-- [Where to find games made with Godot](#where-to-find-games-made-with-godot).
-- [Compatibility list](#compatibility-list).
-- [Setup script](#setup-script).
-  - [Installation](#installation).
-  - [Updating](#updating).
-  - [Usage](#usage).
-  - [Options](#options).
-- [Install the Godot "emulator" from RetroPie-Setup](#install-the-godot-emulator-from-retropie-setup).
-- [Uninstall the Godot "emulator" from RetroPie-Setup](#uninstall-the-godot-emulator-from-retropie-setup).
-- [Update the Godot "emulator" from RetroPie-Setup](#update-the-godot-emulator-from-retropie-setup).
-- [Types of Godot "emulators"](#types-of-godot-emulators).
-  - [Linux PC (x86) "emulator"](#linux-pc-x86-emulator).
-  - [Raspberry Pi "emulator"](#raspberry-pi-emulator).
-  - [Other single-board computers (arm64) "emulator"](#other-single-board-computers-arm64-emulator).
-- [How to install Godot games](#how-to-install-godot-games).
-- [Using a GPIO/Virtual keyboard](#using-a-gpiovirtual-keyboard).
-- [Troubleshooting](#troubleshooting).
-- [How to create a new Godot system for an EmulationStation theme](#how-to-create-a-new-godot-system-for-an-emulationstation-theme).
-- [Pre-made Godot systems](#pre-made-godot-systems).
+- [Where to find games made with Godot](#where-to-find-games-made-with-godot)
+- [Compatibility list](#compatibility-list)
+- [Setup script](#setup-script)
+  - [Installation](#installation)
+  - [Updating](#updating)
+  - [Usage](#usage)
+  - [Options](#options)
+- [Install the Godot "emulator" from RetroPie-Setup](#install-the-godot-emulator-from-retropie-setup)
+- [Uninstall the Godot "emulator" from RetroPie-Setup](#uninstall-the-godot-emulator-from-retropie-setup)
+- [Update the Godot "emulator" from RetroPie-Setup](#update-the-godot-emulator-from-retropie-setup)
+- [Types of Godot "emulators"](#types-of-godot-emulators)
+  - [Linux PC (x86) "emulator"](#linux-pc-x86-emulator)
+  - [Raspberry Pi "emulator"](#raspberry-pi-emulator)
+  - [Other single-board computers (arm64) "emulator"](#other-single-board-computers-arm64-emulator)
+- [How to install Godot games](#how-to-install-godot-games)
+- [Using a GPIO/Virtual keyboard](#using-a-gpiovirtual-keyboard)
+- [Troubleshooting](#troubleshooting)
+- [How to create a new Godot system for an EmulationStation theme](#how-to-create-a-new-godot-system-for-an-emulationstation-theme)
+- [Pre-made Godot systems](#pre-made-godot-systems)
 
 ## 🎮 Where to find games made with Godot
 
@@ -339,7 +339,7 @@ To install a Godot system, copy the `theme/[THEME]/godot-engine` folder from thi
 
 ![Godot system for EmulationStation's Pixel theme](example-images/godot-engine-pixel-theme.jpg)
 
-## Changelog
+## 🗒️ Changelog
 
 See [CHANGELOG](/CHANGELOG.md).
 
