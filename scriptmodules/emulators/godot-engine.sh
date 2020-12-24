@@ -20,7 +20,7 @@ rp_module_help+="\n\nCredits: https://github.com/hiulit/RetroPie-Godot-Game-Engi
 rp_module_help+="\n\nLicense: https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator#license"
 rp_module_licence="MIT https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/LICENSE"
 rp_module_section="opt"
-rp_module_flags="x86 aarch64 rpi1 rpi2 rpi3 rpi4"
+rp_module_flags="x86 x86_64 aarch64 rpi1 rpi2 rpi3 rpi4"
 
 
 # Global variables ##################################
@@ -39,6 +39,7 @@ GODOT_ONLY_RPI_4_VERSIONS=(
 )
 SUPPORTED_PLATFORMS=(
     "x86"
+    "x86_64"
     "aarch64"
     "rpi1"
     "rpi2"
@@ -426,12 +427,19 @@ function configure_godot-engine() {
 }
 
 function gui_godot-engine() {
+    if isPlatform "x86" || isPlatform "x86_64"; then
+        local platform
     if isPlatform "x86"; then
+            platform="x86"
+        fi
+        if isPlatform "x86_64"; then
+            platform="x86_64"
+        fi
         dialog \
             --backtitle "Godot - Game Engine Configuration" \
             --title "Info" \
             --ok-label "OK" \
-            --msgbox "There are no configuration options for the 'x86' platform.\n\nConfiguration options are only available for single-board computers, such as the Raspberry Pi." \
+            --msgbox "There are no configuration options for the '$platform' platform.\n\nConfiguration options are only available for single-board computers, such as the Raspberry Pi." \
             10 65 2>&1 >/dev/tty
     else
         local emulators_config_file="/opt/retropie/configs/godot-engine/emulators.cfg"
