@@ -1,4 +1,4 @@
-# RetroPie Godot Game Engine "Emulator" ![GitHub release (latest by date)](https://img.shields.io/github/v/release/hiulit/RetroPie-Godot-Game-Engine-Emulator)
+# RetroPie Godot Game Engine "Emulator" ![GitHub release (latest by date)](https://img.shields.io/github/v/release/hiulit/RetroPie-Godot-Game-Engine-Emulator) ![GitHub license](https://img.shields.io/github/license/hiulit/cross-compile-godot-raspberry-pi?style=flat-square)
 
 A scriptmodule to install a Godot "emulator" for RetroPie.
 
@@ -10,13 +10,13 @@ If you are running RetroPie on an `x86` Linux PC, the Godot "emulator" uses the 
 
 ## Table of contents
 
-- [Where to find games made with Godot](#where-to-find-games-made-with-godot)
-- [Compatibility list](#compatibility-list)
-- [Setup script](#setup-script)
+- [Where to find games made with Godot](#-where-to-find-games-made-with-godot)
+- [Compatibility list](#-compatibility-list)
+- [Setup script](#-setup-script)
   - [Installation](#installation)
   - [Updating](#updating)
-  - [Usage](#usage)
-  - [Options](#options)
+  - [Usage](#-usage)
+  - [Options](#-options)
 - [Install the Godot "emulator" from RetroPie-Setup](#install-the-godot-emulator-from-retropie-setup)
 - [Uninstall the Godot "emulator" from RetroPie-Setup](#uninstall-the-godot-emulator-from-retropie-setup)
 - [Update the Godot "emulator" from RetroPie-Setup](#update-the-godot-emulator-from-retropie-setup)
@@ -26,9 +26,9 @@ If you are running RetroPie on an `x86` Linux PC, the Godot "emulator" uses the 
   - [Other single-board computers (arm64) "emulator"](#other-single-board-computers-arm64-emulator)
 - [How to install Godot games](#how-to-install-godot-games)
 - [Using a GPIO/Virtual keyboard](#using-a-gpiovirtual-keyboard)
-- [Troubleshooting](#troubleshooting)
-- [How to create a new Godot system for an EmulationStation theme](#how-to-create-a-new-godot-system-for-an-emulationstation-theme)
-- [Pre-made Godot systems](#pre-made-godot-systems)
+- [Troubleshooting](#-troubleshooting)
+- [How to create a new Godot system for an EmulationStation theme](#-how-to-create-a-new-godot-system-for-an-emulationstation-theme)
+- [Pre-made Godot systems](#-pre-made-godot-systems)
 
 ## 🎮 Where to find games made with Godot
 
@@ -47,7 +47,7 @@ Take a look at the [compatibility list](https://docs.google.com/spreadsheets/d/1
 
 Everyone can contribute to the list by starting a [discussion](https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/discussions).
 
-## 🚀 Setup script
+## 🛠️ Setup script
 
 ### Installation
 
@@ -65,7 +65,7 @@ cd RetroPie-Godot-Game-Engine-Emulator/
 git pull
 ```
 
-### Usage
+### 🚀 Usage
 
 ```
 ./setup-godot-engine-scriptmodule.sh [OPTIONS]
@@ -84,7 +84,7 @@ The script assumes that you are running it on a Raspberry Pi with the `RetroPie-
 ```
 ./setup-godot-engine-scriptmodule.sh [OPTION] "/path/to/your/RetroPie-Setup"
 ```
-### Options
+### 📖 Options
 
 - `--help`: Print the help message and exit.
 - `--install`: Install the scriptmodule.
@@ -142,14 +142,8 @@ The script installs all the major versions of the Godot "emulator" for maximum c
 
 - `2.1.6`
 - `3.0.6` \*
-- `3.1.0`
-- `3.1.1`
 - `3.1.2`
-- `3.2.0`
-- `3.2.1`
-- `3.2.2`
 - `3.2.3`
-- `3.2.4 beta 4`
 
 \* *Only available when using the FRT "emulator"*.
 
@@ -308,7 +302,7 @@ Select **Yes**.
 If you want to to reverse that action, follow the same steps and select **No**.
 
 
-## How to create a new Godot system for an EmulationStation theme
+## 🎨 How to create a new Godot system for an EmulationStation theme
 
 As there is no way to create a script to automate this, because themes don't have the same structure, the best way is to manually create a new system in your preferred theme.
 
@@ -322,7 +316,7 @@ As there is no way to create a script to automate this, because themes don't hav
 
 The folder structure in the theme you are using might differ. Take a look at how this particular theme works to create the `godot-engine` folder accordingly. You might need to delete extra icons that are not needed.
 
-## Pre-made Godot systems
+## 🤖 Pre-made Godot systems
 
 I've created a couple of ready-to-use Godot systems:
 
@@ -343,28 +337,38 @@ To install a Godot system, copy the `theme/[THEME]/godot-engine` folder from thi
 
 See [CHANGELOG](/CHANGELOG.md).
 
-## Author
+## 👤 Author
 
-👤 **hiulit**
+**hiulit**
 
 - Twitter: [@hiulit](https://twitter.com/hiulit)
-- GitHub: [@hiulit](https://github.com/kefhiulitranabg)
+- GitHub: [@hiulit](https://github.com/hiulit)
 
 ## 🤝 Contributing
 
 Feel free to:
 
-- [Open an issue](https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/issues) if you find a bug.
-- [Create a pull request](https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/pulls) if you have a new cool feature to add to the project.
-- [Start a new discussion]() about a feature request.
+- [Open an issue](https://github.com/hiulit/cross-compile-godot-raspberry-pi/issues) if you find a bug.
+- [Create a pull request](https://github.com/hiulit/cross-compile-godot-raspberry-pi/pulls) if you have a new cool feature to add to the project.
+- [Start a new discussion](https://github.com/hiulit/cross-compile-godot-raspberry-pi/discussions) about a feature request.
 
-## 🙌 Show your support
+## 🙌 Supporting this project
 
-Please ⭐️ this repository if this project helped you!
+If you love this project or find it helpful, please consider supporting it through any size donations to help make it better ❤️.
 
-<a href="https://www.patreon.com/hiulit">
-  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
+[![Become a patron](https://img.shields.io/badge/Become_a_patron-ff424d?logo=Patreon&style=for-the-badge&logoColor=white)](https://www.patreon.com/hiulit)
+
+[![Suppor me on Ko-Fi](https://img.shields.io/badge/Support_me_on_Ko--fi-F16061?logo=Ko-fi&style=for-the-badge&logoColor=white)](https://ko-fi.com/F2F7136ND)
+
+[![Buy me a coffee](https://img.shields.io/badge/Buy_me_a_coffee-FFDD00?logo=buy-me-a-coffee&style=for-the-badge&logoColor=black)](https://www.buymeacoffee.com/hiulit)
+
+[![Donate Paypal](https://img.shields.io/badge/PayPal-00457C?logo=PayPal&style=for-the-badge&label=Donate)](https://www.paypal.com/paypalme/hiulit)
+
+If you can't, consider sharing it with the world...
+
+[![](https://img.shields.io/badge/Share_on_Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fhiulit%2Fcross-compile-godot-raspberry-pi&text=Cross-compile+Godot+binaries+for+the+Raspberry+Pi%3A%0D%0AA+script+to+easily+cross-compile+Godot+binaries+for+the+Raspberry+Pi+from+Linux+x86_64+by+%40hiulit)
+
+... or giving it a [star ⭐️](https://github.com/hiulit/cross-compile-godot-raspberry-pi/stargazers).
 
 ## 👏 Credits
 
