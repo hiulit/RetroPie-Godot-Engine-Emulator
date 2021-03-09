@@ -15,17 +15,10 @@ If you are running RetroPie on an `x86` Linux PC, the Godot "emulator" uses the 
 - [Where to find games made with Godot](#-where-to-find-games-made-with-godot)
 - [Compatibility list](#-compatibility-list)
 - [Setup script](#-setup-script)
-  - [Installation](#installation)
-  - [Updating](#updating)
-  - [Usage](#-usage)
-  - [Options](#-options)
 - [Install the Godot "emulator" from RetroPie-Setup](#install-the-godot-emulator-from-retropie-setup)
 - [Uninstall the Godot "emulator" from RetroPie-Setup](#uninstall-the-godot-emulator-from-retropie-setup)
 - [Update the Godot "emulator" from RetroPie-Setup](#update-the-godot-emulator-from-retropie-setup)
 - [Types of Godot "emulators"](#types-of-godot-emulators)
-  - [Linux PC (x86) "emulator"](#linux-pc-x86-emulator)
-  - [Raspberry Pi "emulator"](#raspberry-pi-emulator)
-  - [Other single-board computers (arm64) "emulator"](#other-single-board-computers-arm64-emulator)
 - [How to install Godot games](#how-to-install-godot-games)
 - [Using a GPIO/Virtual keyboard](#using-a-gpiovirtual-keyboard)
 - [Troubleshooting](#-troubleshooting)
@@ -51,7 +44,7 @@ Everyone can contribute to the list by starting a [discussion](https://github.co
 
 ## 🛠️ Setup script
 
-### Installation
+### Install the script
 
 ```
 cd /home/pi/
@@ -60,14 +53,14 @@ cd RetroPie-Godot-Game-Engine-Emulator/
 sudo chmod +x setup-godot-engine-scriptmodule.sh
 ```
 
-### Updating
+### Update the script
 
 ```
 cd RetroPie-Godot-Game-Engine-Emulator/
 git pull
 ```
 
-### 🚀 Usage
+## 🚀 Usage
 
 ```
 ./setup-godot-engine-scriptmodule.sh [OPTIONS]
@@ -86,54 +79,30 @@ The script assumes that you are running it on a Raspberry Pi with the `RetroPie-
 ```
 ./setup-godot-engine-scriptmodule.sh [OPTION] "/path/to/your/RetroPie-Setup"
 ```
-### 📖 Options
 
-- `--help`: Print the help message and exit.
-- `--install`: Install the scriptmodule.
-- `--uninstall`: Uninstall the scriptmodule.
-- `--update`: Update the scriptmodule.
-- `--version`: Show the script's version.
+## 📖 Options
 
-
-#### `--help`
-
-Print the help message and exit.
-
-`./setup-godot-engine-scriptmodule.sh --help`
-
-#### `--install`
-
-Install the scriptmodule.
-
-`./setup-godot-engine-scriptmodule.sh --install`
-
-#### `--uninstall`
-
-Uninstall the scriptmodule.
-
-`./setup-godot-engine-scriptmodule.sh --uninstall`
-
-#### `--update`
-
-Update the scriptmodule.
-
-`./setup-godot-engine-scriptmodule.sh --update`
-
-#### `--version`
-
-Show the script's version.
-
-`./setup-godot-engine-scriptmodule.sh --version`
+- `--help`: Prints the help message and exit.
+- `--version`: Shows the script version.
+- `--install [path]`: Installs the scriptmodule.
+  - Path: The location of the `RetroPie-Setup` folder.
+  - Default: `/home/pi/RetroPie-Setup`.
+- `--uninstall [path]`: Uninstalls the scriptmodule.
+  - Path: The location of the `RetroPie-Setup` folder.
+  - Default: `/home/pi/RetroPie-Setup`.
+- `--update [path]`: Updates the scriptmodule.
+  - Path: The location of the `RetroPie-Setup` folder.
+  - Default: `/home/pi/RetroPie-Setup`.
 
 ## Install the Godot "emulator" from RetroPie-Setup
 
-Once you've [successfully installed](#--install) the scriptmodule, run:
+Once you've successfully installed the scriptmodule, run:
 
 ```
 sudo /home/pi/RetroPie-Setup/retropie_setup.sh
 ```
 
-and then go to:
+Go to:
 
 - Manage packages
 - Manage optional packages
@@ -159,7 +128,7 @@ Run:
 sudo /home/pi/RetroPie-Setup/retropie_setup.sh
 ```
 
-and then go to:
+Go to:
 
 - Manage packages
 - Manage optional packages
@@ -174,7 +143,7 @@ Run:
 sudo /home/pi/RetroPie-Setup/retropie_setup.sh
 ```
 
-and then go to:
+Go to:
 
 - Manage packages
 - Manage optional packages
@@ -183,23 +152,22 @@ and then go to:
 
 ## Types of Godot "emulators"
 
-### Linux PC (x86) "emulator"
+### Linux PC (x86/x86_64) "emulator"
 
-If you are using an `x86` Linux PC, the "emulators" used are Godot's export templates downloaded from https://godotengine.org/download/.
+If you are using an `x86/x86_64` Linux PC, the "emulators" used are official Godot's export templates downloaded from https://godotengine.org/download/.
 
-- `godot-engine-x.x.x-x86`
+- `godot-engine-x.x.x-x86/x86_64`
 
 ### Raspberry Pi "emulator"
 
-For the Raspberry Pi, the script will auto-detect if you are using a `0/1`, a `2/3` or a `4` version and it will install the proper **FRT** "emulators".
+For the Raspberry Pi, the script will auto-detect if you are using a `1`, a `2`, a `3` or a `4` version and it will install the proper [unofficial](https://github.com/hiulit/Unofficial-Godot-Engine-Raspberry-Pi) "emulators".
 
-- `godot-engine-x.x.x-frt-rpi0-1`
-- `godot-engine-x.x.x-frt-rpi2-3`
-- `godot-engine-x.x.x-frt-rpi4`
-
-In the case of the **Raspberry Pi 4**, the script will install additional Godot "emulators" specifically compiled for it, using the X11 platform.
-
+- `godot-engine-x.x.x-rpi1`
+- `godot-engine-x.x.x-rpi2`
+- `godot-engine-x.x.x-rpi3`
 - `godot-engine-x.x.x-rpi4`
+
+The script will also install **FRT** "emulator" in case you need to use a [GPIO/Virtual keyboard](#using-a-gpiovirtual-keyboard).
 
 ### Other single-board computers (arm64) "emulator"
 
@@ -256,7 +224,6 @@ Select **Yes**.
 You will be prompted with a menu showing all the results from the command `cat /proc/bus/input/devices`. Select the GPIO/Virtual keyboard that you want.
 
 If you want to to reverse that action, follow the same steps and select **No**.
-
  
 ## ℹ️ Troubleshooting
 
@@ -264,9 +231,7 @@ If you want to to reverse that action, follow the same steps and select **No**.
 
 > Useful information about errors can be found at `/dev/shm/runcommand.log`.
 
-If the game you are trying to play doesn't work, it will most likely be because it was made with another version of Godot.
-
-Try changing the Godot "emulator" version in the [runcommand](https://github.com/RetroPie/RetroPie-Setup/wiki/runcommand).
+If the game you are trying to play doesn't work, it will most likely be because it was made with another version of Godot. Try changing the Godot "emulator" version in the [runcommand](https://github.com/RetroPie/RetroPie-Setup/wiki/runcommand).
 
 If you downloaded the game from https://itch.io, there's a good chance the author stated which version of Godot that game uses.
 
@@ -288,7 +253,7 @@ Run:
 sudo /home/pi/RetroPie-Setup/retropie_setup.sh
 ```
 
-and then go to:
+Go to:
 
 - Configuration/tools
 - godot-engine
@@ -302,7 +267,6 @@ Select **Yes**.
 ![Force GLES2 video driver dialog](example-images/force-gles2-video-driver-dialog.png)
 
 If you want to to reverse that action, follow the same steps and select **No**.
-
 
 ## 🎨 How to create a new Godot system for an EmulationStation theme
 
