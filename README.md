@@ -1,4 +1,6 @@
-# RetroPie Godot Game Engine "Emulator" ![GitHub release (latest by date)](https://img.shields.io/github/v/release/hiulit/RetroPie-Godot-Game-Engine-Emulator) ![GitHub license](https://img.shields.io/github/license/hiulit/cross-compile-godot-raspberry-pi?style=flat-square)
+# RetroPie Godot Game Engine "Emulator"
+
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/hiulit/RetroPie-Godot-Game-Engine-Emulator?style=flat-square) ![GitHub license](https://img.shields.io/github/license/hiulit/cross-compile-godot-raspberry-pi?style=flat-square)
 
 A scriptmodule to install a Godot "emulator" for RetroPie.
 
