@@ -162,7 +162,7 @@ function get_options() {
         exit 0
     else
         case "$1" in
-#H -h,  --help                   Print the help message and exit.
+#H -h,  --help              Prints the help message.
             -h|--help)
                 echo
                 echo "$SCRIPT_TITLE"
@@ -201,10 +201,6 @@ function get_options() {
             -U|--update)
                 check_path "$2"
                 update
-                ;;
-#H -v,  --version                Show the script's version.
-            -v|--version)
-                echo "$SCRIPT_VERSION"
                 ;;
             *)
                 echo >&2
