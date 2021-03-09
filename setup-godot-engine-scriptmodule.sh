@@ -177,18 +177,28 @@ function get_options() {
                 echo
                 exit 0
                 ;;
-#H -i,  --install                Install the scriptmodule.
+#H -v,  --version           Prints the script version.
+            -v|--version)
+                echo "$SCRIPT_VERSION"
+                ;;
+#H -i,  --install [path]    Install the scriptmodule.
+#H                              Path: The location of the "RetroPie-Setup" folder.
+#H                              Default: "$home/RetroPie-Setup".
             -i|--install)
                 check_path "$2"
                 install
                 ;;
-#H -u,  --uninstall              Uninstall the scriptmodule.
+#H -u,  --uninstall [path]  Uninstall the scriptmodule.
+#H                              Path: The location of the "RetroPie-Setup" folder.
+#H                              Default: "$home/RetroPie-Setup".
             -u|--uninstall)
                 check_path "$2"
                 uninstall
                 ;;
-#H -up, --update                 Update the scriptmodule.
-            -up|--update)
+#H -U, --update [path]     Update the scriptmodule.
+#H                              Path: The location of the "RetroPie-Setup" folder.
+#H                              Default: "$home/RetroPie-Setup".
+            -U|--update)
                 check_path "$2"
                 update
                 ;;
