@@ -201,91 +201,24 @@ function _force_gles2_dialog() {
 }
 
 
-# Helper functions ##################################
-
-function _download_file() {
-    echo "> Downloading '$file'..."
-    echo
-    # Download the file and rename it.
-    curl -LJ "$url/$file" -o "$md_build/$file"
-    if [[ "$?" -eq 0 ]]; then
-        chmod +x "$md_build/$file"
-        echo
-        echo "'$file' downloaded successfully!"
-        echo
-    else
-        echo
-        echo "Something went wrong when dowloading '$file'."
-        echo
-    fi
-}
-
-
 # Scriptmodule functions ############################
 
 function sources_godot-engine() {
     local url="https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/releases/download/v${SCRIPT_VERSION}"
-    local platform
-    local file
 
-    # Check if the platform is supported.
-    if isPlatform "x86"; then
-        platform="x11_32"
-    elif isPlatform "aarch64"; then
-        platform="arm64"
-    elif isPlatform "rpi1"; then
-        platform="pi1"
-    elif isPlatform "rpi2" || isPlatform "rpi3"; then
-        platform="pi2"
-    elif isPlatform "rpi4"; then
-        platform="pi4"
-    fi
-
-    # Throw an error if the platform is not supported.
-    if [[ -z "$platform" ]]; then
-        echo
-        echo "ERROR: Can't install 'Godot - Game Engine'. Your device is not currently supported." >&2
-        echo
-        echo "The supported platforms/architectures are:"
-        for supported_platform in "${SUPPORTED_PLATFORMS[@]}"; do
-            echo "- $supported_platform"
-        done
-        echo
-        exit 1
-    fi
-
-    echo
-    echo "Target platform: '$platform'."
-    echo
-
-    # Download all the versions of the Godot binaries for the current the platform.
     for version in "${GODOT_VERSIONS[@]}"; do
-        if [[ "$platform" == "x11_32" ]]; then
-            file="godot_${version}_${platform}.bin"
-            _download_file
-        elif [[ "$platform" == "arm64" ]]; then
-            file="frt_${version}_${platform}.bin"
-            _download_file
-        elif [[ "$platform" == "pi1" ]]; then
-            file="frt_${version}_${platform}.bin"
-            _download_file
-        elif [[ "$platform" == "pi2" ]]; then
-            file="frt_${version}_${platform}.bin"
-            _download_file
-        elif [[ "$platform" == "pi4" ]]; then
-            file="frt_${version}_${platform}.bin"
-            _download_file
-
-            # Only download specific verisons of the Godot binaries for the Raspberry Pi 4.
-            local godot_rpi4_version
-            for godot_rpi4_version in "${GODOT_ONLY_RPI_4_VERSIONS[@]}"; do
-                if [[ "$version" == "$godot_rpi4_version" ]]; then
-                    file="godot_${version}_${platform}.bin"
-                    _download_file
+    if isPlatform "x86"; then
+            downloadAndExtract "${url}/godot_${version}_x11_32.zip" "$md_build"
+        elif isPlatform "x86_64"; then
+            downloadAndExtract "${url}/godot_${version}_x11_64.zip" "$md_build"
+    elif isPlatform "aarch64"; then
+            downloadAndExtract "${url}/frt_${version}_arm64.zip" "$md_build"
+    elif isPlatform "rpi1"; then
+            downloadAndExtract "${url}/frt_${version}_pi1.zip" "$md_build"
+        elif isPlatform "rpi2" || isPlatform "rpi3" || isPlatform "rpi4"; then
+            downloadAndExtract "${url}/frt_${version}_pi2.zip" "$md_build"
                 fi
             done
-        fi
-    done
 }
 
 
