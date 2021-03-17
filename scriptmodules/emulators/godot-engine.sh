@@ -277,37 +277,24 @@ function configure_godot-engine() {
 
     for index in "${!bin_files[@]}"; do
         default=0
-        [[ "$index" -eq "${#bin_files[@]}-1" ]] && default=1 # Default to the last item in 'bin_files'.
+        [[ "$index" -eq "${#bin_files[@]}-1" ]] && default=1 # Default to the last item in "bin_files".
         
         # Get the version from the file name.
         version="${bin_files[$index]}"
         # Cut between "_".
         version="$(echo $version | cut -d'_' -f 2)"
 
-        # Set the correct id for the specific (not FRT) Raspberry Pi 4 Godot binaries.
-        if [[ "$platform" == "pi4" ]]; then
-            # Get the first word before the first underscore.
-            # In this case, either 'frt' or 'godot'.
-            bin_file_prefix="$(echo "${bin_files[$index]}" | cut -d'_' -f 1)"
-
-            if [[ "$bin_file_prefix" == "godot" ]]; then
-                # Remove the first word before the dash.
-                # In this case, 'frt', just leaving 'rpi4'.
-                id="$(echo "$id" | cut -d'-' -f 2)"
-            fi
-        fi
-
-        if [[ "$platform" == "x11_32" ]]; then
-            addEmulator "$default" "$md_id-$version-$id" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
+        if isPlatform "x86" || isPlatform "x86_64"; then
+            addEmulator "$default" "$md_id-$version" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
         else
             if [[ "$FRT_FLAG" -eq 1 && "$GLES2_FLAG" -eq 1 ]]; then
-                addEmulator "$default" "$md_id-$version-$id" "godot-engine" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
+                addEmulator "$default" "$md_id-$version" "godot-engine" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
             elif [[ "$FRT_FLAG" -eq 1 && "$GLES2_FLAG" -eq 0 ]]; then
-                addEmulator "$default" "$md_id-$version-$id" "godot-engine" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM%"
+                addEmulator "$default" "$md_id-$version" "godot-engine" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM%"
             elif [[ "$FRT_FLAG" -eq 0 && "$GLES2_FLAG" -eq 1 ]]; then
-                addEmulator "$default" "$md_id-$version-$id" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
+                addEmulator "$default" "$md_id-$version" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
             else
-                addEmulator "$default" "$md_id-$version-$id" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
+                addEmulator "$default" "$md_id-$version" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
             fi
         fi
     done
