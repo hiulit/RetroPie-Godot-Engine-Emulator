@@ -241,15 +241,11 @@ function install_godot-engine() {
 function configure_godot-engine() {
     mkRomDir "godot-engine"
 
-    local bin_file
-    local bin_file_prefix
     local bin_file_tmp
     local bin_files=()
     local bin_files_tmp=()
     local default
-    local id
     local index
-    local platform
     local version
 
     # Check if there are parameters.
@@ -280,23 +276,6 @@ function configure_godot-engine() {
         echo "There must have been a problem installing the binaries."
         echo
         exit 1
-    fi
-
-    if isPlatform "x86"; then
-        platform="x11_32"
-        id="x86"
-    elif isPlatform "aarch64"; then
-        platform="arm64"
-        id="frt-arm64"
-    elif isPlatform "rpi1"; then
-        platform="pi1"
-        id="frt-rpi0-1"
-    elif isPlatform "rpi2" || isPlatform "rpi3"; then
-        platform="pi2"
-        id="frt-rpi2-3"
-    elif isPlatform "rpi4"; then
-        platform="pi4"
-        id="frt-rpi4"
     fi
 
     # Remove the file that contains all the configurations for the different Godot "emulators".
