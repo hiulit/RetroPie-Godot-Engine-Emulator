@@ -43,6 +43,7 @@ FRT_KEYBOARD=""
 FRT_FLAG=0
 GLES2_FLAG=0
 
+
 # Configuration dialog variables ####################
 
 readonly DIALOG_OK=0
@@ -225,11 +226,8 @@ function install_godot-engine() {
     if [[ -d "$md_build" ]]; then
         md_ret_files=($(ls "$md_build"))
     else
-        echo
         echo "ERROR: Can't install 'godot-engine'." >&2
-        echo
-        echo "There must have been a problem downloading the sources."
-        echo
+        echo "There must have been a problem downloading the sources." >&2
         exit 1
     fi
 }
@@ -261,19 +259,15 @@ function configure_godot-engine() {
         # Get all the files in the installation folder.
         bin_files_tmp=($(ls "$md_inst"))
 
-        # Remove the extra "retropie.pkg" file
-        # and create the final array with the needed files.
+        # Remove the extra "retropie.pkg" file and create the final array with the needed files.
         for bin_file_tmp in "${bin_files_tmp[@]}"; do
             if [[ "$bin_file_tmp" != "retropie.pkg" ]]; then
                 bin_files+=("$bin_file_tmp")
             fi
         done
     else
-        echo
         echo "ERROR: Can't configure 'godot-engine'." >&2
-        echo
-        echo "There must have been a problem installing the binaries."
-        echo
+        echo "There must have been a problem installing the binaries." >&2
         exit 1
     fi
 
