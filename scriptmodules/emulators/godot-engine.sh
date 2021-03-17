@@ -81,7 +81,7 @@ function _main_config_dialog() {
             --backtitle "Godot - Game Engine Configuration" \
             --title "" \
             --ok-label "OK" \
-            --cancel-label "Exit" \
+            --cancel-label "Back" \
             --menu "Choose an option." \
             15 60 15)
     choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
@@ -97,12 +97,7 @@ function _main_config_dialog() {
                     _force_gles2_dialog
                     ;;
             esac
-        else
-            # If there is no choice that means the user selected "Exit".
-            exit 0
         fi
-    elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
-        exit 0
     fi
 }
 
