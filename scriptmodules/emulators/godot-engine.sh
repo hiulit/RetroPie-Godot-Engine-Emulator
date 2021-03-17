@@ -35,20 +35,6 @@ GODOT_VERSIONS=(
     "3.1.2"
     "3.2.3"
 )
-GODOT_ONLY_RPI_4_VERSIONS=(
-    "2.1.6"
-    "3.1.2"
-    "3.2.3" 
-)
-SUPPORTED_PLATFORMS=(
-    "x86"
-    "x86_64"
-    "aarch64"
-    "rpi1"
-    "rpi2"
-    "rpi3"
-    "rpi4"
-)
 FRT_KEYBOARD=""
 
 
