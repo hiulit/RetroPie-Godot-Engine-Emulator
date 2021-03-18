@@ -1,14 +1,12 @@
-# RetroPie Godot Game Engine "Emulator"
+# RetroPie Godot Engine "Emulator"
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/hiulit/RetroPie-Godot-Game-Engine-Emulator?style=flat-square) ![GitHub license](https://img.shields.io/github/license/hiulit/cross-compile-godot-raspberry-pi?style=flat-square)
 
 A scriptmodule to install a Godot "emulator" for RetroPie.
 
-Thanks to [@efornara](https://github.com/efornara) (for creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt)) you can now **play\*** games made with [Godot](https://godotengine.org/) on the Raspberry Pi (and other single-board computers) using [RetroPie](https://retropie.org.uk/).
+Thanks to [@efornara](https://github.com/efornara) (for creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt)) you can now play 2D games made with the [Godot Engine](https://godotengine.org/) on the Raspberry Pi (and other single-board computers) using [RetroPie](https://retropie.org.uk/).
 
-**\*Games that (would) work on a Raspberry Pi must have been created with Godot version >= 3.1.x using GLES2 (or Godot 2.x.x), they must not use any "fancy VFX", like particles, heavy shaders and other CPU/GPU demanding stuff and should preferably be 2D.**
-
-If you are running RetroPie on an `x86` Linux PC, the Godot "emulator" uses the **Linux/X11-32bits** export template instead of **FRT**, so most games should work fine.
+If you are running RetroPie on an `x86/x86_64` Linux PC, you can also play Godot games since the Godot "emulator" is actually the official **Linux/X11** export template.
 
 ## Table of contents
 
@@ -18,7 +16,6 @@ If you are running RetroPie on an `x86` Linux PC, the Godot "emulator" uses the 
 - [Install the Godot "emulator" from RetroPie-Setup](#install-the-godot-emulator-from-retropie-setup)
 - [Uninstall the Godot "emulator" from RetroPie-Setup](#uninstall-the-godot-emulator-from-retropie-setup)
 - [Update the Godot "emulator" from RetroPie-Setup](#update-the-godot-emulator-from-retropie-setup)
-- [Types of Godot "emulators"](#types-of-godot-emulators)
 - [How to install Godot games](#how-to-install-godot-games)
 - [Using a GPIO/Virtual keyboard](#using-a-gpiovirtual-keyboard)
 - [Troubleshooting](#-troubleshooting)
@@ -109,14 +106,12 @@ Go to:
 - godot-engine
 - Install from source
 
-The script installs all the major versions of the Godot "emulator" for maximum compatibility:
+The script installs all the major versions of Godot for maximum compatibility:
 
 - `2.1.6`
-- `3.0.6` \*
+- `3.0.6`
 - `3.1.2`
 - `3.2.3`
-
-\* *Only available when using the FRT "emulator"*.
 
 A new `godot-engine` folder will be created in `/home/pi/RetroPie/roms/`, where you can [install the Godot games](#how-to-install-godot-games) using the `.pck` and `.zip` extensions.
 
@@ -137,6 +132,8 @@ Go to:
 
 ## Update the Godot "emulator" from RetroPie-Setup
 
+> Before updating the "emulator", you must update the setup script and the scriptmodule.
+
 Run:
 
 ```
@@ -150,31 +147,6 @@ Go to:
 - godot-engine
 - Update from source
 
-## Types of Godot "emulators"
-
-### Linux PC (x86/x86_64) "emulator"
-
-If you are using an `x86/x86_64` Linux PC, the "emulators" used are official Godot's export templates downloaded from https://godotengine.org/download/.
-
-- `godot-engine-x.x.x-x86/x86_64`
-
-### Raspberry Pi "emulator"
-
-For the Raspberry Pi, the script will auto-detect if you are using a `1`, a `2`, a `3` or a `4` version and it will install the proper [unofficial](https://github.com/hiulit/Unofficial-Godot-Engine-Raspberry-Pi) "emulators".
-
-- `godot-engine-x.x.x-rpi1`
-- `godot-engine-x.x.x-rpi2`
-- `godot-engine-x.x.x-rpi3`
-- `godot-engine-x.x.x-rpi4`
-
-The script will also install **FRT** "emulator" in case you need to use a [GPIO/Virtual keyboard](#using-a-gpiovirtual-keyboard).
-
-### Other single-board computers (arm64) "emulator"
-
-For any `arm64` single-board computer, the script will install the proper **FRT** "emulators".
-
-- `godot-engine-x.x.x-frt-arm64`
-
 ## How to install Godot games
 
 When you download a game from https://itch.io, the downloaded `.zip` usually contains 2 files:
@@ -184,13 +156,12 @@ When you download a game from https://itch.io, the downloaded `.zip` usually con
 
 The later is, most of the times, a `.pck` file. That's the one we want!
 
-Those `.pck` files will most likely be found on **Linux downloads** (maybe on **Windows downloads**
-too).
+Those `.pck` files will most likely be found on the **Linux downloads** (maybe on the **Windows downloads** too).
 
 If you can't find a `.pck` file on neither the Linux nor the Windows downloads, you can try the **Mac/OSX downloads**. You'll have to:
 
 - Unzip the `.zip` file.
-- Go to `Contents -> Resources`. There sould be the `.pck` file in this folder.
+- Go to `Contents -> Resources` (the `.pck` file should be in this folder).
 
 To install it, just copy the `.pck` file to `/home/pi/RetroPie/roms/godot-engine`.
 
@@ -351,7 +322,7 @@ Thanks to:
 ## 📝 Licenses
 
 - Source code: [MIT License](/LICENSE).
-- Godot - Game Engine: [MIT License](/LICENSE_GODOT.txt).
+- Godot Engine: [MIT License](/LICENSE_GODOT.txt).
 - FRT - A Godot platform targeting single board computers: [MIT License](/LICENSE_FRT.txt).
 - Godot logo: [CC BY](https://creativecommons.org/licenses/by/3.0/).
 - Pixel Godot logo: [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/).
