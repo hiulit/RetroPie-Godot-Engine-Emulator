@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # setup-godot-engine-scriptmodule.sh
 #
-# RetroPie Godot Game Engine "Emulator"
+# RetroPie Godot Engine "Emulator"
 # A scriptmodule to install a Godot "emulator" for RetroPie.
 #
 # Author: hiulit
-# Repository: https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator
-# License: MIT https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/blob/master/LICENSE
+# Repository: https://github.com/hiulit/RetroPie-Godot-Engine-Emulator
+# License: MIT https://github.com/hiulit/RetroPie-Godot-Engine-Emulator/blob/master/LICENSE
 #
 # Requirements:
 # - RetroPie 4.x.x
@@ -26,7 +26,7 @@ readonly SCRIPT_VERSION="1.4.0"
 readonly SCRIPT_DIR="$(cd "$(dirname $0)" && pwd)"
 readonly SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_FULL="$SCRIPT_DIR/$SCRIPT_NAME"
-readonly SCRIPT_TITLE="RetroPie Godot Game Engine \"Emulator\""
+readonly SCRIPT_TITLE="RetroPie Godot Engine \"Emulator\""
 readonly SCRIPT_DESCRIPTION="A scriptmodule to install a Godot \"emulator\" for RetroPie."
 
 readonly SCRIPTMODULE_NAME="godot-engine"
