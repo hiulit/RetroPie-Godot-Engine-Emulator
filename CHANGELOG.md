@@ -4,6 +4,27 @@
 
 - Up to date
 
+## [1.4.0] - 2021-03-17
+
+### Added
+
+- Godot `x86_64` binaries.
+
+### Changed
+
+- Abbreviation for `--update` is now `-U`.
+- Use RetroPie's helper functions instead of using our own.
+- Binaries are now distributed in a zip file.
+
+### Fixed
+
+- Configuration dialog back button was exiting instead of going back.
+
+
+### Removed
+
+- Godot binaries compiled for the Raspberry Pi 4. RetroPie doesn't use X11 so they were useless :)
+
 ## [1.3.1] - 2020-12-03
 
 ### Added
@@ -39,7 +60,7 @@
 - Updated FRT binaries to [v0.9.7](https://github.com/efornara/frt/releases/tag/0.9.7).
 - Updated Godot versions (`2.1.6`, `3.0.6`, `3.1.2` and `3.2.0`).
 
-## [1.2.2] - 2019-11-08
+## [1.2.2] - 2019-11-08 
 
 ### Added
 
