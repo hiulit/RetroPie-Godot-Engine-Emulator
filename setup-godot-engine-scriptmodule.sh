@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # setup-godot-engine-scriptmodule.sh
 #
-# RetroPie Godot Game Engine 'Emulator'
-# A scriptmodule to install a Godot 'emulator' for RetroPie.
+# RetroPie Godot Engine "Emulator"
+# A scriptmodule to install a Godot "emulator" for RetroPie.
 #
 # Author: hiulit
-# Repository: https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator
-# License: MIT https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/blob/master/LICENSE
+# Repository: https://github.com/hiulit/RetroPie-Godot-Engine-Emulator
+# License: MIT https://github.com/hiulit/RetroPie-Godot-Engine-Emulator/blob/master/LICENSE
 #
 # Requirements:
 # - RetroPie 4.x.x
@@ -20,15 +20,17 @@ home="$(eval echo ~$user)"
 
 readonly RP_DIR="$home/RetroPie"
 readonly RP_ROMS_DIR="$RP_DIR/roms"
+readonly RP_EMULATORS_DIR="/opt/retropie/emulators"
 
-readonly SCRIPT_VERSION="1.3.1"
+readonly SCRIPT_VERSION="1.4.0"
 readonly SCRIPT_DIR="$(cd "$(dirname $0)" && pwd)"
 readonly SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_FULL="$SCRIPT_DIR/$SCRIPT_NAME"
-readonly SCRIPT_TITLE="RetroPie Godot Game Engine 'Emulator'"
-readonly SCRIPT_DESCRIPTION="A scriptmodule to install a Godot 'emulator' for RetroPie."
+readonly SCRIPT_TITLE="RetroPie Godot Engine \"Emulator\""
+readonly SCRIPT_DESCRIPTION="A scriptmodule to install a Godot \"emulator\" for RetroPie."
 
-readonly SCRIPTMODULE_FILE="scriptmodules/emulators/godot-engine.sh"
+readonly SCRIPTMODULE_NAME="godot-engine"
+readonly SCRIPTMODULE_FILE="scriptmodules/emulators/$SCRIPTMODULE_NAME.sh"
 
 
 # Variables ##################################################################
@@ -57,7 +59,7 @@ function check_path() {
             RPS_DIR="$1"
         else
             echo >&2
-            echo "ERROR: '$1' directory doesn't exist!" >&2
+            echo "ERROR: '$1' doesn't exist!" >&2
             exit 1
         fi
     fi
@@ -66,58 +68,58 @@ function check_path() {
 
 function install() {
     echo
-    echo "> Installing 'godot-engine.sh' scriptmodule..."
+    echo "> Installing '$SCRIPTMODULE_NAME.sh' scriptmodule..."
 
     cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE"
 
     if [[ "$?" -eq 0 ]]; then
         echo
-        echo "'godot-engine.sh' scriptmodule installed in '$RPS_DIR/$SCRIPTMODULE_FILE' successfully!"
+        echo "'$SCRIPTMODULE_NAME.sh' scriptmodule installed in '$RPS_DIR/$SCRIPTMODULE_FILE' successfully!"
         echo
         echo "Installation"
         echo "------------"
-        echo "To install 'godot-engine' run: 'sudo $RPS_DIR/retropie_setup.sh'."
+        echo "To install '$SCRIPTMODULE_NAME' run: 'sudo $RPS_DIR/retropie_setup.sh'."
         echo
         echo "Go to:"
         echo
         echo "|- Manage packages"
         echo "  |- Manage optional packages"
-        echo "    |- godot-engine"
+        echo "    |- $SCRIPTMODULE_NAME"
         echo "      |- Install from source"
         echo
         echo "After installation information"
         echo "------------------------------"
-        echo "Copy your Godot games to '$RP_ROMS_DIR/godot-engine'."
+        echo "Copy your Godot games to '$RP_ROMS_DIR/$SCRIPTMODULE_NAME'."
         echo "Godot games extensions: .pck .zip."
         echo
     else
-        echo "ERROR: Couldn't install 'godot-engine.sh' scriptmodule." >&2
+        echo "ERROR: Couldn't install '$SCRIPTMODULE_NAME.sh' scriptmodule." >&2
     fi
 }
 
 
 function uninstall() {
     echo
-    echo "> Uninstalling 'godot-engine.sh' scriptmodule..."
+    echo "> Uninstalling '$SCRIPTMODULE_NAME.sh' scriptmodule..."
 
     if [[ ! -f "$RPS_DIR/$SCRIPTMODULE_FILE" ]]; then
         echo >&2
         echo "ERROR: Can't uninstall the scriptmodule!" >&2
-        echo "'godot-engine' scriptmodule is not installed." >&2
+        echo "'$SCRIPTMODULE_NAME' scriptmodule is not installed." >&2
         exit 1
     fi
 
-    if [[ -d "/opt/retropie/emulators/godot-engine" ]]; then
+    if [[ -d "$RP_EMULATORS_DIR/$SCRIPTMODULE_NAME" ]]; then
         echo >&2
-        echo "ERROR: 'godot-engine' emulator is still installed." >&2
+        echo "ERROR: '$SCRIPTMODULE_NAME' emulator is still installed." >&2
         echo >&2
-        echo "To uninstall 'godot-engine' emulator run: 'sudo $RPS_DIR/retropie_setup.sh'." >&2
+        echo "To uninstall '$SCRIPTMODULE_NAME' emulator run: 'sudo $RPS_DIR/retropie_setup.sh'." >&2
         echo >&2
         echo "Go to:" >&2
         echo >&2
         echo "|- Manage packages" >&2
         echo "  |- Manage optional packages" >&2
-        echo "    |- godot-engine" >&2
+        echo "    |- $SCRIPTMODULE_NAME" >&2
         echo "      |- Remove" >&2
         echo >&2
         exit 1
@@ -126,21 +128,21 @@ function uninstall() {
     rm "$RPS_DIR/$SCRIPTMODULE_FILE"
 
     if [[ "$?" -eq 0 ]]; then
-        echo "'godot-engine.sh' scriptmodule uninstalled successfully!"
+        echo "'$SCRIPTMODULE_NAME.sh' scriptmodule uninstalled successfully!"
     else
-        echo "ERROR: Couldn't uninstall 'godot-engine.sh' scriptmodule." >&2
+        echo "ERROR: Couldn't uninstall '$SCRIPTMODULE_NAME.sh' scriptmodule." >&2
     fi
 }
 
 
 function update() {
     echo
-    echo "> Updating 'godot-engine.sh' scriptmodule..."
+    echo "> Updating '$SCRIPTMODULE_NAME.sh' scriptmodule..."
 
     if [[ ! -f "$RPS_DIR/$SCRIPTMODULE_FILE" ]]; then
         echo >&2
         echo "ERROR: Can't update the scriptmodule!" >&2
-        echo "'godot-engine' scriptmodule is not installed.">&2
+        echo "'$SCRIPTMODULE_NAME' scriptmodule is not installed.">&2
         echo >&2
         echo "Run '$0 --install' to install the scriptmodule." >&2
         exit 1
@@ -149,9 +151,9 @@ function update() {
     cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE"
 
     if [[ "$?" -eq 0 ]]; then
-        echo "'godot-engine.sh' scriptmodule updated successfully!"
+        echo "'$SCRIPTMODULE_NAME.sh' scriptmodule updated to v$SCRIPT_VERSION successfully!"
     else
-        echo "ERROR: Couldn't update 'godot-engine.sh' scriptmodule." >&2
+        echo "ERROR: Couldn't update '$SCRIPTMODULE_NAME.sh' scriptmodule." >&2
     fi
 }
 
@@ -162,7 +164,7 @@ function get_options() {
         exit 0
     else
         case "$1" in
-#H -h,  --help                   Print the help message and exit.
+#H -h,  --help              Prints the help message.
             -h|--help)
                 echo
                 echo "$SCRIPT_TITLE"
@@ -177,24 +179,30 @@ function get_options() {
                 echo
                 exit 0
                 ;;
-#H -i,  --install                Install the scriptmodule.
+#H -v,  --version           Prints the script version.
+            -v|--version)
+                echo "$SCRIPT_VERSION"
+                ;;
+#H -i,  --install [path]    Installs the scriptmodule.
+#H                              Path: The location of the "RetroPie-Setup" folder.
+#H                              Default: "$home/RetroPie-Setup".
             -i|--install)
                 check_path "$2"
                 install
                 ;;
-#H -u,  --uninstall              Uninstall the scriptmodule.
+#H -u,  --uninstall [path]  Uninstalls the scriptmodule.
+#H                              Path: The location of the "RetroPie-Setup" folder.
+#H                              Default: "$home/RetroPie-Setup".
             -u|--uninstall)
                 check_path "$2"
                 uninstall
                 ;;
-#H -up, --update                 Update the scriptmodule.
-            -up|--update)
+#H -U, --update [path]     Updates the scriptmodule.
+#H                              Path: The location of the "RetroPie-Setup" folder.
+#H                              Default: "$home/RetroPie-Setup".
+            -U|--update)
                 check_path "$2"
                 update
-                ;;
-#H -v,  --version                Show the script's version.
-            -v|--version)
-                echo "$SCRIPT_VERSION"
                 ;;
             *)
                 echo >&2
@@ -214,7 +222,7 @@ function main() {
 
     if [[ ! -d "$RPS_DIR" ]]; then
         echo >&2
-        echo "ERROR: '$RPS_DIR' directory doesn't exist." >&2
+        echo "ERROR: '$RPS_DIR' doesn't exist." >&2
         echo >&2
         echo "Please, input the location of the 'RetroPie-Setup' folder." >&2
         echo "Example: ./$SCRIPT_NAME [OPTION] \"/home/pi/RetroPie-Setup\"" >&2

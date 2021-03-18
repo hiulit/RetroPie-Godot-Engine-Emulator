@@ -12,38 +12,28 @@
 # Scriptmodule variables ############################
 
 rp_module_id="godot-engine"
-rp_module_desc="Godot - Game Engine (https://godotengine.org/)"
-rp_module_help="Godot games extensions: .pck .zip."
-rp_module_help+="\n\nCopy your Godot games to:\n'$romdir/godot-engine'."
+rp_module_desc="Godot Engine (https://godotengine.org/)."
+rp_module_help="Game extensions: .pck .zip."
+rp_module_help+="\n\nCopy your games to $romdir/godot-engine."
 rp_module_help+="\n\nAuthor: hiulit (https://github.com/hiulit)."
-rp_module_help+="\n\nCredits: https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator#credits"
-rp_module_help+="\n\nLicense: https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator#license"
+rp_module_help+="\n\nRepository: https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator"
+rp_module_help+="\n\nLicenses:"
+rp_module_help+="\n- Source code, Godot Engine and FRT: MIT."
+rp_module_help+="\n- Godot logo: CC BY 3.0."
+rp_module_help+="\n- Godot pixel logo: CC BY-NC-SA 4.0."
 rp_module_licence="MIT https://raw.githubusercontent.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/master/LICENSE"
 rp_module_section="opt"
-rp_module_flags="x86 aarch64 rpi1 rpi2 rpi3 rpi4"
+rp_module_flags="x86 x86_64 aarch64 rpi1 rpi2 rpi3 rpi4"
 
 
 # Global variables ##################################
 
-SCRIPT_VERSION="1.3.1"
+SCRIPT_VERSION="1.4.0"
 GODOT_VERSIONS=(
     "2.1.6"
     "3.0.6"
     "3.1.2"
     "3.2.3"
-)
-GODOT_ONLY_RPI_4_VERSIONS=(
-    "2.1.6"
-    "3.1.2"
-    "3.2.3" 
-)
-SUPPORTED_PLATFORMS=(
-    "x86"
-    "aarch64"
-    "rpi1"
-    "rpi2"
-    "rpi3"
-    "rpi4"
 )
 FRT_KEYBOARD=""
 
@@ -52,6 +42,7 @@ FRT_KEYBOARD=""
 
 FRT_FLAG=0
 GLES2_FLAG=0
+
 
 # Configuration dialog variables ####################
 
@@ -88,10 +79,10 @@ function _main_config_dialog() {
         2 "Force GLES2 video driver ("$option_2_enabled_disabled")"
     )
     cmd=(dialog \
-            --backtitle "Godot - Game Engine Configuration" \
+            --backtitle "Godot Engine Configuration" \
             --title "" \
             --ok-label "OK" \
-            --cancel-label "Exit" \
+            --cancel-label "Back" \
             --menu "Choose an option." \
             15 60 15)
     choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
@@ -107,19 +98,14 @@ function _main_config_dialog() {
                     _force_gles2_dialog
                     ;;
             esac
-        else
-            # If there is no choice that means the user selected "Exit".
-            exit 0
         fi
-    elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
-        exit 0
     fi
 }
 
 
 function _gpio_virtual_keyboard_dialog() {
     dialog \
-        --backtitle "Godot - Game Engine Configuration" \
+        --backtitle "Godot Engine Configuration" \
         --title "" \
         --yesno "Would you like to you use a GPIO/Virtual keyboard?" 10 60 2>&1 >/dev/tty
     local return_value="$?"
@@ -137,7 +123,7 @@ function _gpio_virtual_keyboard_dialog() {
         done < <(cat "/proc/bus/input/devices" | grep "N: Name" | cut -d= -f2)
 
         cmd=(dialog \
-            --backtitle "Godot - Game Engine Configuration" \
+            --backtitle "Godot Engine Configuration" \
             --title "" \
             --ok-label "OK" \
             --cancel-label "Back" \
@@ -151,7 +137,7 @@ function _gpio_virtual_keyboard_dialog() {
                 configure_godot-engine "use_frt" 1 "${options[choice*2-1]}"
 
                 dialog \
-                    --backtitle "Godot - Game Engine Configuration" \
+                    --backtitle "Godot Engine Configuration" \
                     --title "" \
                     --ok-label "OK" \
                     --msgbox "The GPIO/Virtual keyboard has been set." 8 60 2>&1 >/dev/tty
@@ -170,7 +156,7 @@ function _gpio_virtual_keyboard_dialog() {
         configure_godot-engine "use_frt" 0
 
         dialog \
-            --backtitle "Godot - Game Engine Configuration" \
+            --backtitle "Godot Engine Configuration" \
             --title "" \
             --ok-label "OK" \
             --msgbox "The GPIO/Virtual keyboard has been unset." 8 60 2>&1 >/dev/tty
@@ -184,7 +170,7 @@ function _gpio_virtual_keyboard_dialog() {
 
 function _force_gles2_dialog() {
     dialog \
-        --backtitle "Godot - Game Engine Configuration" \
+        --backtitle "Godot Engine Configuration" \
         --title "" \
         --yesno "Would you like to force Godot to use the GLES2 video driver?" 10 65 2>&1 >/dev/tty
     local return_value="$?"
@@ -192,9 +178,8 @@ function _force_gles2_dialog() {
     if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
         configure_godot-engine "force_gles2" 1
 
-
         dialog \
-            --backtitle "Godot - Game Engine Configuration" \
+            --backtitle "Godot Engine Configuration" \
             --title "" \
             --ok-label "OK" \
             --msgbox "GLES2 video renderer has been set." 8 60 2>&1 >/dev/tty
@@ -204,7 +189,7 @@ function _force_gles2_dialog() {
         configure_godot-engine "force_gles2" 0
 
         dialog \
-            --backtitle "Godot - Game Engine Configuration" \
+            --backtitle "Godot Engine Configuration" \
             --title "" \
             --ok-label "OK" \
             --msgbox "GLES2 video renderer has been unset." 8 60 2>&1 >/dev/tty
@@ -216,89 +201,22 @@ function _force_gles2_dialog() {
 }
 
 
-# Helper functions ##################################
-
-function _download_file() {
-    echo "> Downloading '$file'..."
-    echo
-    # Download the file and rename it.
-    curl -LJ "$url/$file" -o "$md_build/$file"
-    if [[ "$?" -eq 0 ]]; then
-        chmod +x "$md_build/$file"
-        echo
-        echo "'$file' downloaded successfully!"
-        echo
-    else
-        echo
-        echo "Something went wrong when dowloading '$file'."
-        echo
-    fi
-}
-
-
 # Scriptmodule functions ############################
 
 function sources_godot-engine() {
     local url="https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/releases/download/v${SCRIPT_VERSION}"
-    local platform
-    local file
 
-    # Check if the platform is supported.
-    if isPlatform "x86"; then
-        platform="x11_32"
-    elif isPlatform "aarch64"; then
-        platform="arm64"
-    elif isPlatform "rpi1"; then
-        platform="pi1"
-    elif isPlatform "rpi2" || isPlatform "rpi3"; then
-        platform="pi2"
-    elif isPlatform "rpi4"; then
-        platform="pi4"
-    fi
-
-    # Throw an error if the platform is not supported.
-    if [[ -z "$platform" ]]; then
-        echo
-        echo "ERROR: Can't install 'Godot - Game Engine'. Your device is not currently supported." >&2
-        echo
-        echo "The supported platforms/architectures are:"
-        for supported_platform in "${SUPPORTED_PLATFORMS[@]}"; do
-            echo "- $supported_platform"
-        done
-        echo
-        exit 1
-    fi
-
-    echo
-    echo "Target platform: '$platform'."
-    echo
-
-    # Download all the versions of the Godot binaries for the current the platform.
     for version in "${GODOT_VERSIONS[@]}"; do
-        if [[ "$platform" == "x11_32" ]]; then
-            file="godot_${version}_${platform}.bin"
-            _download_file
-        elif [[ "$platform" == "arm64" ]]; then
-            file="frt_${version}_${platform}.bin"
-            _download_file
-        elif [[ "$platform" == "pi1" ]]; then
-            file="frt_${version}_${platform}.bin"
-            _download_file
-        elif [[ "$platform" == "pi2" ]]; then
-            file="frt_${version}_${platform}.bin"
-            _download_file
-        elif [[ "$platform" == "pi4" ]]; then
-            file="frt_${version}_${platform}.bin"
-            _download_file
-
-            # Only download specific verisons of the Godot binaries for the Raspberry Pi 4.
-            local godot_rpi4_version
-            for godot_rpi4_version in "${GODOT_ONLY_RPI_4_VERSIONS[@]}"; do
-                if [[ "$version" == "$godot_rpi4_version" ]]; then
-                    file="godot_${version}_${platform}.bin"
-                    _download_file
-                fi
-            done
+        if isPlatform "x86"; then
+            downloadAndExtract "${url}/godot_${version}_x11_32.zip" "$md_build"
+        elif isPlatform "x86_64"; then
+            downloadAndExtract "${url}/godot_${version}_x11_64.zip" "$md_build"
+        elif isPlatform "aarch64"; then
+            downloadAndExtract "${url}/frt_${version}_arm64.zip" "$md_build"
+        elif isPlatform "rpi1"; then
+            downloadAndExtract "${url}/frt_${version}_pi1.zip" "$md_build"
+        elif isPlatform "rpi2" || isPlatform "rpi3" || isPlatform "rpi4"; then
+            downloadAndExtract "${url}/frt_${version}_pi2.zip" "$md_build"
         fi
     done
 }
@@ -308,11 +226,8 @@ function install_godot-engine() {
     if [[ -d "$md_build" ]]; then
         md_ret_files=($(ls "$md_build"))
     else
-        echo
         echo "ERROR: Can't install 'godot-engine'." >&2
-        echo
-        echo "There must have been a problem downloading the sources."
-        echo
+        echo "There must have been a problem downloading the sources." >&2
         exit 1
     fi
 }
@@ -323,15 +238,11 @@ function install_godot-engine() {
 function configure_godot-engine() {
     mkRomDir "godot-engine"
 
-    local bin_file
-    local bin_file_prefix
     local bin_file_tmp
     local bin_files=()
     local bin_files_tmp=()
     local default
-    local id
     local index
-    local platform
     local version
 
     # Check if there are parameters.
@@ -348,37 +259,16 @@ function configure_godot-engine() {
         # Get all the files in the installation folder.
         bin_files_tmp=($(ls "$md_inst"))
 
-        # Remove the extra "retropie.pkg" file
-        # and create the final array with the needed files.
+        # Remove the extra "retropie.pkg" file and create the final array with the needed files.
         for bin_file_tmp in "${bin_files_tmp[@]}"; do
             if [[ "$bin_file_tmp" != "retropie.pkg" ]]; then
                 bin_files+=("$bin_file_tmp")
             fi
         done
     else
-        echo
         echo "ERROR: Can't configure 'godot-engine'." >&2
-        echo
-        echo "There must have been a problem installing the binaries."
-        echo
+        echo "There must have been a problem installing the binaries." >&2
         exit 1
-    fi
-
-    if isPlatform "x86"; then
-        platform="x11_32"
-        id="x86"
-    elif isPlatform "aarch64"; then
-        platform="arm64"
-        id="frt-arm64"
-    elif isPlatform "rpi1"; then
-        platform="pi1"
-        id="frt-rpi0-1"
-    elif isPlatform "rpi2" || isPlatform "rpi3"; then
-        platform="pi2"
-        id="frt-rpi2-3"
-    elif isPlatform "rpi4"; then
-        platform="pi4"
-        id="frt-rpi4"
     fi
 
     # Remove the file that contains all the configurations for the different Godot "emulators".
@@ -387,51 +277,45 @@ function configure_godot-engine() {
 
     for index in "${!bin_files[@]}"; do
         default=0
-        [[ "$index" -eq "${#bin_files[@]}-1" ]] && default=1 # Default to the last item in 'bin_files'.
+        [[ "$index" -eq "${#bin_files[@]}-1" ]] && default=1 # Default to the last item in "bin_files".
         
         # Get the version from the file name.
         version="${bin_files[$index]}"
         # Cut between "_".
         version="$(echo $version | cut -d'_' -f 2)"
 
-        # Set the correct id for the specific (not FRT) Raspberry Pi 4 Godot binaries.
-        if [[ "$platform" == "pi4" ]]; then
-            # Get the first word before the first underscore.
-            # In this case, either 'frt' or 'godot'.
-            bin_file_prefix="$(echo "${bin_files[$index]}" | cut -d'_' -f 1)"
-
-            if [[ "$bin_file_prefix" == "godot" ]]; then
-                # Remove the first word before the dash.
-                # In this case, 'frt', just leaving 'rpi4'.
-                id="$(echo "$id" | cut -d'-' -f 2)"
-            fi
-        fi
-
-        if [[ "$platform" == "x11_32" ]]; then
-            addEmulator "$default" "$md_id-$version-$id" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
+        if isPlatform "x86" || isPlatform "x86_64"; then
+            addEmulator "$default" "$md_id-$version" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
         else
             if [[ "$FRT_FLAG" -eq 1 && "$GLES2_FLAG" -eq 1 ]]; then
-                addEmulator "$default" "$md_id-$version-$id" "godot-engine" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
+                addEmulator "$default" "$md_id-$version" "godot-engine" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
             elif [[ "$FRT_FLAG" -eq 1 && "$GLES2_FLAG" -eq 0 ]]; then
-                addEmulator "$default" "$md_id-$version-$id" "godot-engine" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM%"
+                addEmulator "$default" "$md_id-$version" "godot-engine" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM%"
             elif [[ "$FRT_FLAG" -eq 0 && "$GLES2_FLAG" -eq 1 ]]; then
-                addEmulator "$default" "$md_id-$version-$id" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
+                addEmulator "$default" "$md_id-$version" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
             else
-                addEmulator "$default" "$md_id-$version-$id" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
+                addEmulator "$default" "$md_id-$version" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
             fi
         fi
     done
 
-    addSystem "godot-engine" "Godot" ".pck .zip"
+    addSystem "godot-engine" "Godot Engine" ".pck .zip"
 }
 
 function gui_godot-engine() {
-    if isPlatform "x86"; then
+    if isPlatform "x86" || isPlatform "x86_64"; then
+        local platform
+        if isPlatform "x86"; then
+            platform="x86"
+        fi
+        if isPlatform "x86_64"; then
+            platform="x86_64"
+        fi
         dialog \
-            --backtitle "Godot - Game Engine Configuration" \
+            --backtitle "Godot Engine Configuration" \
             --title "Info" \
             --ok-label "OK" \
-            --msgbox "There are no configuration options for the 'x86' platform.\n\nConfiguration options are only available for single-board computers, such as the Raspberry Pi." \
+            --msgbox "There are no configuration options for the '$platform' platform.\n\nConfiguration options are only available for single-board computers, such as the Raspberry Pi." \
             10 65 2>&1 >/dev/tty
     else
         local emulators_config_file="/opt/retropie/configs/godot-engine/emulators.cfg"
