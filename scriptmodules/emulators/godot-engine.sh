@@ -28,7 +28,7 @@ rp_module_flags="x86 x86_64 aarch64 rpi1 rpi2 rpi3 rpi4"
 
 # Global variables ##################################
 
-SCRIPT_VERSION="1.3.1"
+SCRIPT_VERSION="1.4.0"
 GODOT_VERSIONS=(
     "2.1.6"
     "3.0.6"
@@ -207,18 +207,18 @@ function sources_godot-engine() {
     local url="https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/releases/download/v${SCRIPT_VERSION}"
 
     for version in "${GODOT_VERSIONS[@]}"; do
-    if isPlatform "x86"; then
+        if isPlatform "x86"; then
             downloadAndExtract "${url}/godot_${version}_x11_32.zip" "$md_build"
         elif isPlatform "x86_64"; then
             downloadAndExtract "${url}/godot_${version}_x11_64.zip" "$md_build"
-    elif isPlatform "aarch64"; then
+        elif isPlatform "aarch64"; then
             downloadAndExtract "${url}/frt_${version}_arm64.zip" "$md_build"
-    elif isPlatform "rpi1"; then
+        elif isPlatform "rpi1"; then
             downloadAndExtract "${url}/frt_${version}_pi1.zip" "$md_build"
         elif isPlatform "rpi2" || isPlatform "rpi3" || isPlatform "rpi4"; then
             downloadAndExtract "${url}/frt_${version}_pi2.zip" "$md_build"
-                fi
-            done
+        fi
+    done
 }
 
 
@@ -305,7 +305,7 @@ function configure_godot-engine() {
 function gui_godot-engine() {
     if isPlatform "x86" || isPlatform "x86_64"; then
         local platform
-    if isPlatform "x86"; then
+        if isPlatform "x86"; then
             platform="x86"
         fi
         if isPlatform "x86_64"; then
