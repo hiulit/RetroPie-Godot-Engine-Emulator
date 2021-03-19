@@ -51,6 +51,8 @@ readonly DIALOG_CANCEL=1
 readonly DIALOG_EXTRA=3
 readonly DIALOG_ESC=255
 readonly DIALOG_BACKTITLE="Godot Engine Configuration"
+readonly DIALOG_HEIGHT=8
+readonly DIALOG_WIDTH=60
 
 
 # Configuration dialog functions ####################
@@ -85,7 +87,7 @@ function _main_config_dialog() {
             --ok-label "OK" \
             --cancel-label "Back" \
             --menu "Choose an option." \
-            15 60 15)
+            15 "$DIALOG_WIDTH" 15)
     choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
     local return_value="$?"
 
@@ -108,7 +110,7 @@ function _gpio_virtual_keyboard_dialog() {
     dialog \
         --backtitle "$DIALOG_BACKTITLE" \
         --title "" \
-        --yesno "Would you like to you use a GPIO/Virtual keyboard?" 10 60 2>&1 >/dev/tty
+        --yesno "Would you like to you use a GPIO/Virtual keyboard?" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
     local return_value="$?"
 
     if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
@@ -129,7 +131,7 @@ function _gpio_virtual_keyboard_dialog() {
             --ok-label "OK" \
             --cancel-label "Back" \
             --menu "Choose an option." \
-            15 60 15)
+            15 "$DIALOG_WIDTH" 15)
 
         choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
 
@@ -141,7 +143,7 @@ function _gpio_virtual_keyboard_dialog() {
                     --backtitle "$DIALOG_BACKTITLE" \
                     --title "" \
                     --ok-label "OK" \
-                    --msgbox "The GPIO/Virtual keyboard has been set." 8 60 2>&1 >/dev/tty
+                    --msgbox "The GPIO/Virtual keyboard has been set." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
 
                 _main_config_dialog
             else
@@ -160,7 +162,7 @@ function _gpio_virtual_keyboard_dialog() {
             --backtitle "$DIALOG_BACKTITLE" \
             --title "" \
             --ok-label "OK" \
-            --msgbox "The GPIO/Virtual keyboard has been unset." 8 60 2>&1 >/dev/tty
+            --msgbox "The GPIO/Virtual keyboard has been unset." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
 
         _main_config_dialog
     elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
@@ -173,7 +175,7 @@ function _force_gles2_dialog() {
     dialog \
         --backtitle "$DIALOG_BACKTITLE" \
         --title "" \
-        --yesno "Would you like to force Godot to use the GLES2 video driver?" 10 65 2>&1 >/dev/tty
+        --yesno "Would you like to force Godot to use the GLES2 video driver?" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
     local return_value="$?"
 
     if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
@@ -183,7 +185,7 @@ function _force_gles2_dialog() {
             --backtitle "$DIALOG_BACKTITLE" \
             --title "" \
             --ok-label "OK" \
-            --msgbox "GLES2 video renderer has been set." 8 60 2>&1 >/dev/tty
+            --msgbox "GLES2 video renderer has been set." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
 
         _main_config_dialog
     elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
