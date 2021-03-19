@@ -36,7 +36,8 @@ GODOT_VERSIONS=(
     "3.2.3"
 )
 FRT_KEYBOARD=""
-
+OVERRIDE_CFG_DEFAULTS_FILE="$romdir/$rp_module_id/.override_defaults.cfg"
+OVERRIDE_CFG_FILE="$romdir/$rp_module_id/override.cfg"
 
 # Configuration flags ###############################
 
@@ -61,7 +62,6 @@ function _main_config_dialog() {
     local options=()
     local option_1_enabled_disabled
     local option_2_enabled_disabled
-    local menu_text
     local cmd
     local choice
 
@@ -80,6 +80,7 @@ function _main_config_dialog() {
     options=(
         1 "Use a GPIO/Virtual keyboard ("$option_1_enabled_disabled")"
         2 "Force GLES2 video driver ("$option_2_enabled_disabled")"
+        3 "Edit \"override.cfg\""
     )
     cmd=(dialog \
             --backtitle "$DIALOG_BACKTITLE" \
@@ -99,6 +100,9 @@ function _main_config_dialog() {
                     ;;
                 2)
                     _force_gles2_dialog
+                    ;;
+                3)
+                    _edit_override_cfg_dialog
                     ;;
             esac
         fi
@@ -192,11 +196,64 @@ function _force_gles2_dialog() {
         configure_godot-engine "force_gles2" 0
 
         dialog \
-            --backtitle "Godot Engine Configuration" \
+            --backtitle "$DIALOG_BACKTITLE" \
             --title "" \
             --ok-label "OK" \
-            --msgbox "GLES2 video renderer has been unset." 8 60 2>&1 >/dev/tty
+            --msgbox "GLES2 video renderer has been unset." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
 
+        _main_config_dialog
+    elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
+        _main_config_dialog
+    fi
+}
+
+
+function _edit_override_cfg_dialog() {
+    local override_cfg
+
+    override_cfg="$(dialog \
+                    --backtitle "$DIALOG_BACKTITLE" \
+                    --title "Edit \"override.cfg\"" \
+                    --ok-label "Save" \
+                    --cancel-label "Back" \
+                    --extra-button \
+                    --extra-label "Reset" \
+                    --editbox "$OVERRIDE_CFG_FILE" 15 "$DIALOG_WIDTH" 2>&1 >/dev/tty)"
+    local return_value="$?"
+
+    if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
+        echo "$override_cfg" > "$OVERRIDE_CFG_FILE"
+
+        dialog \
+            --backtitle "$DIALOG_BACKTITLE" \
+            --title "" \
+            --ok-label "OK" \
+            --msgbox "\"override.cfg\" updated successfully!" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
+
+        _main_config_dialog
+    elif [[ "$return_value" -eq "$DIALOG_EXTRA" ]]; then
+        dialog \
+            --backtitle "$DIALOG_BACKTITLE" \
+            --title "" \
+            --yesno "Would you like to reset \"override.cfg\" to the default values?" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
+        local return_value="$?"
+
+        if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
+            cat "$OVERRIDE_CFG_DEFAULTS_FILE" > "$OVERRIDE_CFG_FILE"
+
+            dialog \
+                --backtitle "$DIALOG_BACKTITLE" \
+                --title "" \
+                --ok-label "OK" \
+                --msgbox "\"override.cfg\" has been reset to the default values." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
+
+            _edit_override_cfg_dialog
+        elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
+            _edit_override_cfg_dialog
+        elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
+            _edit_override_cfg_dialog
+        fi
+    elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
         _main_config_dialog
     elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
         _main_config_dialog
