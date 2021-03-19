@@ -50,6 +50,7 @@ readonly DIALOG_OK=0
 readonly DIALOG_CANCEL=1
 readonly DIALOG_EXTRA=3
 readonly DIALOG_ESC=255
+readonly DIALOG_BACKTITLE="Godot Engine Configuration"
 
 
 # Configuration dialog functions ####################
@@ -79,7 +80,7 @@ function _main_config_dialog() {
         2 "Force GLES2 video driver ("$option_2_enabled_disabled")"
     )
     cmd=(dialog \
-            --backtitle "Godot Engine Configuration" \
+            --backtitle "$DIALOG_BACKTITLE" \
             --title "" \
             --ok-label "OK" \
             --cancel-label "Back" \
@@ -105,7 +106,7 @@ function _main_config_dialog() {
 
 function _gpio_virtual_keyboard_dialog() {
     dialog \
-        --backtitle "Godot Engine Configuration" \
+        --backtitle "$DIALOG_BACKTITLE" \
         --title "" \
         --yesno "Would you like to you use a GPIO/Virtual keyboard?" 10 60 2>&1 >/dev/tty
     local return_value="$?"
@@ -123,7 +124,7 @@ function _gpio_virtual_keyboard_dialog() {
         done < <(cat "/proc/bus/input/devices" | grep "N: Name" | cut -d= -f2)
 
         cmd=(dialog \
-            --backtitle "Godot Engine Configuration" \
+            --backtitle "$DIALOG_BACKTITLE" \
             --title "" \
             --ok-label "OK" \
             --cancel-label "Back" \
@@ -137,7 +138,7 @@ function _gpio_virtual_keyboard_dialog() {
                 configure_godot-engine "use_frt" 1 "${options[choice*2-1]}"
 
                 dialog \
-                    --backtitle "Godot Engine Configuration" \
+                    --backtitle "$DIALOG_BACKTITLE" \
                     --title "" \
                     --ok-label "OK" \
                     --msgbox "The GPIO/Virtual keyboard has been set." 8 60 2>&1 >/dev/tty
@@ -156,7 +157,7 @@ function _gpio_virtual_keyboard_dialog() {
         configure_godot-engine "use_frt" 0
 
         dialog \
-            --backtitle "Godot Engine Configuration" \
+            --backtitle "$DIALOG_BACKTITLE" \
             --title "" \
             --ok-label "OK" \
             --msgbox "The GPIO/Virtual keyboard has been unset." 8 60 2>&1 >/dev/tty
@@ -170,7 +171,7 @@ function _gpio_virtual_keyboard_dialog() {
 
 function _force_gles2_dialog() {
     dialog \
-        --backtitle "Godot Engine Configuration" \
+        --backtitle "$DIALOG_BACKTITLE" \
         --title "" \
         --yesno "Would you like to force Godot to use the GLES2 video driver?" 10 65 2>&1 >/dev/tty
     local return_value="$?"
@@ -179,7 +180,7 @@ function _force_gles2_dialog() {
         configure_godot-engine "force_gles2" 1
 
         dialog \
-            --backtitle "Godot Engine Configuration" \
+            --backtitle "$DIALOG_BACKTITLE" \
             --title "" \
             --ok-label "OK" \
             --msgbox "GLES2 video renderer has been set." 8 60 2>&1 >/dev/tty
@@ -312,7 +313,7 @@ function gui_godot-engine() {
             platform="x86_64"
         fi
         dialog \
-            --backtitle "Godot Engine Configuration" \
+            --backtitle "$DIALOG_BACKTITLE" \
             --title "Info" \
             --ok-label "OK" \
             --msgbox "There are no configuration options for the '$platform' platform.\n\nConfiguration options are only available for single-board computers, such as the Raspberry Pi." \
