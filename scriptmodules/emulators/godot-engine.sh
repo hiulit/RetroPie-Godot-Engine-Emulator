@@ -14,7 +14,7 @@
 rp_module_id="godot-engine"
 rp_module_desc="Godot Engine (https://godotengine.org/)."
 rp_module_help="Game extensions: .pck .zip."
-rp_module_help+="\n\nCopy your games to $romdir/godot-engine."
+rp_module_help+="\n\nCopy your games to $romdir/$rp_module_id."
 rp_module_help+="\n\nAuthor: hiulit (https://github.com/hiulit)."
 rp_module_help+="\n\nRepository: https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator"
 rp_module_help+="\n\nLicenses:"
@@ -226,7 +226,7 @@ function install_godot-engine() {
     if [[ -d "$md_build" ]]; then
         md_ret_files=($(ls "$md_build"))
     else
-        echo "ERROR: Can't install 'godot-engine'." >&2
+        echo "ERROR: Can't install '$rp_module_id'." >&2
         echo "There must have been a problem downloading the sources." >&2
         exit 1
     fi
@@ -236,14 +236,14 @@ function install_godot-engine() {
 # - use_frt [flag, gpio/virtual keyboard]
 # - force_gles2 [flag]
 function configure_godot-engine() {
-    mkRomDir "godot-engine"
-
     local bin_file_tmp
     local bin_files=()
     local bin_files_tmp=()
     local default
     local index
     local version
+
+    mkRomDir "$rp_module_id"
 
     # Check if there are parameters.
     if [[ -n "$1" ]]; then
@@ -266,14 +266,14 @@ function configure_godot-engine() {
             fi
         done
     else
-        echo "ERROR: Can't configure 'godot-engine'." >&2
+        echo "ERROR: Can't configure '$rp_module_id'." >&2
         echo "There must have been a problem installing the binaries." >&2
         exit 1
     fi
 
     # Remove the file that contains all the configurations for the different Godot "emulators".
     # It will be created from scratch when adding the emulators in the "addEmulator" functions below.
-    [[ -f "/opt/retropie/configs/godot-engine/emulators.cfg" ]] && rm "/opt/retropie/configs/godot-engine/emulators.cfg"
+    [[ -f "/opt/retropie/configs/$rp_module_id/emulators.cfg" ]] && rm "/opt/retropie/configs/$rp_module_id/emulators.cfg"
 
     for index in "${!bin_files[@]}"; do
         default=0
@@ -285,21 +285,21 @@ function configure_godot-engine() {
         version="$(echo $version | cut -d'_' -f 2)"
 
         if isPlatform "x86" || isPlatform "x86_64"; then
-            addEmulator "$default" "$md_id-$version" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
+            addEmulator "$default" "$md_id-$version" "$rp_module_id" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
         else
             if [[ "$FRT_FLAG" -eq 1 && "$GLES2_FLAG" -eq 1 ]]; then
-                addEmulator "$default" "$md_id-$version" "godot-engine" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
+                addEmulator "$default" "$md_id-$version" "$rp_module_id" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
             elif [[ "$FRT_FLAG" -eq 1 && "$GLES2_FLAG" -eq 0 ]]; then
-                addEmulator "$default" "$md_id-$version" "godot-engine" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM%"
+                addEmulator "$default" "$md_id-$version" "$rp_module_id" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM%"
             elif [[ "$FRT_FLAG" -eq 0 && "$GLES2_FLAG" -eq 1 ]]; then
-                addEmulator "$default" "$md_id-$version" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
+                addEmulator "$default" "$md_id-$version" "$rp_module_id" "$md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
             else
-                addEmulator "$default" "$md_id-$version" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
+                addEmulator "$default" "$md_id-$version" "$rp_module_id" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
             fi
         fi
     done
 
-    addSystem "godot-engine" "Godot Engine" ".pck .zip"
+    addSystem "$rp_module_id" "Godot Engine" ".pck .zip"
 }
 
 function gui_godot-engine() {
@@ -318,7 +318,7 @@ function gui_godot-engine() {
             --msgbox "There are no configuration options for the '$platform' platform.\n\nConfiguration options are only available for single-board computers, such as the Raspberry Pi." \
             10 65 2>&1 >/dev/tty
     else
-        local emulators_config_file="/opt/retropie/configs/godot-engine/emulators.cfg"
+        local emulators_config_file="/opt/retropie/configs/$rp_module_id/emulators.cfg"
 
         if grep "FRT_KEYBOARD_ID" "$emulators_config_file" > /dev/null; then
             FRT_FLAG=1
