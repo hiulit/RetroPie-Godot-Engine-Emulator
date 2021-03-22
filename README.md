@@ -186,11 +186,11 @@ and then go to:
 
 Select **Use a GPIO/Virtual keyboard**.
 
-![Configuration dialog](example-images/configuration-dialog.png)
+![Configuration dialog](example-images/gpio-virtual-keyboard-dialog.png)
 
 Select **Yes**.
 
-![GPIO/Virtual keyboard dialog](example-images/gpio-virtual-keyboard-dialog.png)
+![GPIO/Virtual keyboard dialog](example-images/gpio-virtual-keyboard-dialog_yesno.png)
 
 You will be prompted with a menu showing all the results from the command `cat /proc/bus/input/devices`. Select the GPIO/Virtual keyboard that you want.
 
@@ -231,11 +231,11 @@ Go to:
 
 Select **Force GLES2 video driver**.
 
-![Configuration dialog](example-images/configuration-dialog.png)
+![Configuration dialog](example-images/force-gles2-video-driver-dialog.png)
 
 Select **Yes**.
 
-![Force GLES2 video driver dialog](example-images/force-gles2-video-driver-dialog.png)
+![Force GLES2 video driver dialog](example-images/force-gles2-video-driver-dialog_yesno.png)
 
 If you want to to reverse that action, follow the same steps and select **No**.
 
