@@ -4,6 +4,8 @@
 
 A scriptmodule to install a Godot "emulator" for RetroPie.
 
+![Retropie-Godot-Banner](example-images/retropie-godot-banner.jpg)
+
 Thanks to [@efornara](https://github.com/efornara) (for creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt)) you can now play 2D games made with the [Godot Engine](https://godotengine.org/) on the Raspberry Pi (and other single-board computers) using [RetroPie](https://retropie.org.uk/).
 
 If you are running RetroPie on an `x86/x86_64` Linux PC you can also play Godot games, since the Godot "emulator" is actually the official **Linux/X11** export template.
