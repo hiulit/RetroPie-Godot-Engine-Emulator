@@ -6,19 +6,19 @@ A scriptmodule to install a Godot "emulator" for RetroPie.
 
 Thanks to [@efornara](https://github.com/efornara) (for creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt)) you can now play 2D games made with the [Godot Engine](https://godotengine.org/) on the Raspberry Pi (and other single-board computers) using [RetroPie](https://retropie.org.uk/).
 
-If you are running RetroPie on an `x86/x86_64` Linux PC, you can also play Godot games since the Godot "emulator" is actually the official **Linux/X11** export template.
+If you are running RetroPie on an `x86/x86_64` Linux PC you can also play Godot games, since the Godot "emulator" is actually the official **Linux/X11** export template.
 
 ## Table of contents
 
 - [Where to find games made with Godot](#-where-to-find-games-made-with-godot)
-- [Compatibility list](#-compatibility-list)
-- [Setup script](#-setup-script)
+- [Compatibility list](#%EF%B8%8F-compatibility-list)
+- [Setup script](#%EF%B8%8F-setup-script)
 - [Install the Godot "emulator" from RetroPie-Setup](#install-the-godot-emulator-from-retropie-setup)
 - [Uninstall the Godot "emulator" from RetroPie-Setup](#uninstall-the-godot-emulator-from-retropie-setup)
 - [Update the Godot "emulator" from RetroPie-Setup](#update-the-godot-emulator-from-retropie-setup)
 - [How to install Godot games](#how-to-install-godot-games)
 - [Using a GPIO/Virtual keyboard](#using-a-gpiovirtual-keyboard)
-- [Troubleshooting](#-troubleshooting)
+- [Troubleshooting](#ℹ%EF%B8%8F-troubleshooting)
 - [How to create a new Godot system for an EmulationStation theme](#-how-to-create-a-new-godot-system-for-an-emulationstation-theme)
 - [Pre-made Godot systems](#-pre-made-godot-systems)
 
@@ -132,7 +132,7 @@ Go to:
 
 ## Update the Godot "emulator" from RetroPie-Setup
 
-> Before updating the "emulator", you must update the setup script and the scriptmodule.
+> Before updating the "emulator", you must update the **setup script** and the **scriptmodule**.
 
 Run:
 
@@ -241,9 +241,28 @@ If you want to to reverse that action, follow the same steps and select **No**.
 
 ### Audio issues
 
-If you
+If you find that the sound is glitchy, you can try to fix it by changing some values in the `override.cfg` file.
+
+Run:
+
+```
+sudo /home/pi/RetroPie-Setup/retropie_setup.sh
+```
+
+Go to:
+
+- Configuration/tools
+- godot-engine
+
+Select **Edit "override.cfg"**.
 
 ![Override dialog](example-images/override-dialog.png)
+
+Under the `[audio]` section, set:
+
+- `mix_rate` to `48000`.
+- `output_latency` to `20` (or `30`).
+
 ![Edit override dialog](example-images/edit-override-dialog.png)
 
 ## 🎨 How to create a new Godot system for an EmulationStation theme
@@ -264,18 +283,20 @@ The folder structure in the theme you are using might differ. Take a look at how
 
 I've created a couple of ready-to-use Godot systems:
 
-- For the **Carbon theme**, which is the default EmulationStation theme that comes in RetroPie.
+- For the **Carbon theme**, which is the default EmulationStation theme that comes with RetroPie.
 - For the **Pixel theme**, my personal favourite theme.
+
+If you want to add a new theme, feel free to open a [pull request](https://github.com/hiulit/cross-compile-godot-raspberry-pi/pulls).
 
 To install a Godot system, copy the `theme/[THEME]/godot-engine` folder from this repository to `/etc/emulationstation/themes/[THEME]`.
 
 ### Carbon theme
 
-![Godot system for EmulationStation's Carbon theme](example-images/godot-engine-carbon-theme.jpg)
+![Godot system for EmulationStation's Carbon theme](example-images/godot-engine-carbon-theme.png)
 
 ### Pixel theme
 
-![Godot system for EmulationStation's Pixel theme](example-images/godot-engine-pixel-theme.jpg)
+![Godot system for EmulationStation's Pixel theme](example-images/godot-engine-pixel-theme.png)
 
 ## 🗒️ Changelog
 
@@ -322,7 +343,7 @@ Thanks to:
 - **Emanuele Fornara** ([@efornara](https://github.com/efornara)) - For creating [FRT - A Godot "platform" targeting single board computers](https://github.com/efornara/frt).
 - **Andrea Calabró** - For creating the "Godot logo". Changes made to it:
   - Created an outline version.
-- **Alícia Folgarona Ribot** (Alfórium Studios - [@alforiumstudios](https://twitter.com/alforiumstudios)) - For creating the "Pixel Godot logo". Changes made to it:
+- **Alícia Folgarona Ribot** ([@pingudroid](https://twitter.com/pingudroid)) - For creating the "Pixel Godot logo". Changes made to it:
   - New colors.
   - Added white outline.
 
@@ -331,5 +352,5 @@ Thanks to:
 - Source code: [MIT License](/LICENSE).
 - Godot Engine: [MIT License](/LICENSE_GODOT.txt).
 - FRT - A Godot platform targeting single board computers: [MIT License](/LICENSE_FRT.txt).
-- Godot logo: [CC BY](https://creativecommons.org/licenses/by/3.0/).
+- Godot logo: [CC BY](https://creativecommons.org/licenses/by/4.0/).
 - Pixel Godot logo: [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/).
