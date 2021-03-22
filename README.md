@@ -239,6 +239,13 @@ Select **Yes**.
 
 If you want to to reverse that action, follow the same steps and select **No**.
 
+### Audio issues
+
+If you
+
+![Override dialog](example-images/override-dialog.png)
+![Edit override dialog](example-images/edit-override-dialog.png)
+
 ## 🎨 How to create a new Godot system for an EmulationStation theme
 
 As there is no way to create a script to automate this, because themes don't have the same structure, the best way is to manually create a new system in your preferred theme.
