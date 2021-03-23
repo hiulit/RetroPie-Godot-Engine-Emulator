@@ -28,6 +28,7 @@ rp_module_flags="x86 x86_64 aarch64 rpi1 rpi2 rpi3 rpi4"
 
 # Global variables ##################################
 
+RP_MODULE_ID="$rp_module_id"
 SCRIPT_VERSION="1.4.0"
 GODOT_VERSIONS=(
     "2.1.6"
@@ -36,8 +37,8 @@ GODOT_VERSIONS=(
     "3.2.3"
 )
 FRT_KEYBOARD=""
-OVERRIDE_CFG_DEFAULTS_FILE="$romdir/$rp_module_id/.override_defaults.cfg"
-OVERRIDE_CFG_FILE="$romdir/$rp_module_id/override.cfg"
+OVERRIDE_CFG_DEFAULTS_FILE="$romdir/$RP_MODULE_ID/.override_defaults.cfg"
+OVERRIDE_CFG_FILE="$romdir/$RP_MODULE_ID/override.cfg"
 
 # Configuration flags ###############################
 
@@ -286,7 +287,7 @@ function install_godot-engine() {
     if [[ -d "$md_build" ]]; then
         md_ret_files=($(ls "$md_build"))
     else
-        echo "ERROR: Can't install '$rp_module_id'." >&2
+        echo "ERROR: Can't install '$RP_MODULE_ID'." >&2
         echo "There must have been a problem downloading the sources." >&2
         exit 1
     fi
@@ -303,7 +304,7 @@ function configure_godot-engine() {
     local index
     local version
 
-    mkRomDir "$rp_module_id"
+    mkRomDir "$RP_MODULE_ID"
 
     # Check if there are parameters.
     if [[ -n "$1" ]]; then
@@ -326,14 +327,14 @@ function configure_godot-engine() {
             fi
         done
     else
-        echo "ERROR: Can't configure '$rp_module_id'." >&2
+        echo "ERROR: Can't configure '$RP_MODULE_ID'." >&2
         echo "There must have been a problem installing the binaries." >&2
         exit 1
     fi
 
     # Remove the file that contains all the configurations for the different Godot "emulators".
     # It will be created from scratch when adding the emulators in the "addEmulator" functions below.
-    [[ -f "/opt/retropie/configs/$rp_module_id/emulators.cfg" ]] && rm "/opt/retropie/configs/$rp_module_id/emulators.cfg"
+    [[ -f "/opt/retropie/configs/$RP_MODULE_ID/emulators.cfg" ]] && rm "/opt/retropie/configs/$RP_MODULE_ID/emulators.cfg"
 
     for index in "${!bin_files[@]}"; do
         default=0
@@ -359,7 +360,7 @@ function configure_godot-engine() {
         fi
     done
 
-    addSystem "$rp_module_id" "Godot Engine" ".pck .zip"
+    addSystem "$RP_MODULE_ID" "Godot Engine" ".pck .zip"
 }
 
 function gui_godot-engine() {
@@ -378,7 +379,7 @@ function gui_godot-engine() {
             --msgbox "There are no configuration options for the '$platform' platform.\n\nConfiguration options are only available for single-board computers, such as the Raspberry Pi." \
             10 65 2>&1 >/dev/tty
     else
-        local emulators_config_file="/opt/retropie/configs/$rp_module_id/emulators.cfg"
+        local emulators_config_file="/opt/retropie/configs/$RP_MODULE_ID/emulators.cfg"
 
         if grep "FRT_KEYBOARD_ID" "$emulators_config_file" > /dev/null; then
             FRT_FLAG=1
