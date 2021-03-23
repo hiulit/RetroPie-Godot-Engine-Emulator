@@ -105,8 +105,8 @@ function install() {
         echo
         echo "After installation information"
         echo "------------------------------"
-        echo "Copy your Godot games to '$RP_ROMS_DIR/$SCRIPTMODULE_NAME'."
-        echo "Godot games extensions: .pck .zip."
+        echo "Copy your games to '$RP_ROMS_DIR/$SCRIPTMODULE_NAME'."
+        echo "Game extensions: .pck .zip."
         echo
     else
         echo "ERROR: Couldn't install '$SCRIPTMODULE_NAME.sh' scriptmodule." >&2
