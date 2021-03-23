@@ -14,7 +14,7 @@
 rp_module_id="godot-engine"
 rp_module_desc="Godot Engine (https://godotengine.org/)."
 rp_module_help="Game extensions: .pck .zip."
-rp_module_help+="\n\nCopy your games to $romdir/godot-engine."
+rp_module_help+="\n\nCopy your games to $romdir/$rp_module_id."
 rp_module_help+="\n\nAuthor: hiulit (https://github.com/hiulit)."
 rp_module_help+="\n\nRepository: https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator"
 rp_module_help+="\n\nLicenses:"
@@ -28,7 +28,8 @@ rp_module_flags="x86 x86_64 aarch64 rpi1 rpi2 rpi3 rpi4"
 
 # Global variables ##################################
 
-SCRIPT_VERSION="1.4.0"
+RP_MODULE_ID="$rp_module_id"
+SCRIPT_VERSION="1.5.0"
 GODOT_VERSIONS=(
     "2.1.6"
     "3.0.6"
@@ -36,7 +37,8 @@ GODOT_VERSIONS=(
     "3.2.3"
 )
 FRT_KEYBOARD=""
-
+OVERRIDE_CFG_DEFAULTS_FILE="$romdir/$RP_MODULE_ID/.override_defaults.cfg"
+OVERRIDE_CFG_FILE="$romdir/$RP_MODULE_ID/override.cfg"
 
 # Configuration flags ###############################
 
@@ -50,6 +52,9 @@ readonly DIALOG_OK=0
 readonly DIALOG_CANCEL=1
 readonly DIALOG_EXTRA=3
 readonly DIALOG_ESC=255
+readonly DIALOG_BACKTITLE="Godot Engine Configuration"
+readonly DIALOG_HEIGHT=8
+readonly DIALOG_WIDTH=60
 
 
 # Configuration dialog functions ####################
@@ -58,7 +63,6 @@ function _main_config_dialog() {
     local options=()
     local option_1_enabled_disabled
     local option_2_enabled_disabled
-    local menu_text
     local cmd
     local choice
 
@@ -77,14 +81,15 @@ function _main_config_dialog() {
     options=(
         1 "Use a GPIO/Virtual keyboard ("$option_1_enabled_disabled")"
         2 "Force GLES2 video driver ("$option_2_enabled_disabled")"
+        3 "Edit \"override.cfg\""
     )
     cmd=(dialog \
-            --backtitle "Godot Engine Configuration" \
+            --backtitle "$DIALOG_BACKTITLE" \
             --title "" \
             --ok-label "OK" \
             --cancel-label "Back" \
             --menu "Choose an option." \
-            15 60 15)
+            15 "$DIALOG_WIDTH" 15)
     choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
     local return_value="$?"
 
@@ -97,6 +102,9 @@ function _main_config_dialog() {
                 2)
                     _force_gles2_dialog
                     ;;
+                3)
+                    _edit_override_cfg_dialog
+                    ;;
             esac
         fi
     fi
@@ -105,9 +113,9 @@ function _main_config_dialog() {
 
 function _gpio_virtual_keyboard_dialog() {
     dialog \
-        --backtitle "Godot Engine Configuration" \
+        --backtitle "$DIALOG_BACKTITLE" \
         --title "" \
-        --yesno "Would you like to you use a GPIO/Virtual keyboard?" 10 60 2>&1 >/dev/tty
+        --yesno "Would you like to you use a GPIO/Virtual keyboard?" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
     local return_value="$?"
 
     if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
@@ -123,12 +131,12 @@ function _gpio_virtual_keyboard_dialog() {
         done < <(cat "/proc/bus/input/devices" | grep "N: Name" | cut -d= -f2)
 
         cmd=(dialog \
-            --backtitle "Godot Engine Configuration" \
+            --backtitle "$DIALOG_BACKTITLE" \
             --title "" \
             --ok-label "OK" \
             --cancel-label "Back" \
             --menu "Choose an option." \
-            15 60 15)
+            15 "$DIALOG_WIDTH" 15)
 
         choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
 
@@ -137,10 +145,10 @@ function _gpio_virtual_keyboard_dialog() {
                 configure_godot-engine "use_frt" 1 "${options[choice*2-1]}"
 
                 dialog \
-                    --backtitle "Godot Engine Configuration" \
+                    --backtitle "$DIALOG_BACKTITLE" \
                     --title "" \
                     --ok-label "OK" \
-                    --msgbox "The GPIO/Virtual keyboard has been set." 8 60 2>&1 >/dev/tty
+                    --msgbox "The GPIO/Virtual keyboard has been set." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
 
                 _main_config_dialog
             else
@@ -156,10 +164,10 @@ function _gpio_virtual_keyboard_dialog() {
         configure_godot-engine "use_frt" 0
 
         dialog \
-            --backtitle "Godot Engine Configuration" \
+            --backtitle "$DIALOG_BACKTITLE" \
             --title "" \
             --ok-label "OK" \
-            --msgbox "The GPIO/Virtual keyboard has been unset." 8 60 2>&1 >/dev/tty
+            --msgbox "The GPIO/Virtual keyboard has been unset." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
 
         _main_config_dialog
     elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
@@ -170,30 +178,83 @@ function _gpio_virtual_keyboard_dialog() {
 
 function _force_gles2_dialog() {
     dialog \
-        --backtitle "Godot Engine Configuration" \
+        --backtitle "$DIALOG_BACKTITLE" \
         --title "" \
-        --yesno "Would you like to force Godot to use the GLES2 video driver?" 10 65 2>&1 >/dev/tty
+        --yesno "Would you like to force Godot to use the GLES2 video driver?" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
     local return_value="$?"
 
     if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
         configure_godot-engine "force_gles2" 1
 
         dialog \
-            --backtitle "Godot Engine Configuration" \
+            --backtitle "$DIALOG_BACKTITLE" \
             --title "" \
             --ok-label "OK" \
-            --msgbox "GLES2 video renderer has been set." 8 60 2>&1 >/dev/tty
+            --msgbox "GLES2 video renderer has been set." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
 
         _main_config_dialog
     elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
         configure_godot-engine "force_gles2" 0
 
         dialog \
-            --backtitle "Godot Engine Configuration" \
+            --backtitle "$DIALOG_BACKTITLE" \
             --title "" \
             --ok-label "OK" \
-            --msgbox "GLES2 video renderer has been unset." 8 60 2>&1 >/dev/tty
+            --msgbox "GLES2 video renderer has been unset." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
 
+        _main_config_dialog
+    elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
+        _main_config_dialog
+    fi
+}
+
+
+function _edit_override_cfg_dialog() {
+    local override_cfg
+
+    override_cfg="$(dialog \
+                    --backtitle "$DIALOG_BACKTITLE" \
+                    --title "Edit \"override.cfg\"" \
+                    --ok-label "Save" \
+                    --cancel-label "Back" \
+                    --extra-button \
+                    --extra-label "Reset" \
+                    --editbox "$OVERRIDE_CFG_FILE" 15 "$DIALOG_WIDTH" 2>&1 >/dev/tty)"
+    local return_value="$?"
+
+    if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
+        echo "$override_cfg" > "$OVERRIDE_CFG_FILE"
+
+        dialog \
+            --backtitle "$DIALOG_BACKTITLE" \
+            --title "" \
+            --ok-label "OK" \
+            --msgbox "\"override.cfg\" updated successfully!" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
+
+        _main_config_dialog
+    elif [[ "$return_value" -eq "$DIALOG_EXTRA" ]]; then
+        dialog \
+            --backtitle "$DIALOG_BACKTITLE" \
+            --title "" \
+            --yesno "Would you like to reset \"override.cfg\" to the default values?" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
+        local return_value="$?"
+
+        if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
+            cat "$OVERRIDE_CFG_DEFAULTS_FILE" > "$OVERRIDE_CFG_FILE"
+
+            dialog \
+                --backtitle "$DIALOG_BACKTITLE" \
+                --title "" \
+                --ok-label "OK" \
+                --msgbox "\"override.cfg\" has been reset to the default values." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
+
+            _edit_override_cfg_dialog
+        elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
+            _edit_override_cfg_dialog
+        elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
+            _edit_override_cfg_dialog
+        fi
+    elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
         _main_config_dialog
     elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
         _main_config_dialog
@@ -226,7 +287,7 @@ function install_godot-engine() {
     if [[ -d "$md_build" ]]; then
         md_ret_files=($(ls "$md_build"))
     else
-        echo "ERROR: Can't install 'godot-engine'." >&2
+        echo "ERROR: Can't install '$RP_MODULE_ID'." >&2
         echo "There must have been a problem downloading the sources." >&2
         exit 1
     fi
@@ -236,14 +297,17 @@ function install_godot-engine() {
 # - use_frt [flag, gpio/virtual keyboard]
 # - force_gles2 [flag]
 function configure_godot-engine() {
-    mkRomDir "godot-engine"
-
     local bin_file_tmp
     local bin_files=()
     local bin_files_tmp=()
     local default
     local index
     local version
+    local audio_driver_string
+    local main_pack_string
+    local video_driver_string
+
+    mkRomDir "$RP_MODULE_ID"
 
     # Check if there are parameters.
     if [[ -n "$1" ]]; then
@@ -266,14 +330,14 @@ function configure_godot-engine() {
             fi
         done
     else
-        echo "ERROR: Can't configure 'godot-engine'." >&2
+        echo "ERROR: Can't configure '$RP_MODULE_ID'." >&2
         echo "There must have been a problem installing the binaries." >&2
         exit 1
     fi
 
     # Remove the file that contains all the configurations for the different Godot "emulators".
     # It will be created from scratch when adding the emulators in the "addEmulator" functions below.
-    [[ -f "/opt/retropie/configs/godot-engine/emulators.cfg" ]] && rm "/opt/retropie/configs/godot-engine/emulators.cfg"
+    [[ -f "/opt/retropie/configs/$RP_MODULE_ID/emulators.cfg" ]] && rm "/opt/retropie/configs/$RP_MODULE_ID/emulators.cfg"
 
     for index in "${!bin_files[@]}"; do
         default=0
@@ -284,22 +348,32 @@ function configure_godot-engine() {
         # Cut between "_".
         version="$(echo $version | cut -d'_' -f 2)"
 
+        if [[ "$version" == "2.1.6" ]]; then
+            audio_driver_string="-ad"
+            main_pack_string="-main_pack"
+            video_driver_string="-vd"
+        else
+            audio_driver_string="--audio-driver"
+            main_pack_string="--main-pack"
+            video_driver_string="--video-driver"
+        fi
+
         if isPlatform "x86" || isPlatform "x86_64"; then
-            addEmulator "$default" "$md_id-$version" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
+            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "$md_inst/${bin_files[$index]} "$main_pack_string" %ROM%"
         else
             if [[ "$FRT_FLAG" -eq 1 && "$GLES2_FLAG" -eq 1 ]]; then
-                addEmulator "$default" "$md_id-$version" "godot-engine" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
+                addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} "$main_pack_string" %ROM% "$video_driver_string" GLES2"
             elif [[ "$FRT_FLAG" -eq 1 && "$GLES2_FLAG" -eq 0 ]]; then
-                addEmulator "$default" "$md_id-$version" "godot-engine" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM%"
+                addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} "$main_pack_string" %ROM%"
             elif [[ "$FRT_FLAG" -eq 0 && "$GLES2_FLAG" -eq 1 ]]; then
-                addEmulator "$default" "$md_id-$version" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
+                addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "$md_inst/${bin_files[$index]} "$main_pack_string" %ROM% "$video_driver_string" GLES2"
             else
-                addEmulator "$default" "$md_id-$version" "godot-engine" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
+                addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "$md_inst/${bin_files[$index]} "$main_pack_string" %ROM%"
             fi
         fi
     done
 
-    addSystem "godot-engine" "Godot Engine" ".pck .zip"
+    addSystem "$RP_MODULE_ID" "Godot Engine" ".pck .zip"
 }
 
 function gui_godot-engine() {
@@ -312,13 +386,13 @@ function gui_godot-engine() {
             platform="x86_64"
         fi
         dialog \
-            --backtitle "Godot Engine Configuration" \
+            --backtitle "$DIALOG_BACKTITLE" \
             --title "Info" \
             --ok-label "OK" \
             --msgbox "There are no configuration options for the '$platform' platform.\n\nConfiguration options are only available for single-board computers, such as the Raspberry Pi." \
             10 65 2>&1 >/dev/tty
     else
-        local emulators_config_file="/opt/retropie/configs/godot-engine/emulators.cfg"
+        local emulators_config_file="/opt/retropie/configs/$RP_MODULE_ID/emulators.cfg"
 
         if grep "FRT_KEYBOARD_ID" "$emulators_config_file" > /dev/null; then
             FRT_FLAG=1

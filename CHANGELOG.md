@@ -4,6 +4,21 @@
 
 - Up to date
 
+## [1.5.0] - 2021-03-23
+
+### Added
+
+- A new `override.cfg` file in `~/RetroPie/roms/godot-engine`, with some default audio values, to let the user [override settings](https://docs.godotengine.org/de/stable/classes/class_projectsettings.html) of the Godot "emulator.
+- New documentation about audio issues (see [#7](https://github.com/hiulit/RetroPie-Godot-Engine-Emulator/issues/7)).
+
+### Changed
+
+- New Pixel theme's Godot logo.
+
+### Fixed
+
+- Godot `2.1.6` command line options [#4](https://github.com/hiulit/RetroPie-Godot-Engine-Emulator/issues/4).
+
 ## [1.4.0] - 2021-03-17
 
 ### Added
@@ -19,7 +34,6 @@
 ### Fixed
 
 - Configuration dialog back button was exiting instead of going back.
-
 
 ### Removed
 

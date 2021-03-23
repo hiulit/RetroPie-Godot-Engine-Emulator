@@ -22,7 +22,7 @@ readonly RP_DIR="$home/RetroPie"
 readonly RP_ROMS_DIR="$RP_DIR/roms"
 readonly RP_EMULATORS_DIR="/opt/retropie/emulators"
 
-readonly SCRIPT_VERSION="1.4.0"
+readonly SCRIPT_VERSION="1.5.0"
 readonly SCRIPT_DIR="$(cd "$(dirname $0)" && pwd)"
 readonly SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_FULL="$SCRIPT_DIR/$SCRIPT_NAME"
@@ -31,6 +31,9 @@ readonly SCRIPT_DESCRIPTION="A scriptmodule to install a Godot \"emulator\" for 
 
 readonly SCRIPTMODULE_NAME="godot-engine"
 readonly SCRIPTMODULE_FILE="scriptmodules/emulators/$SCRIPTMODULE_NAME.sh"
+
+readonly OVERRIDE_CFG_DEFAULTS_FILE=".override_defaults.cfg"
+readonly OVERRIDE_CFG_FILE="override.cfg"
 
 
 # Variables ##################################################################
@@ -70,7 +73,10 @@ function install() {
     echo
     echo "> Installing '$SCRIPTMODULE_NAME.sh' scriptmodule..."
 
-    cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE"
+    # Install the scriptmodule file, the ".override_defaults.cfg" file and the "override.cfg" file.
+    cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE" && \
+    cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_DEFAULTS_FILE" && \
+    cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE"
 
     if [[ "$?" -eq 0 ]]; then
         echo
@@ -148,8 +154,13 @@ function update() {
         exit 1
     fi
 
-    cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE"
-
+    # Update the scriptmodule file and the ".override_defaults.cfg" file.
+    cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE" && \
+    cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_DEFAULTS_FILE" && \
+    # If the "override.cfg" doesn't exists, create it.
+    [[ ! -f "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE" ]] && \
+        cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE"
+    
     if [[ "$?" -eq 0 ]]; then
         echo "'$SCRIPTMODULE_NAME.sh' scriptmodule updated to v$SCRIPT_VERSION successfully!"
     else
