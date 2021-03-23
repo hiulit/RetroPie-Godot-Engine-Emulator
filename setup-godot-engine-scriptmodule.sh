@@ -53,6 +53,7 @@ function usage() {
     echo "USAGE: $0 [OPTIONS]"
     echo
     echo "Use '$0 --help' to see all the options."
+    echo
 }
 
 
@@ -63,6 +64,7 @@ function check_path() {
         else
             echo >&2
             echo "ERROR: '$1' doesn't exist!" >&2
+            echo >&2
             exit 1
         fi
     fi
@@ -71,20 +73,32 @@ function check_path() {
 
 function install() {
     echo
-    echo "> Installing '$SCRIPTMODULE_NAME.sh' scriptmodule..."
+    echo "> Installing '$SCRIPTMODULE_NAME' scriptmodule (v$SCRIPT_VERSION)..."
 
-    # Install the scriptmodule file, the ".override_defaults.cfg" file and the "override.cfg" file.
-    cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE" && \
-    cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_DEFAULTS_FILE" && \
-    cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE"
+    # Install "godot-engine" scriptmodule.
+    cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE"
 
     if [[ "$?" -eq 0 ]]; then
+        # Install ".override_defaults.cfg".
+        cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_DEFAULTS_FILE"
+        if ! [[ "$?" -eq 0 ]]; then
+            echo "ERROR: Couldn't install '.override_defaults.cfg'." >&2
+            echo >&2
+        fi
+
+        # Install "override.cfg".
+        cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE"
+        if ! [[ "$?" -eq 0 ]]; then
+            echo "ERROR: Couldn't install 'override.cfg'." >&2
+            echo >&2
+        fi
+
         echo
-        echo "'$SCRIPTMODULE_NAME.sh' scriptmodule installed in '$RPS_DIR/$SCRIPTMODULE_FILE' successfully!"
+        echo "'$SCRIPTMODULE_NAME' scriptmodule installed successfully!"
         echo
         echo "Installation"
         echo "------------"
-        echo "To install '$SCRIPTMODULE_NAME' run: 'sudo $RPS_DIR/retropie_setup.sh'."
+        echo "To install '$SCRIPTMODULE_NAME' emulator, run: 'sudo $RPS_DIR/retropie_setup.sh'."
         echo
         echo "Go to:"
         echo
@@ -95,23 +109,25 @@ function install() {
         echo
         echo "After installation information"
         echo "------------------------------"
-        echo "Copy your Godot games to '$RP_ROMS_DIR/$SCRIPTMODULE_NAME'."
-        echo "Godot games extensions: .pck .zip."
+        echo "Copy your games to '$RP_ROMS_DIR/$SCRIPTMODULE_NAME'."
+        echo "Game extensions: .pck .zip."
         echo
     else
-        echo "ERROR: Couldn't install '$SCRIPTMODULE_NAME.sh' scriptmodule." >&2
+        echo >&2
+        echo "ERROR: Couldn't install '$SCRIPTMODULE_NAME' scriptmodule." >&2
+        echo >&2
     fi
 }
 
 
 function uninstall() {
     echo
-    echo "> Uninstalling '$SCRIPTMODULE_NAME.sh' scriptmodule..."
+    echo "> Uninstalling '$SCRIPTMODULE_NAME' scriptmodule..."
 
     if [[ ! -f "$RPS_DIR/$SCRIPTMODULE_FILE" ]]; then
         echo >&2
-        echo "ERROR: Can't uninstall the scriptmodule!" >&2
-        echo "'$SCRIPTMODULE_NAME' scriptmodule is not installed." >&2
+        echo "ERROR: Can't uninstall '$SCRIPTMODULE_NAME' scriptmodule because it is not installed!" >&2
+        echo >&2
         exit 1
     fi
 
@@ -119,7 +135,7 @@ function uninstall() {
         echo >&2
         echo "ERROR: '$SCRIPTMODULE_NAME' emulator is still installed." >&2
         echo >&2
-        echo "To uninstall '$SCRIPTMODULE_NAME' emulator run: 'sudo $RPS_DIR/retropie_setup.sh'." >&2
+        echo "To uninstall '$SCRIPTMODULE_NAME' emulator, run: 'sudo $RPS_DIR/retropie_setup.sh'." >&2
         echo >&2
         echo "Go to:" >&2
         echo >&2
@@ -134,37 +150,57 @@ function uninstall() {
     rm "$RPS_DIR/$SCRIPTMODULE_FILE"
 
     if [[ "$?" -eq 0 ]]; then
-        echo "'$SCRIPTMODULE_NAME.sh' scriptmodule uninstalled successfully!"
+        echo
+        echo "'$SCRIPTMODULE_NAME' scriptmodule uninstalled successfully!"
+        echo
     else
-        echo "ERROR: Couldn't uninstall '$SCRIPTMODULE_NAME.sh' scriptmodule." >&2
+        echo >&2
+        echo "ERROR: Couldn't uninstall '$SCRIPTMODULE_NAME' scriptmodule." >&2
+        echo >&2
     fi
 }
 
 
 function update() {
     echo
-    echo "> Updating '$SCRIPTMODULE_NAME.sh' scriptmodule..."
+    echo "> Updating '$SCRIPTMODULE_NAME' scriptmodule..."
 
     if [[ ! -f "$RPS_DIR/$SCRIPTMODULE_FILE" ]]; then
         echo >&2
-        echo "ERROR: Can't update the scriptmodule!" >&2
-        echo "'$SCRIPTMODULE_NAME' scriptmodule is not installed.">&2
+        echo "ERROR: Can't update '$SCRIPTMODULE_NAME' scriptmodule because it is not installed!" >&2
         echo >&2
-        echo "Run '$0 --install' to install the scriptmodule." >&2
+        echo "Run '$0 --install' to install '$SCRIPTMODULE_NAME' scriptmodule." >&2
+        echo >&2
         exit 1
     fi
 
-    # Update the scriptmodule file and the ".override_defaults.cfg" file.
-    cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE" && \
-    cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_DEFAULTS_FILE" && \
-    # If the "override.cfg" doesn't exists, create it.
-    [[ ! -f "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE" ]] && \
-        cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE"
+    # Update "godot-engine" scriptmodule.
+    cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE"
     
     if [[ "$?" -eq 0 ]]; then
-        echo "'$SCRIPTMODULE_NAME.sh' scriptmodule updated to v$SCRIPT_VERSION successfully!"
+        # Update ".override_defaults.cfg".
+        cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_DEFAULTS_FILE"
+        if ! [[ "$?" -eq 0 ]]; then
+            echo "ERROR: Couldn't update '.override_defaults.cfg'." >&2
+            echo >&2
+        fi
+
+        # If "override.cfg" doesn't exists, create it.
+        if [[ ! -f "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE" ]]; then
+            cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE"
+            if ! [[ "$?" -eq 0 ]]; then
+                echo "ERROR: Couldn't install 'override.cfg'." >&2
+                echo >&2
+            fi
+        fi
+
+        echo
+        echo "'$SCRIPTMODULE_NAME' updated to v$SCRIPT_VERSION successfully!"
+        echo
     else
-        echo "ERROR: Couldn't update '$SCRIPTMODULE_NAME.sh' scriptmodule." >&2
+        echo >&2
+        echo "ERROR: Couldn't update '$SCRIPTMODULE_NAME'." >&2
+        echo >&2
     fi
 }
 
@@ -194,21 +230,21 @@ function get_options() {
             -v|--version)
                 echo "$SCRIPT_VERSION"
                 ;;
-#H -i,  --install [path]    Installs the scriptmodule.
+#H -i,  --install [path]    Installs "godot-engine" scriptmodule.
 #H                              Path: The location of the "RetroPie-Setup" folder.
 #H                              Default: "$home/RetroPie-Setup".
             -i|--install)
                 check_path "$2"
                 install
                 ;;
-#H -u,  --uninstall [path]  Uninstalls the scriptmodule.
+#H -u,  --uninstall [path]  Uninstalls "godot-engine" scriptmodule.
 #H                              Path: The location of the "RetroPie-Setup" folder.
 #H                              Default: "$home/RetroPie-Setup".
             -u|--uninstall)
                 check_path "$2"
                 uninstall
                 ;;
-#H -U, --update [path]     Updates the scriptmodule.
+#H -U, --update [path]     Updates "godot-engine" scriptmodule.
 #H                              Path: The location of the "RetroPie-Setup" folder.
 #H                              Default: "$home/RetroPie-Setup".
             -U|--update)
@@ -236,7 +272,7 @@ function main() {
         echo "ERROR: '$RPS_DIR' doesn't exist." >&2
         echo >&2
         echo "Please, input the location of the 'RetroPie-Setup' folder." >&2
-        echo "Example: ./$SCRIPT_NAME [OPTION] \"/home/pi/RetroPie-Setup\"" >&2
+        echo "Example: $0 [OPTION] \"/home/pi/RetroPie-Setup\"" >&2
         exit 1
     fi
 
