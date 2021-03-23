@@ -303,6 +303,9 @@ function configure_godot-engine() {
     local default
     local index
     local version
+    local audio_driver_string
+    local main_pack_string
+    local video_driver_string
 
     mkRomDir "$RP_MODULE_ID"
 
@@ -345,17 +348,27 @@ function configure_godot-engine() {
         # Cut between "_".
         version="$(echo $version | cut -d'_' -f 2)"
 
+        if [[ "$version" == "2.1.6" ]]; then
+            audio_driver_string="-ad"
+            main_pack_string="-main_pack"
+            video_driver_string="-vd"
+        else
+            audio_driver_string="--audio-driver"
+            main_pack_string="--main-pack"
+            video_driver_string="--video-driver"
+        fi
+
         if isPlatform "x86" || isPlatform "x86_64"; then
-            addEmulator "$default" "$md_id-$version" "$rp_module_id" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
+            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "$md_inst/${bin_files[$index]} "$main_pack_string" %ROM%"
         else
             if [[ "$FRT_FLAG" -eq 1 && "$GLES2_FLAG" -eq 1 ]]; then
-                addEmulator "$default" "$md_id-$version" "$rp_module_id" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
+                addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} "$main_pack_string" %ROM% "$video_driver_string" GLES2"
             elif [[ "$FRT_FLAG" -eq 1 && "$GLES2_FLAG" -eq 0 ]]; then
-                addEmulator "$default" "$md_id-$version" "$rp_module_id" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} --main-pack %ROM%"
+                addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} "$main_pack_string" %ROM%"
             elif [[ "$FRT_FLAG" -eq 0 && "$GLES2_FLAG" -eq 1 ]]; then
-                addEmulator "$default" "$md_id-$version" "$rp_module_id" "$md_inst/${bin_files[$index]} --main-pack %ROM% --video-driver GLES2"
+                addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "$md_inst/${bin_files[$index]} "$main_pack_string" %ROM% "$video_driver_string" GLES2"
             else
-                addEmulator "$default" "$md_id-$version" "$rp_module_id" "$md_inst/${bin_files[$index]} --main-pack %ROM%"
+                addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "$md_inst/${bin_files[$index]} "$main_pack_string" %ROM%"
             fi
         fi
     done
