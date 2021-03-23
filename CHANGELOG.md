@@ -8,7 +8,7 @@
 
 ### Added
 
-- A new `override.cfg` file in `~/RetroPie/roms/godot-engine`, with some default audio values, to let the user [override settings](https://docs.godotengine.org/de/stable/classes/class_projectsettings.html) of the Godot "emulator.
+- A new `override.cfg` file in `~/RetroPie/roms/godot-engine`, with some default audio values, to let the user [override settings](https://docs.godotengine.org/de/stable/classes/class_projectsettings.html) of the Godot "emulator".
 - New documentation about audio issues (see [#7](https://github.com/hiulit/RetroPie-Godot-Engine-Emulator/issues/7)).
 
 ### Changed
