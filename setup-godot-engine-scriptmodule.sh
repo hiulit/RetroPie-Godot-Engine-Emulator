@@ -71,7 +71,7 @@ function check_path() {
 
 function install() {
     echo
-    echo "> Installing '$SCRIPTMODULE_NAME.sh' scriptmodule..."
+    echo "> Installing '$SCRIPTMODULE_NAME.sh' (v$SCRIPT_VERSION) scriptmodule..."
 
     # Install the scriptmodule.
     cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE"
@@ -90,7 +90,7 @@ function install() {
         fi
 
         echo
-        echo "'$SCRIPTMODULE_NAME.sh' scriptmodule installed in '$RPS_DIR/$SCRIPTMODULE_FILE' successfully!"
+        echo "'$SCRIPTMODULE_NAME.sh' (v$SCRIPT_VERSION) scriptmodule installed successfully!"
         echo
         echo "Installation"
         echo "------------"
