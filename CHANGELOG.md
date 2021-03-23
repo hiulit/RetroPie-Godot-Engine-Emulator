@@ -4,6 +4,12 @@
 
 - Up to date
 
+## [1.5.1] - 2021-03-23
+
+### Fixed
+
+- There was an issue when updating the scriptmodule.
+
 ## [1.5.0] - 2021-03-23
 
 ### Added
