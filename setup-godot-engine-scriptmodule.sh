@@ -73,12 +73,22 @@ function install() {
     echo
     echo "> Installing '$SCRIPTMODULE_NAME.sh' scriptmodule..."
 
-    # Install the scriptmodule file, the ".override_defaults.cfg" file and the "override.cfg" file.
-    cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE" && \
-    cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_DEFAULTS_FILE" && \
-    cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE"
+    # Install the scriptmodule.
+    cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE"
 
     if [[ "$?" -eq 0 ]]; then
+        # Install the ".override_defaults.cfg" file.
+        cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_DEFAULTS_FILE"
+        if ! [[ "$?" -eq 0 ]]; then
+            echo "ERROR: Couldn't install '.override_defaults.cfg'".
+        fi
+
+        # Install the "override.cfg" file.
+        cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE"
+        if ! [[ "$?" -eq 0 ]]; then
+            echo "ERROR: Couldn't install 'override.cfg'".
+        fi
+
         echo
         echo "'$SCRIPTMODULE_NAME.sh' scriptmodule installed in '$RPS_DIR/$SCRIPTMODULE_FILE' successfully!"
         echo
@@ -154,14 +164,24 @@ function update() {
         exit 1
     fi
 
-    # Update the scriptmodule file and the ".override_defaults.cfg" file.
-    cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE" && \
-    cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_DEFAULTS_FILE" && \
-    # If the "override.cfg" doesn't exists, create it.
-    [[ ! -f "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE" ]] && \
-        cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE"
+    # Update the scriptmodule.
+    cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE"
     
     if [[ "$?" -eq 0 ]]; then
+        # Update the ".override_defaults.cfg" file.
+        cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_DEFAULTS_FILE"
+        if ! [[ "$?" -eq 0 ]]; then
+            echo "ERROR: Couldn't update '.override_defaults.cfg'".
+        fi
+
+        # If the "override.cfg" file doesn't exists, create it.
+        if [[ -f "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE" ]]; then
+            cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE"
+            if ! [[ "$?" -eq 0 ]]; then
+                echo "ERROR: Couldn't install 'override.cfg'".
+            fi
+        fi
+
         echo "'$SCRIPTMODULE_NAME.sh' scriptmodule updated to v$SCRIPT_VERSION successfully!"
     else
         echo "ERROR: Couldn't update '$SCRIPTMODULE_NAME.sh' scriptmodule." >&2
