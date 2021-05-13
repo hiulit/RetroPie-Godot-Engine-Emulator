@@ -29,12 +29,12 @@ rp_module_flags="x86 x86_64 aarch64 rpi1 rpi2 rpi3 rpi4"
 # Global variables ##################################
 
 RP_MODULE_ID="$rp_module_id"
-SCRIPT_VERSION="1.5.1"
+SCRIPT_VERSION="1.6.0"
 GODOT_VERSIONS=(
     "2.1.6"
     "3.0.6"
     "3.1.2"
-    "3.2.3"
+    "3.3"
 )
 FRT_KEYBOARD=""
 OVERRIDE_CFG_DEFAULTS_FILE="$romdir/$RP_MODULE_ID/.override_defaults.cfg"
