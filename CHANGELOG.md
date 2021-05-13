@@ -4,6 +4,12 @@
 
 - Up to date
 
+## [1.6.0] - 2021-05-13
+
+### Added 
+
+- Updated FRT binaries to [v1.0.0](https://github.com/efornara/frt/releases/tag/1.0.0).
+
 ## [1.5.1] - 2021-03-23
 
 ### Fixed
