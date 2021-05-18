@@ -4,9 +4,22 @@
 
 - Up to date
 
+## [1.7.0] - 2021-05-18
+
+### Added
+
+- Added `exit_on_shiftenter` parameter to all the FRT binaries so the user can exit the game the same way RetroPie does with the libretro emulators. That is: <kbd>Shift + Enter</kbd> on a keyboard and <kbd>Start + Select</kbd> on a gamepad.
+- Fullscreen support.
+- Configuration options for the `x86` and `x86_64` platforms.
+- New dialog menu to install themes for the `godot-engine` system.
+
+### Changed
+
+- Optimized the UX of the dialog menus.
+
 ## [1.6.0] - 2021-05-13
 
-### Added 
+### Added
 
 - Updated Godot `3.2.3` binaries to `3.3`.
 - Updated FRT binaries to [v1.0.0](https://github.com/efornara/frt/releases/tag/1.0.0).
