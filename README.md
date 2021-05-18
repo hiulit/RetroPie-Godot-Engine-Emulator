@@ -186,17 +186,13 @@ and then go to:
 - Configuration/tools
 - godot-engine
 
-Select **Use a GPIO/Virtual keyboard**.
+Select **GPIO/Virtual keyboard**.
 
 ![Configuration dialog](example-images/gpio-virtual-keyboard-dialog.png)
 
-Select **Yes**.
-
-![GPIO/Virtual keyboard dialog](example-images/gpio-virtual-keyboard-dialog_yesno.png)
-
 You will be prompted with a menu showing all the results from the command `cat /proc/bus/input/devices`. Select the GPIO/Virtual keyboard that you want.
 
-If you want to to reverse that action, follow the same steps and select **No**.
+If you want to to reverse that action, follow the same steps and select **None**.
  
 ## ℹ️ Troubleshooting
 
@@ -231,15 +227,15 @@ Go to:
 - Configuration/tools
 - godot-engine
 
-Select **Force GLES2 video driver**.
+Select **Video driver**.
 
-![Configuration dialog](example-images/force-gles2-video-driver-dialog.png)
+![Configuration dialog](example-images/video-driver-dialog.png)
 
-Select **Yes**.
+Select **GLES2**.
 
-![Force GLES2 video driver dialog](example-images/force-gles2-video-driver-dialog_yesno.png)
+![Force GLES2 video driver dialog](example-images/select-video-driver-gles2.png)
 
-If you want to to reverse that action, follow the same steps and select **No**.
+If you want to to reverse that action, follow the same steps and select **GLES3**.
 
 ### Audio issues
 
