@@ -51,6 +51,8 @@ GODOT_THEMES=(
     "pixel"
 )
 GODOT_THEMES_DIR="$SCRIPT_DIR/themes"
+EMULATIONSTATION_THEMES_DIR="/etc/emulationstation/themes"
+
 
 # Configuration flags ###############################
 
@@ -291,7 +293,7 @@ function _install_themes_dialog() {
 
     for theme in "${GODOT_THEMES[@]}"; do
         themes+=("$theme")
-        if [[ -d "/etc/emulationstation/themes/$theme/godot-engine" ]]; then
+        if [[ -d "$EMULATIONSTATION_THEMES_DIR/$theme/godot-engine" ]]; then
             options+=("$i" "Update or uninstall $theme (installed)")
         else
             options+=("$i" "Install $theme")
@@ -316,17 +318,17 @@ function _install_themes_dialog() {
             if [[ "${options[choice*2-1]}" =~ "(installed)" ]] ; then
                 _update_uninstall_themes_dialog "$theme"
             else
-                if [[ ! -d "/etc/emulationstation/themes/$theme" ]]; then
+                if [[ ! -d "$EMULATIONSTATION_THEMES_DIR/$theme" ]]; then
                     dialog \
                         --backtitle "$DIALOG_BACKTITLE" \
                         --title "" \
                         --ok-label "OK" \
-                        --msgbox "The '$theme' theme must be installed on EmulationStation before installing the 'godot-engine' system." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
+                        --msgbox "The '$theme' theme must be installed on EmulationStation before installing the 'godot-engine' system in it." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
                 else
                     echo "Installing $theme theme..."
                     action="installed"
                     gitPullOrClone "$md_build" "https://github.com/hiulit/RetroPie-Godot-Engine-Emulator"
-                    cp -r "$md_build/themes/$theme/godot-engine" "/etc/emulationstation/themes/$theme"
+                    cp -r "$md_build/themes/$theme/godot-engine" "$EMULATIONSTATION_THEMES_DIR/$theme"
                     rmDirExists "$md_build"
 
                     dialog \
@@ -379,14 +381,14 @@ function _update_uninstall_themes_dialog() {
                 1)
                     echo "Updating $theme theme..."
                     action="updated"
-                    rmDirExists "/etc/emulationstation/themes/$theme/godot-engine"
+                    rmDirExists "$EMULATIONSTATION_THEMES_DIR/$theme/godot-engine"
                     gitPullOrClone "$md_build" "https://github.com/hiulit/RetroPie-Godot-Engine-Emulator"
-                    cp -r "$md_build/themes/$theme/godot-engine" "/etc/emulationstation/themes/$theme"
+                    cp -r "$md_build/themes/$theme/godot-engine" "$EMULATIONSTATION_THEMES_DIR/$theme"
                     rmDirExists "$md_build"
                     ;;
                 2)
                     action="uninstalled"
-                    rmDirExists "/etc/emulationstation/themes/$theme/godot-engine"
+                    rmDirExists "$EMULATIONSTATION_THEMES_DIR/$theme/godot-engine"
                     ;;
             esac
 
