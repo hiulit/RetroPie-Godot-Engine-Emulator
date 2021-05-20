@@ -8,7 +8,7 @@
 
 ### Added
 
-- Added `exit_on_shiftenter` parameter to all the FRT binaries so the user can exit the game the same way RetroPie does with the libretro emulators. That is: <kbd>Shift + Enter</kbd> on a keyboard and <kbd>Start + Select</kbd> on a gamepad.
+- All the FRT binaries can exit the game the same way RetroPie does with the libretro emulators. That is: <kbd>Shift + Enter</kbd> on a keyboard and <kbd>Start + Select</kbd> on a gamepad.
 - Fullscreen support.
 - Configuration options for the `x86` and `x86_64` platforms.
 - New dialog menu to install themes for the `godot-engine` system.
