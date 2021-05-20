@@ -22,7 +22,7 @@ readonly RP_DIR="$home/RetroPie"
 readonly RP_ROMS_DIR="$RP_DIR/roms"
 readonly RP_EMULATORS_DIR="/opt/retropie/emulators"
 
-readonly SCRIPT_VERSION="1.6.0"
+readonly SCRIPT_VERSION="1.7.0"
 readonly SCRIPT_DIR="$(cd "$(dirname $0)" && pwd)"
 readonly SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_FULL="$SCRIPT_DIR/$SCRIPT_NAME"
@@ -244,7 +244,7 @@ function get_options() {
                 check_path "$2"
                 uninstall
                 ;;
-#H -U, --update [path]     Updates "godot-engine" scriptmodule.
+#H -U, --update [path]      Updates "godot-engine" scriptmodule.
 #H                              Path: The location of the "RetroPie-Setup" folder.
 #H                              Default: "$home/RetroPie-Setup".
             -U|--update)

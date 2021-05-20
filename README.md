@@ -85,13 +85,13 @@ The script assumes that you are running it on a Raspberry Pi with the `RetroPie-
 - `--version`: Shows the script version.
 - `--install [path]`: Installs the scriptmodule.
   - Path: The location of the `RetroPie-Setup` folder.
-  - Default: `/home/pi/RetroPie-Setup`.
+  - Default: `/$home/RetroPie-Setup`.
 - `--uninstall [path]`: Uninstalls the scriptmodule.
   - Path: The location of the `RetroPie-Setup` folder.
-  - Default: `/home/pi/RetroPie-Setup`.
+  - Default: `/$home/RetroPie-Setup`.
 - `--update [path]`: Updates the scriptmodule.
   - Path: The location of the `RetroPie-Setup` folder.
-  - Default: `/home/pi/RetroPie-Setup`.
+  - Default: `/$home/RetroPie-Setup`.
 
 ## Install the Godot "emulator" from RetroPie-Setup
 
@@ -186,17 +186,13 @@ and then go to:
 - Configuration/tools
 - godot-engine
 
-Select **Use a GPIO/Virtual keyboard**.
+Select **GPIO/Virtual keyboard**.
 
-![Configuration dialog](example-images/gpio-virtual-keyboard-dialog.png)
-
-Select **Yes**.
-
-![GPIO/Virtual keyboard dialog](example-images/gpio-virtual-keyboard-dialog_yesno.png)
+![GPIO/Virtual keyboard dialog](example-images/gpio-virtual-keyboard-dialog.png)
 
 You will be prompted with a menu showing all the results from the command `cat /proc/bus/input/devices`. Select the GPIO/Virtual keyboard that you want.
 
-If you want to to reverse that action, follow the same steps and select **No**.
+If you want to to reverse that action, follow the same steps and select **None**.
  
 ## ℹ️ Troubleshooting
 
@@ -231,15 +227,15 @@ Go to:
 - Configuration/tools
 - godot-engine
 
-Select **Force GLES2 video driver**.
+Select **Video driver**.
 
-![Configuration dialog](example-images/force-gles2-video-driver-dialog.png)
+![Video driver dialog](example-images/video-driver-dialog.png)
 
-Select **Yes**.
+Select **GLES2**.
 
-![Force GLES2 video driver dialog](example-images/force-gles2-video-driver-dialog_yesno.png)
+![Select video driver dialog](example-images/select-video-driver-gles2.png)
 
-If you want to to reverse that action, follow the same steps and select **No**.
+If you want to to reverse that action, follow the same steps and select **GLES3**.
 
 ### Audio issues
 
@@ -291,6 +287,25 @@ I've created a couple of ready-to-use Godot systems:
 If you want to add a new theme, feel free to open a [pull request](https://github.com/hiulit/cross-compile-godot-raspberry-pi/pulls).
 
 To install a Godot system, copy the `theme/[THEME]/godot-engine` folder from this repository to `/etc/emulationstation/themes/[THEME]`.
+
+Or you can run:
+
+```
+sudo /home/pi/RetroPie-Setup/retropie_setup.sh
+```
+
+and then go to:
+
+- Configuration/tools
+- godot-engine
+
+Select **Install themes**.
+
+![Install themes dialog](example-images/install-themes-dialog.png)
+
+Select the theme you would like to install.
+
+![Select themes dialog](example-images/select-themes-dialog.png)
 
 ### Carbon theme
 
