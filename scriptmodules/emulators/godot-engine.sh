@@ -41,6 +41,7 @@ VIDEO_DRIVERS=(
     "GLES3"
 )
 FRT_KEYBOARD=""
+FRT_DRM_KMS=""
 VIDEO_DRIVER="GLES3"
 X11="$(echo $DISPLAY)"
 RESOLUTION=""
@@ -52,6 +53,7 @@ GODOT_THEMES=(
 )
 GODOT_THEMES_DIR="$SCRIPT_DIR/themes"
 EMULATIONSTATION_THEMES_DIR="/etc/emulationstation/themes"
+SETTINGS_CFG_FILE="$romdir/$RP_MODULE_ID/godot-engine-settings.cfg"
 
 
 # Configuration flags ###############################
@@ -93,6 +95,14 @@ function _main_config_dialog() {
                     options+=("$i" "GPIO/Virtual keyboard")
                 fi
                 commands+=("$i" "_gpio_virtual_keyboard_dialog")
+                ;;
+            "drm_kms_driver")
+                if [[ -n "$FRT_DRM_KMS" ]]; then
+                    options+=("$i" "DRM/KMS driver ("$(basename "$FRT_DRM_KMS")")")
+                else
+                    options+=("$i" "DRM/KMS driver")
+                fi
+                commands+=("$i" "_drm_kms_driver_dialog")
                 ;;
             "video_driver")
                 options+=("$i" "Video driver ("$VIDEO_DRIVER")")
@@ -155,13 +165,15 @@ function _gpio_virtual_keyboard_dialog() {
 
     if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
         if [[ -n "$choice" ]]; then
-            FRT_KEYBOARD="${options[choice*2-1]}"
-            message="The GPIO/Virtual keyboard ($FRT_KEYBOARD) has been set."
-
             if [[ "$FRT_KEYBOARD" == "None" ]]; then
                 FRT_KEYBOARD=""
                 message="The GPIO/Virtual keyboard has been unset."
+            else
+                FRT_KEYBOARD="${options[choice*2-1]}"
+                message="The GPIO/Virtual keyboard ($FRT_KEYBOARD) has been set."
             fi
+
+            _set_config "gpio_virtual_keyboard" "$FRT_KEYBOARD"
 
             configure_godot-engine
 
@@ -208,7 +220,8 @@ function _video_driver_dialog() {
     if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
         if [[ -n "$choice" ]]; then
             VIDEO_DRIVER="${options[choice*2-1]}"
-            _set_config "quality/driver/driver_name" "\"$VIDEO_DRIVER\""
+
+            _set_config "video_driver" "$VIDEO_DRIVER"
 
             configure_godot-engine
 
@@ -217,6 +230,65 @@ function _video_driver_dialog() {
                 --title "" \
                 --ok-label "OK" \
                 --msgbox "The video driver ($VIDEO_DRIVER) has been set." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
+
+            _main_config_dialog
+        else
+            # If there is no choice that means the user selected "Back".
+            _main_config_dialog
+        fi
+    elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
+        _main_config_dialog
+    elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
+        _main_config_dialog
+    fi
+}
+
+
+function _drm_kms_driver_dialog() {
+    local i=1
+    local options=()
+    local cmd
+    local choice
+    local message
+
+    options+=("$i" "None")
+
+    for file in "/dev/dri/"*; do
+        if [[ ! -d "$file" ]]; then
+            ((i++))
+            options+=("$i" "$(basename "$file")")
+        fi
+    done
+
+    cmd=(dialog \
+        --backtitle "$DIALOG_BACKTITLE" \
+        --title "DRM/KMS driver" \
+        --ok-label "OK" \
+        --cancel-label "Back" \
+        --menu "Choose an option." \
+        15 "$DIALOG_WIDTH" 15)
+
+    choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
+
+    if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
+        if [[ -n "$choice" ]]; then
+            if [[ "${options[choice*2-1]}" == "None" ]]; then
+                FRT_DRM_KMS=""
+                message="The DRM/KMS driver has been unset."
+            else
+                FRT_DRM_KMS="/dev/dri/${options[choice*2-1]}"
+                message="The DRM/KMS driver ("$(basename "$FRT_DRM_KMS")") has been set."
+            fi
+
+            _set_config "drm_kms_driver" "$FRT_DRM_KMS"
+
+            configure_godot-engine
+
+            dialog \
+                --backtitle "$DIALOG_BACKTITLE" \
+                --title "" \
+                --ok-label "OK" \
+                --msgbox "$message" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
 
             _main_config_dialog
         else
@@ -414,17 +486,18 @@ function _update_uninstall_themes_dialog() {
 # Helper functions ##################################
 
 function _set_config() {
-    sed -i "s|^\($1\s*=\s*\).*|\1$2|" "$OVERRIDE_CFG_FILE"
+    sed -i "s|^\($1\s*=\s*\).*|\1\"$2\"|" "$SETTINGS_CFG_FILE"
 }
 
 
 function _get_config() {
     local config
-    config="$(grep -Po "(?<=^$1=).*" "$OVERRIDE_CFG_FILE")"
+    config="$(grep -Po "(?<=^$1 = ).*" "$SETTINGS_CFG_FILE")"
     config="${config%\"}"
     config="${config#\"}"
     echo "$config"
 }
+
 
 function _get_available_screen_resolution() {
     if [[ "$X11_FLAG" == "true" ]]; then
@@ -444,13 +517,13 @@ function _get_available_screen_resolution() {
     fi
 }
 
-function _get_gpio_virtual_keyboard() {
-    local emulators_config_file="/opt/retropie/configs/$RP_MODULE_ID/emulators.cfg"
-    local gpio_virtual_keyboard
-    # Get the first line of "emulators_config_file" and take the string between the single quotes.
-    gpio_virtual_keyboard="$(sed -n 1p "$emulators_config_file" | cut -d"'" -f 2)"
-    echo "$gpio_virtual_keyboard"
-}
+# function _get_gpio_virtual_keyboard() {
+#     local emulators_config_file="/opt/retropie/configs/$RP_MODULE_ID/emulators.cfg"
+#     local gpio_virtual_keyboard
+#     # Get the first line of "emulators_config_file" and take the string between the single quotes.
+#     gpio_virtual_keyboard="$(sed -n 1p "$emulators_config_file" | cut -d"'" -f 2)"
+#     echo "$gpio_virtual_keyboard"
+# }
 
 
 # Scriptmodule functions ############################
@@ -545,7 +618,7 @@ function configure_godot-engine() {
         if isPlatform "x86" || isPlatform "x86_64"; then
             addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "$md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $video_driver_string $VIDEO_DRIVER"
         else
-            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
+            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG FRT_KEYBOARD_ID='$FRT_KEYBOARD' FRT_KMSDRM_DEVICE='$FRT_DRM_KMS' $md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
         fi
     done
 
@@ -554,9 +627,13 @@ function configure_godot-engine() {
 
 function gui_godot-engine() {
     if ! isPlatform "x86" || ! isPlatform "x86_64"; then
-        DIALOG_OPTIONS+=("virtual_keyboard")
+        DIALOG_OPTIONS+=(
+            "virtual_keyboard"
+            "drm_kms_driver"
+        )
 
-        FRT_KEYBOARD="$(_get_gpio_virtual_keyboard)"
+        FRT_DRM_KMS="$(_get_config "drm_kms_driver")"
+        FRT_KEYBOARD="$(_get_config "gpio_virtual_keyboard")"
     fi
 
     DIALOG_OPTIONS+=(
@@ -565,7 +642,7 @@ function gui_godot-engine() {
         "install_themes"
     )
 
-    VIDEO_DRIVER="$(_get_config "quality/driver/driver_name")"
+    VIDEO_DRIVER="$(_get_config "video_driver")"
 
     _main_config_dialog
 }

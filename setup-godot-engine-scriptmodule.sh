@@ -35,6 +35,8 @@ readonly SCRIPTMODULE_FILE="scriptmodules/emulators/$SCRIPTMODULE_NAME.sh"
 readonly OVERRIDE_CFG_DEFAULTS_FILE=".override_defaults.cfg"
 readonly OVERRIDE_CFG_FILE="override.cfg"
 
+readonly SETTINGS_CFG_FILE="godot-engine-settings.cfg"
+
 
 # Variables ##################################################################
 
@@ -90,6 +92,13 @@ function install() {
         cat "$SCRIPT_DIR/$OVERRIDE_CFG_DEFAULTS_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$OVERRIDE_CFG_FILE"
         if ! [[ "$?" -eq 0 ]]; then
             echo "ERROR: Couldn't install 'override.cfg'." >&2
+            echo >&2
+        fi
+
+        # Install "godot-engine-settings.cfg".
+        cat "$SCRIPT_DIR/$SETTINGS_CFG_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$SETTINGS_CFG_FILE"
+        if ! [[ "$?" -eq 0 ]]; then
+            echo "ERROR: Couldn't install 'godot-engine-settings.cfg'." >&2
             echo >&2
         fi
 
@@ -192,6 +201,13 @@ function update() {
                 echo "ERROR: Couldn't install 'override.cfg'." >&2
                 echo >&2
             fi
+        fi
+
+        # Update "godot-engine-settings.cfg".
+        cat "$SCRIPT_DIR/$SETTINGS_CFG_FILE" > "$RP_ROMS_DIR/$SCRIPTMODULE_NAME/$SETTINGS_CFG_FILE"
+        if ! [[ "$?" -eq 0 ]]; then
+            echo "ERROR: Couldn't update 'godot-engine-settings.cfg'." >&2
+            echo >&2
         fi
 
         echo
