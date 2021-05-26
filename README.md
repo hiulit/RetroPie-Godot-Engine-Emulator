@@ -83,13 +83,13 @@ The script assumes that you are running it on a Raspberry Pi with the `RetroPie-
 
 - `--help`: Prints the help message and exit.
 - `--version`: Shows the script version.
-- `--install [path]`: Installs the scriptmodule.
+- `--install [path]`: Installs the `godot-engine` scriptmodule.
   - Path: The location of the `RetroPie-Setup` folder.
   - Default: `/$home/RetroPie-Setup`.
-- `--uninstall [path]`: Uninstalls the scriptmodule.
+- `--uninstall [path]`: Uninstalls the `godot-engine` scriptmodule.
   - Path: The location of the `RetroPie-Setup` folder.
   - Default: `/$home/RetroPie-Setup`.
-- `--update [path]`: Updates the scriptmodule.
+- `--update [path]`: Updates the `godot-engine` scriptmodule.
   - Path: The location of the `RetroPie-Setup` folder.
   - Default: `/$home/RetroPie-Setup`.
 
@@ -134,9 +134,19 @@ Go to:
 
 ## Update the Godot "emulator" from RetroPie-Setup
 
-> Before updating the "emulator", you must update the **setup script** and the **scriptmodule**.
+Before updating the "emulator", you must update the **setup script** and the **scriptmodule**.
 
 Run:
+
+```
+# Update the setup script.
+cd RetroPie-Godot-Game-Engine-Emulator/
+git pull
+# Update the scriptmodule.
+./setup-godot-engine-scriptmodule.sh --update
+```
+
+Then, to update the Godot "emulator", run:
 
 ```
 sudo /home/pi/RetroPie-Setup/retropie_setup.sh
