@@ -517,14 +517,6 @@ function _get_available_screen_resolution() {
     fi
 }
 
-# function _get_gpio_virtual_keyboard() {
-#     local emulators_config_file="/opt/retropie/configs/$RP_MODULE_ID/emulators.cfg"
-#     local gpio_virtual_keyboard
-#     # Get the first line of "emulators_config_file" and take the string between the single quotes.
-#     gpio_virtual_keyboard="$(sed -n 1p "$emulators_config_file" | cut -d"'" -f 2)"
-#     echo "$gpio_virtual_keyboard"
-# }
-
 
 # Scriptmodule functions ############################
 
