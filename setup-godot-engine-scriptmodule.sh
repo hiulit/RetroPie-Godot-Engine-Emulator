@@ -227,7 +227,7 @@ function get_options() {
         exit 0
     else
         case "$1" in
-#H -h,  --help              Prints the help message.
+#H -h, --help               Prints the help message.
             -h|--help)
                 echo
                 echo "$SCRIPT_TITLE"
@@ -242,25 +242,25 @@ function get_options() {
                 echo
                 exit 0
                 ;;
-#H -v,  --version           Prints the script version.
+#H -v, --version            Prints the script version.
             -v|--version)
                 echo "$SCRIPT_VERSION"
                 ;;
-#H -i,  --install [path]    Installs "godot-engine" scriptmodule.
+#H -i, --install [path]     Installs the "godot-engine" scriptmodule.
 #H                              Path: The location of the "RetroPie-Setup" folder.
 #H                              Default: "$home/RetroPie-Setup".
             -i|--install)
                 check_path "$2"
                 install
                 ;;
-#H -u,  --uninstall [path]  Uninstalls "godot-engine" scriptmodule.
+#H -u, --uninstall [path]   Uninstalls the "godot-engine" scriptmodule.
 #H                              Path: The location of the "RetroPie-Setup" folder.
 #H                              Default: "$home/RetroPie-Setup".
             -u|--uninstall)
                 check_path "$2"
                 uninstall
                 ;;
-#H -U, --update [path]      Updates "godot-engine" scriptmodule.
+#H -U, --update [path]      Updates the "godot-engine" scriptmodule.
 #H                              Path: The location of the "RetroPie-Setup" folder.
 #H                              Default: "$home/RetroPie-Setup".
             -U|--update)
