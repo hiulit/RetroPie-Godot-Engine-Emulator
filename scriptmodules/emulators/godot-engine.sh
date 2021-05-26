@@ -29,37 +29,46 @@ rp_module_flags="x86 x86_64 aarch64 rpi1 rpi2 rpi3 rpi4"
 # Global variables ##################################
 
 RP_MODULE_ID="$rp_module_id"
+TMP_DIR="$__tmpdir/$RP_MODULE_ID"
+SETTINGS_DIR="$romdir/$RP_MODULE_ID/settings"
+
 SCRIPT_VERSION="1.7.0"
+
 GODOT_VERSIONS=(
     "2.1.6"
     "3.0.6"
     "3.1.2"
     "3.3"
 )
+
 VIDEO_DRIVERS=(
     "GLES2"
     "GLES3"
 )
+VIDEO_DRIVER="GLES3"
+
 FRT_KEYBOARD=""
 FRT_DRM_KMS=""
-VIDEO_DRIVER="GLES3"
-X11="$(echo $DISPLAY)"
+
 RESOLUTION=""
-OVERRIDE_CFG_DEFAULTS_FILE="$romdir/$RP_MODULE_ID/.override_defaults.cfg"
-OVERRIDE_CFG_FILE="$romdir/$RP_MODULE_ID/override.cfg"
+
+EMULATIONSTATION_THEMES_DIR="/etc/emulationstation/themes"
 GODOT_THEMES=(
     "carbon"
     "pixel"
 )
-GODOT_THEMES_DIR="$SCRIPT_DIR/themes"
-EMULATIONSTATION_THEMES_DIR="/etc/emulationstation/themes"
-SETTINGS_CFG_FILE="$romdir/$RP_MODULE_ID/godot-engine-settings.cfg"
+
+OVERRIDE_CFG_DEFAULTS_FILE="$SETTINGS_DIR/.override-defaults.cfg"
+OVERRIDE_CFG_FILE="$SETTINGS_DIR/override.cfg"
+SETTINGS_CFG_DEFAULTS_FILE="$SETTINGS_DIR/.godot-engine-settings-defaults.cfg"
+SETTINGS_CFG_FILE="$SETTINGS_DIR/godot-engine-settings.cfg"
 
 
-# Configuration flags ###############################
+# Flags ###############################
 
 X11_FLAG="false"
-if [[ -n "$X11" ]]; then
+
+if [[ -n "$(echo $DISPLAY)" ]]; then
     X11_FLAG="true"
 fi
 
@@ -547,6 +556,23 @@ function install_godot-engine() {
         echo "There must have been a problem downloading the sources." >&2
         exit 1
     fi
+
+    # Create the "godot-engine" folder.
+    mkRomDir "$RP_MODULE_ID"
+    
+    if [[ -d "$TMP_DIR" ]]; then
+        # Create the "settings" folder inside "godot-engine".
+        mkUserDir "$SETTINGS_DIR"
+        # Install the "settings" files.
+        cp "$TMP_DIR/override.cfg" "$OVERRIDE_CFG_DEFAULTS_FILE" && chown -R "$user:$user" "$OVERRIDE_CFG_DEFAULTS_FILE"
+        cp "$TMP_DIR/override.cfg" "$OVERRIDE_CFG_FILE" && chown -R "$user:$user" "$OVERRIDE_CFG_FILE"
+        cp "$TMP_DIR/godot-engine-settings.cfg" "$SETTINGS_CFG_DEFAULTS_FILE" && chown -R "$user:$user" "$SETTINGS_CFG_DEFAULTS_FILE"
+        cp "$TMP_DIR/godot-engine-settings.cfg" "$SETTINGS_CFG_FILE" && chown -R "$user:$user" "$SETTINGS_CFG_FILE"
+    else
+        echo "ERROR: Can't install the settings files for '$RP_MODULE_ID'." >&2
+        echo "There must have been a problem when installing/updating the setup script." >&2
+        exit 1
+    fi
 }
 
 
@@ -561,8 +587,6 @@ function configure_godot-engine() {
     local main_pack_string
     local resolution_string
     local video_driver_string
-
-    mkRomDir "$RP_MODULE_ID"
 
     if [[ -d "$md_inst" ]]; then
         # Get all the files in the installation folder.
