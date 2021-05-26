@@ -563,11 +563,18 @@ function install_godot-engine() {
     if [[ -d "$TMP_DIR" ]]; then
         # Create the "settings" folder inside "godot-engine".
         mkUserDir "$SETTINGS_DIR"
-        # Install the "settings" files.
+
+        # Install the "default settings" files.
         cp "$TMP_DIR/override.cfg" "$OVERRIDE_CFG_DEFAULTS_FILE" && chown -R "$user:$user" "$OVERRIDE_CFG_DEFAULTS_FILE"
-        cp "$TMP_DIR/override.cfg" "$OVERRIDE_CFG_FILE" && chown -R "$user:$user" "$OVERRIDE_CFG_FILE"
         cp "$TMP_DIR/godot-engine-settings.cfg" "$SETTINGS_CFG_DEFAULTS_FILE" && chown -R "$user:$user" "$SETTINGS_CFG_DEFAULTS_FILE"
-        cp "$TMP_DIR/godot-engine-settings.cfg" "$SETTINGS_CFG_FILE" && chown -R "$user:$user" "$SETTINGS_CFG_FILE"
+
+        # Install the "user settings" files.
+        if [[ ! -f "$OVERRIDE_CFG_FILE" ]]; then
+            cp "$TMP_DIR/override.cfg" "$OVERRIDE_CFG_FILE" && chown -R "$user:$user" "$OVERRIDE_CFG_FILE"
+        fi
+        if [[ ! -f "$SETTINGS_CFG_FILE" ]]; then
+            cp "$TMP_DIR/godot-engine-settings.cfg" "$SETTINGS_CFG_FILE" && chown -R "$user:$user" "$SETTINGS_CFG_FILE"
+        fi
     else
         echo "ERROR: Can't install the settings files for '$RP_MODULE_ID'." >&2
         echo "There must have been a problem when installing/updating the setup script." >&2
