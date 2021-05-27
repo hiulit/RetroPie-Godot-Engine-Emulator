@@ -41,6 +41,12 @@ GODOT_VERSIONS=(
     "3.3"
 )
 
+AUDIO_DRIVERS=(
+    "ALSA"
+    "PulseAudio"
+)
+AUDIO_DRIVER="ALSA"
+
 VIDEO_DRIVERS=(
     "GLES2"
     "GLES3"
@@ -112,6 +118,10 @@ function _main_config_dialog() {
                     options+=("$i" "DRM/KMS driver")
                 fi
                 commands+=("$i" "_drm_kms_driver_dialog")
+                ;;
+            "audio_driver")
+                options+=("$i" "Audio driver ("$AUDIO_DRIVER")")
+                commands+=("$i" "_audio_driver_dialog")
                 ;;
             "video_driver")
                 options+=("$i" "Video driver ("$VIDEO_DRIVER")")
@@ -191,6 +201,54 @@ function _gpio_virtual_keyboard_dialog() {
                 --title "" \
                 --ok-label "OK" \
                 --msgbox "$message" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
+
+            _main_config_dialog
+        else
+            # If there is no choice that means the user selected "Back".
+            _main_config_dialog
+        fi
+    elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
+        _main_config_dialog
+    elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
+        _main_config_dialog
+    fi
+}
+
+
+function _audio_driver_dialog() {
+    local i=1
+    local options=()
+    local cmd
+    local choice
+
+    for audio_driver in "${AUDIO_DRIVERS[@]}"; do
+        options+=("$i" "$audio_driver")
+        ((i++))
+    done
+
+    cmd=(dialog \
+        --backtitle "$DIALOG_BACKTITLE" \
+        --title "Audio driver" \
+        --ok-label "OK" \
+        --cancel-label "Back" \
+        --menu "Choose an option." \
+        15 "$DIALOG_WIDTH" 15)
+
+    choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
+
+    if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
+        if [[ -n "$choice" ]]; then
+            AUDIO_DRIVER="${options[choice*2-1]}"
+
+            _set_config "audio_driver" "$AUDIO_DRIVER"
+
+            configure_godot-engine
+
+            dialog \
+                --backtitle "$DIALOG_BACKTITLE" \
+                --title "" \
+                --ok-label "OK" \
+                --msgbox "The audio driver ($AUDIO_DRIVER) has been set." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
 
             _main_config_dialog
         else
@@ -639,9 +697,9 @@ function configure_godot-engine() {
         fi
 
         if isPlatform "x86" || isPlatform "x86_64"; then
-            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "$md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $video_driver_string $VIDEO_DRIVER"
+            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "$md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER"
         else
-            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG FRT_KEYBOARD_ID='$FRT_KEYBOARD' FRT_KMSDRM_DEVICE='$FRT_DRM_KMS' $md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
+            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG FRT_KEYBOARD_ID='$FRT_KEYBOARD' FRT_KMSDRM_DEVICE='$FRT_DRM_KMS' $md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
         fi
     done
 
@@ -660,11 +718,13 @@ function gui_godot-engine() {
     fi
 
     DIALOG_OPTIONS+=(
+        "audio_driver"
         "video_driver"
         "edit_override"
         "install_themes"
     )
 
+    AUDIO_DRIVER="$(_get_config "audio_driver")"
     VIDEO_DRIVER="$(_get_config "video_driver")"
 
     _main_config_dialog
