@@ -23,7 +23,7 @@ readonly RP_ROMS_DIR="$RP_DIR/roms"
 readonly RP_EMULATORS_DIR="/opt/retropie/emulators"
 readonly RP_SETUP_TMP_DIR="$home/RetroPie-Setup/tmp"
 
-readonly SCRIPT_VERSION="1.7.0"
+readonly SCRIPT_VERSION="1.8.0"
 readonly SCRIPT_DIR="$(cd "$(dirname $0)" && pwd)"
 readonly SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_FULL="$SCRIPT_DIR/$SCRIPT_NAME"
@@ -238,21 +238,21 @@ function get_options() {
                 ;;
 #H -i, --install [path]     Installs the "godot-engine" scriptmodule.
 #H                              Path: The location of the "RetroPie-Setup" folder.
-#H                              Default: "$home/RetroPie-Setup".
+#H                              Default: "~/RetroPie-Setup".
             -i|--install)
                 check_path "$2"
                 install
                 ;;
 #H -u, --uninstall [path]   Uninstalls the "godot-engine" scriptmodule.
 #H                              Path: The location of the "RetroPie-Setup" folder.
-#H                              Default: "$home/RetroPie-Setup".
+#H                              Default: "~/RetroPie-Setup".
             -u|--uninstall)
                 check_path "$2"
                 uninstall
                 ;;
 #H -U, --update [path]      Updates the "godot-engine" scriptmodule.
 #H                              Path: The location of the "RetroPie-Setup" folder.
-#H                              Default: "$home/RetroPie-Setup".
+#H                              Default: "~/RetroPie-Setup".
             -U|--update)
                 check_path "$2"
                 update
@@ -278,7 +278,7 @@ function main() {
         echo "ERROR: '$RPS_DIR' doesn't exist." >&2
         echo >&2
         echo "Please, input the location of the 'RetroPie-Setup' folder." >&2
-        echo "Example: $0 [OPTION] \"/home/pi/RetroPie-Setup\"" >&2
+        echo "Example: $0 [OPTION] \"$home/RetroPie-Setup\"" >&2
         exit 1
     fi
 

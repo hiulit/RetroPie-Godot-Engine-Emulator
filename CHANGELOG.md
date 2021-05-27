@@ -17,7 +17,7 @@
 ### Fixed
 
 - Installing/updating the settings files.
-- The `godot-engine` system for the default's EmulationStation theme is installed automatically and can't be deleted.
+- The `godot-engine` system for the default EmulationStation theme is installed automatically and can't be deleted.
 
 ## [1.7.0] - 2021-05-20
 

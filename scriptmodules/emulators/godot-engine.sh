@@ -33,13 +33,13 @@ TMP_DIR="$__tmpdir/$RP_MODULE_ID"
 SETTINGS_DIR="$romdir/$RP_MODULE_ID/settings"
 CONFIGS_DIR="/opt/retropie/configs/$RP_MODULE_ID"
 
-SCRIPT_VERSION="1.7.0"
+SCRIPT_VERSION="1.8.0"
 
 GODOT_VERSIONS=(
     "2.1.6"
     "3.0.6"
     "3.1.2"
-    "3.3"
+    "3.3.2"
 )
 
 AUDIO_DRIVERS=(
@@ -62,6 +62,7 @@ RESOLUTION=""
 ES_THEMES_DIR="/etc/emulationstation/themes"
 ES_DEFAULT_THEME="carbon"
 GODOT_THEMES=(
+    "$ES_DEFAULT_THEME"
     "pixel"
 )
 
@@ -436,7 +437,7 @@ function _install_themes_dialog() {
             if [[ "$theme" == "$ES_DEFAULT_THEME" ]]; then
                 options+=("$i" "Update $theme (installed)")
             else
-            options+=("$i" "Update or uninstall $theme (installed)")
+                options+=("$i" "Update or uninstall $theme (installed)")
             fi
         else
             options+=("$i" "Install $theme")
