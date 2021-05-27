@@ -583,7 +583,7 @@ function _get_available_screen_resolution() {
 function _install_update_theme() {
     local theme="$1"
     local tmp_dir="$TMP_DIR/themes"
-    mkdir -p "$tmp_dir"
+    mkUserDir "$tmp_dir"
     rmDirExists "$ES_THEMES_DIR/$theme/godot-engine"
     gitPullOrClone "$tmp_dir" "https://github.com/hiulit/RetroPie-Godot-Engine-Emulator"
     cp -r "$tmp_dir/themes/$theme/godot-engine" "$ES_THEMES_DIR/$theme"
