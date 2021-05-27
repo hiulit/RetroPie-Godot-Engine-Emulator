@@ -9,7 +9,7 @@
 ### Added
 
 - New Godot and FRT `3.3.2` binaries.
-- New `godot-engine-settings-cfg` file to store all the settings. Can be changed manually in `~/RetroPie/roms/godot-engine/settings/godot-engine-settings-cfg` or by using the GUI menu via `RetroPie-Setup`.
+- New `godot-engine-settings.cfg` file to store all the settings. Can be changed manually in `~/RetroPie/roms/godot-engine/settings/godot-engine-settings.cfg` or by using the GUI menu via `RetroPie-Setup`.
 - New dialog menus to tweak the settings:
     - DRM/KMS driver (FRT only): Select the dri card.
     - Audio driver: Select between `ALSA` (default) and `PulseAudio`.
