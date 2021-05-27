@@ -58,9 +58,9 @@ FRT_DRM_KMS=""
 
 RESOLUTION=""
 
-EMULATIONSTATION_THEMES_DIR="/etc/emulationstation/themes"
+ES_THEMES_DIR="/etc/emulationstation/themes"
+ES_DEFAULT_THEME="carbon"
 GODOT_THEMES=(
-    "carbon"
     "pixel"
 )
 
@@ -90,7 +90,6 @@ readonly DIALOG_HEIGHT=8
 readonly DIALOG_WIDTH=60
 
 DIALOG_OPTIONS=()
-
 
 # Configuration dialog functions ####################
 
@@ -432,7 +431,7 @@ function _install_themes_dialog() {
 
     for theme in "${GODOT_THEMES[@]}"; do
         themes+=("$theme")
-        if [[ -d "$EMULATIONSTATION_THEMES_DIR/$theme/godot-engine" ]]; then
+        if [[ -d "$ES_THEMES_DIR/$theme/godot-engine" ]]; then
             options+=("$i" "Update or uninstall $theme (installed)")
         else
             options+=("$i" "Install $theme")
@@ -457,7 +456,7 @@ function _install_themes_dialog() {
             if [[ "${options[choice*2-1]}" =~ "(installed)" ]] ; then
                 _update_uninstall_themes_dialog "$theme"
             else
-                if [[ ! -d "$EMULATIONSTATION_THEMES_DIR/$theme" ]]; then
+                if [[ ! -d "$ES_THEMES_DIR/$theme" ]]; then
                     dialog \
                         --backtitle "$DIALOG_BACKTITLE" \
                         --title "" \
@@ -466,9 +465,7 @@ function _install_themes_dialog() {
                 else
                     echo "Installing $theme theme..."
                     action="installed"
-                    gitPullOrClone "$md_build" "https://github.com/hiulit/RetroPie-Godot-Engine-Emulator"
-                    cp -r "$md_build/themes/$theme/godot-engine" "$EMULATIONSTATION_THEMES_DIR/$theme"
-                    rmDirExists "$md_build"
+                    _install_update_theme "$theme"
 
                     dialog \
                         --backtitle "$DIALOG_BACKTITLE" \
@@ -520,14 +517,11 @@ function _update_uninstall_themes_dialog() {
                 1)
                     echo "Updating $theme theme..."
                     action="updated"
-                    rmDirExists "$EMULATIONSTATION_THEMES_DIR/$theme/godot-engine"
-                    gitPullOrClone "$md_build" "https://github.com/hiulit/RetroPie-Godot-Engine-Emulator"
-                    cp -r "$md_build/themes/$theme/godot-engine" "$EMULATIONSTATION_THEMES_DIR/$theme"
-                    rmDirExists "$md_build"
+                    _install_update_theme "$theme"
                     ;;
                 2)
                     action="uninstalled"
-                    rmDirExists "$EMULATIONSTATION_THEMES_DIR/$theme/godot-engine"
+                    _uninstall_theme "$theme"
                     ;;
             esac
 
@@ -582,6 +576,23 @@ function _get_available_screen_resolution() {
         available_screen_resolution="$(fbset -s | grep -e 'mode ' | cut -d'"' -f2)"
         echo "$available_screen_resolution"
     fi
+}
+
+
+function _install_update_theme() {
+    local theme="$1"
+    local tmp_dir="$TMP_DIR/themes"
+    mkdir -p "$tmp_dir"
+    rmDirExists "$ES_THEMES_DIR/$theme/godot-engine"
+    gitPullOrClone "$tmp_dir" "https://github.com/hiulit/RetroPie-Godot-Engine-Emulator"
+    cp -r "$tmp_dir/themes/$theme/godot-engine" "$ES_THEMES_DIR/$theme"
+    rmDirExists "$tmp_dir"
+}
+
+
+function _uninstall_theme() {
+    local theme="$1"
+    rmDirExists "$ES_THEMES_DIR/$theme/godot-engine"
 }
 
 
