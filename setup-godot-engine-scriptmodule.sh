@@ -153,7 +153,10 @@ function uninstall() {
         exit 1
     fi
 
+    # Remove the scriptmodule file.
     rm "$RPS_DIR/$SCRIPTMODULE_FILE"
+    # Remove the temporary "settings" files.
+    [[ -d "$TMP_SETTINGS_DIR" ]] && rm -rf "$TMP_SETTINGS_DIR"
 
     if [[ "$?" -eq 0 ]]; then
         echo
