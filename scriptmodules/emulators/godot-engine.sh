@@ -31,6 +31,7 @@ rp_module_flags="x86 x86_64 aarch64 rpi1 rpi2 rpi3 rpi4"
 RP_MODULE_ID="$rp_module_id"
 TMP_DIR="$__tmpdir/$RP_MODULE_ID"
 SETTINGS_DIR="$romdir/$RP_MODULE_ID/settings"
+CONFIGS_DIR="/opt/retropie/configs/$RP_MODULE_ID"
 
 SCRIPT_VERSION="1.7.0"
 
@@ -688,7 +689,7 @@ function configure_godot-engine() {
 
     # Remove the file that contains all the configurations for the different Godot "emulators".
     # It will be created from scratch when adding the emulators in the "addEmulator" functions below.
-    [[ -f "/opt/retropie/configs/$RP_MODULE_ID/emulators.cfg" ]] && rm "/opt/retropie/configs/$RP_MODULE_ID/emulators.cfg"
+    [[ -f "$CONFIGS_DIR/emulators.cfg" ]] && rm "$CONFIGS_DIR/emulators.cfg"
 
     RESOLUTION="$(_get_available_screen_resolution)"
 
