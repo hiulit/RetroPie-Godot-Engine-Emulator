@@ -65,7 +65,7 @@ GODOT_THEMES=(
 )
 
 OVERRIDE_CFG_DEFAULTS_FILE="$SETTINGS_DIR/.override-defaults.cfg"
-OVERRIDE_CFG_FILE="$SETTINGS_DIR/override.cfg"
+OVERRIDE_CFG_FILE="$romdir/$RP_MODULE_ID/override.cfg" # This file must be in the same folder as the games.
 SETTINGS_CFG_DEFAULTS_FILE="$SETTINGS_DIR/.godot-engine-settings-defaults.cfg"
 SETTINGS_CFG_FILE="$SETTINGS_DIR/godot-engine-settings.cfg"
 
