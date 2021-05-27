@@ -29,35 +29,54 @@ rp_module_flags="x86 x86_64 aarch64 rpi1 rpi2 rpi3 rpi4"
 # Global variables ##################################
 
 RP_MODULE_ID="$rp_module_id"
-SCRIPT_VERSION="1.7.0"
+TMP_DIR="$__tmpdir/$RP_MODULE_ID"
+SETTINGS_DIR="$romdir/$RP_MODULE_ID/settings"
+CONFIGS_DIR="/opt/retropie/configs/$RP_MODULE_ID"
+
+SCRIPT_VERSION="1.8.0"
+
 GODOT_VERSIONS=(
     "2.1.6"
     "3.0.6"
     "3.1.2"
-    "3.3"
+    "3.3.2"
 )
+
+AUDIO_DRIVERS=(
+    "ALSA"
+    "PulseAudio"
+)
+AUDIO_DRIVER="ALSA"
+
 VIDEO_DRIVERS=(
     "GLES2"
     "GLES3"
 )
-FRT_KEYBOARD=""
 VIDEO_DRIVER="GLES3"
-X11="$(echo $DISPLAY)"
+
+FRT_KEYBOARD=""
+FRT_DRM_KMS=""
+
 RESOLUTION=""
-OVERRIDE_CFG_DEFAULTS_FILE="$romdir/$RP_MODULE_ID/.override_defaults.cfg"
-OVERRIDE_CFG_FILE="$romdir/$RP_MODULE_ID/override.cfg"
+
+ES_THEMES_DIR="/etc/emulationstation/themes"
+ES_DEFAULT_THEME="carbon"
 GODOT_THEMES=(
-    "carbon"
+    "$ES_DEFAULT_THEME"
     "pixel"
 )
-GODOT_THEMES_DIR="$SCRIPT_DIR/themes"
-EMULATIONSTATION_THEMES_DIR="/etc/emulationstation/themes"
+
+OVERRIDE_CFG_DEFAULTS_FILE="$SETTINGS_DIR/.override-defaults.cfg"
+OVERRIDE_CFG_FILE="$romdir/$RP_MODULE_ID/override.cfg" # This file must be in the same folder as the games.
+SETTINGS_CFG_DEFAULTS_FILE="$SETTINGS_DIR/.godot-engine-settings-defaults.cfg"
+SETTINGS_CFG_FILE="$SETTINGS_DIR/godot-engine-settings.cfg"
 
 
-# Configuration flags ###############################
+# Flags ###############################
 
 X11_FLAG="false"
-if [[ -n "$X11" ]]; then
+
+if [[ -n "$(echo $DISPLAY)" ]]; then
     X11_FLAG="true"
 fi
 
@@ -73,7 +92,6 @@ readonly DIALOG_HEIGHT=8
 readonly DIALOG_WIDTH=60
 
 DIALOG_OPTIONS=()
-
 
 # Configuration dialog functions ####################
 
@@ -93,6 +111,18 @@ function _main_config_dialog() {
                     options+=("$i" "GPIO/Virtual keyboard")
                 fi
                 commands+=("$i" "_gpio_virtual_keyboard_dialog")
+                ;;
+            "drm_kms_driver")
+                if [[ -n "$FRT_DRM_KMS" ]]; then
+                    options+=("$i" "DRM/KMS driver ("$(basename "$FRT_DRM_KMS")")")
+                else
+                    options+=("$i" "DRM/KMS driver")
+                fi
+                commands+=("$i" "_drm_kms_driver_dialog")
+                ;;
+            "audio_driver")
+                options+=("$i" "Audio driver ("$AUDIO_DRIVER")")
+                commands+=("$i" "_audio_driver_dialog")
                 ;;
             "video_driver")
                 options+=("$i" "Video driver ("$VIDEO_DRIVER")")
@@ -155,13 +185,15 @@ function _gpio_virtual_keyboard_dialog() {
 
     if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
         if [[ -n "$choice" ]]; then
-            FRT_KEYBOARD="${options[choice*2-1]}"
-            message="The GPIO/Virtual keyboard ($FRT_KEYBOARD) has been set."
-
             if [[ "$FRT_KEYBOARD" == "None" ]]; then
                 FRT_KEYBOARD=""
                 message="The GPIO/Virtual keyboard has been unset."
+            else
+                FRT_KEYBOARD="${options[choice*2-1]}"
+                message="The GPIO/Virtual keyboard ($FRT_KEYBOARD) has been set."
             fi
+
+            _set_config "gpio_virtual_keyboard" "$FRT_KEYBOARD"
 
             configure_godot-engine
 
@@ -170,6 +202,54 @@ function _gpio_virtual_keyboard_dialog() {
                 --title "" \
                 --ok-label "OK" \
                 --msgbox "$message" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
+
+            _main_config_dialog
+        else
+            # If there is no choice that means the user selected "Back".
+            _main_config_dialog
+        fi
+    elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
+        _main_config_dialog
+    elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
+        _main_config_dialog
+    fi
+}
+
+
+function _audio_driver_dialog() {
+    local i=1
+    local options=()
+    local cmd
+    local choice
+
+    for audio_driver in "${AUDIO_DRIVERS[@]}"; do
+        options+=("$i" "$audio_driver")
+        ((i++))
+    done
+
+    cmd=(dialog \
+        --backtitle "$DIALOG_BACKTITLE" \
+        --title "Audio driver" \
+        --ok-label "OK" \
+        --cancel-label "Back" \
+        --menu "Choose an option." \
+        15 "$DIALOG_WIDTH" 15)
+
+    choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
+
+    if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
+        if [[ -n "$choice" ]]; then
+            AUDIO_DRIVER="${options[choice*2-1]}"
+
+            _set_config "audio_driver" "$AUDIO_DRIVER"
+
+            configure_godot-engine
+
+            dialog \
+                --backtitle "$DIALOG_BACKTITLE" \
+                --title "" \
+                --ok-label "OK" \
+                --msgbox "The audio driver ($AUDIO_DRIVER) has been set." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
 
             _main_config_dialog
         else
@@ -208,7 +288,8 @@ function _video_driver_dialog() {
     if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
         if [[ -n "$choice" ]]; then
             VIDEO_DRIVER="${options[choice*2-1]}"
-            _set_config "quality/driver/driver_name" "\"$VIDEO_DRIVER\""
+
+            _set_config "video_driver" "$VIDEO_DRIVER"
 
             configure_godot-engine
 
@@ -217,6 +298,65 @@ function _video_driver_dialog() {
                 --title "" \
                 --ok-label "OK" \
                 --msgbox "The video driver ($VIDEO_DRIVER) has been set." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
+
+            _main_config_dialog
+        else
+            # If there is no choice that means the user selected "Back".
+            _main_config_dialog
+        fi
+    elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
+        _main_config_dialog
+    elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
+        _main_config_dialog
+    fi
+}
+
+
+function _drm_kms_driver_dialog() {
+    local i=1
+    local options=()
+    local cmd
+    local choice
+    local message
+
+    options+=("$i" "None")
+
+    for file in "/dev/dri/"*; do
+        if [[ ! -d "$file" ]]; then
+            ((i++))
+            options+=("$i" "$(basename "$file")")
+        fi
+    done
+
+    cmd=(dialog \
+        --backtitle "$DIALOG_BACKTITLE" \
+        --title "DRM/KMS driver" \
+        --ok-label "OK" \
+        --cancel-label "Back" \
+        --menu "Choose an option." \
+        15 "$DIALOG_WIDTH" 15)
+
+    choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
+
+    if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
+        if [[ -n "$choice" ]]; then
+            if [[ "${options[choice*2-1]}" == "None" ]]; then
+                FRT_DRM_KMS=""
+                message="The DRM/KMS driver has been unset."
+            else
+                FRT_DRM_KMS="/dev/dri/${options[choice*2-1]}"
+                message="The DRM/KMS driver ("$(basename "$FRT_DRM_KMS")") has been set."
+            fi
+
+            _set_config "drm_kms_driver" "$FRT_DRM_KMS"
+
+            configure_godot-engine
+
+            dialog \
+                --backtitle "$DIALOG_BACKTITLE" \
+                --title "" \
+                --ok-label "OK" \
+                --msgbox "$message" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
 
             _main_config_dialog
         else
@@ -293,8 +433,12 @@ function _install_themes_dialog() {
 
     for theme in "${GODOT_THEMES[@]}"; do
         themes+=("$theme")
-        if [[ -d "$EMULATIONSTATION_THEMES_DIR/$theme/godot-engine" ]]; then
-            options+=("$i" "Update or uninstall $theme (installed)")
+        if [[ -d "$ES_THEMES_DIR/$theme/godot-engine" ]]; then
+            if [[ "$theme" == "$ES_DEFAULT_THEME" ]]; then
+                options+=("$i" "Update $theme (installed)")
+            else
+                options+=("$i" "Update or uninstall $theme (installed)")
+            fi
         else
             options+=("$i" "Install $theme")
         fi
@@ -318,7 +462,7 @@ function _install_themes_dialog() {
             if [[ "${options[choice*2-1]}" =~ "(installed)" ]] ; then
                 _update_uninstall_themes_dialog "$theme"
             else
-                if [[ ! -d "$EMULATIONSTATION_THEMES_DIR/$theme" ]]; then
+                if [[ ! -d "$ES_THEMES_DIR/$theme" ]]; then
                     dialog \
                         --backtitle "$DIALOG_BACKTITLE" \
                         --title "" \
@@ -327,9 +471,7 @@ function _install_themes_dialog() {
                 else
                     echo "Installing $theme theme..."
                     action="installed"
-                    gitPullOrClone "$md_build" "https://github.com/hiulit/RetroPie-Godot-Engine-Emulator"
-                    cp -r "$md_build/themes/$theme/godot-engine" "$EMULATIONSTATION_THEMES_DIR/$theme"
-                    rmDirExists "$md_build"
+                    _install_update_theme "$theme"
 
                     dialog \
                         --backtitle "$DIALOG_BACKTITLE" \
@@ -358,6 +500,11 @@ function _update_uninstall_themes_dialog() {
     local cmd
     local choice
 
+    if [[ "$theme" == "$ES_DEFAULT_THEME" ]]; then
+        _install_update_theme "$theme"
+        _install_themes_dialog
+    fi
+
     options=(
         1 "Update $theme"
         2 "Uninstall $theme"
@@ -381,14 +528,11 @@ function _update_uninstall_themes_dialog() {
                 1)
                     echo "Updating $theme theme..."
                     action="updated"
-                    rmDirExists "$EMULATIONSTATION_THEMES_DIR/$theme/godot-engine"
-                    gitPullOrClone "$md_build" "https://github.com/hiulit/RetroPie-Godot-Engine-Emulator"
-                    cp -r "$md_build/themes/$theme/godot-engine" "$EMULATIONSTATION_THEMES_DIR/$theme"
-                    rmDirExists "$md_build"
+                    _install_update_theme "$theme"
                     ;;
                 2)
                     action="uninstalled"
-                    rmDirExists "$EMULATIONSTATION_THEMES_DIR/$theme/godot-engine"
+                    _uninstall_theme "$theme"
                     ;;
             esac
 
@@ -414,17 +558,18 @@ function _update_uninstall_themes_dialog() {
 # Helper functions ##################################
 
 function _set_config() {
-    sed -i "s|^\($1\s*=\s*\).*|\1$2|" "$OVERRIDE_CFG_FILE"
+    sed -i "s|^\($1\s*=\s*\).*|\1\"$2\"|" "$SETTINGS_CFG_FILE"
 }
 
 
 function _get_config() {
     local config
-    config="$(grep -Po "(?<=^$1=).*" "$OVERRIDE_CFG_FILE")"
+    config="$(grep -Po "(?<=^$1 = ).*" "$SETTINGS_CFG_FILE")"
     config="${config%\"}"
     config="${config#\"}"
     echo "$config"
 }
+
 
 function _get_available_screen_resolution() {
     if [[ "$X11_FLAG" == "true" ]]; then
@@ -444,12 +589,21 @@ function _get_available_screen_resolution() {
     fi
 }
 
-function _get_gpio_virtual_keyboard() {
-    local emulators_config_file="/opt/retropie/configs/$RP_MODULE_ID/emulators.cfg"
-    local gpio_virtual_keyboard
-    # Get the first line of "emulators_config_file" and take the string between the single quotes.
-    gpio_virtual_keyboard="$(sed -n 1p "$emulators_config_file" | cut -d"'" -f 2)"
-    echo "$gpio_virtual_keyboard"
+
+function _install_update_theme() {
+    local theme="$1"
+    local tmp_dir="$TMP_DIR/themes"
+    mkUserDir "$tmp_dir"
+    rmDirExists "$ES_THEMES_DIR/$theme/godot-engine"
+    gitPullOrClone "$tmp_dir" "https://github.com/hiulit/RetroPie-Godot-Engine-Emulator"
+    cp -r "$tmp_dir/themes/$theme/godot-engine" "$ES_THEMES_DIR/$theme"
+    rmDirExists "$tmp_dir"
+}
+
+
+function _uninstall_theme() {
+    local theme="$1"
+    rmDirExists "$ES_THEMES_DIR/$theme/godot-engine"
 }
 
 
@@ -482,6 +636,50 @@ function install_godot-engine() {
         echo "There must have been a problem downloading the sources." >&2
         exit 1
     fi
+
+    # Install the "godot-engine" system for the default EmulationStation theme.
+    echo
+    echo "Installing the '$RP_MODULE_ID' system for the '$ES_DEFAULT_THEME' theme..."
+    echo
+    _install_update_theme "$ES_DEFAULT_THEME"
+
+    # Create the "godot-engine" ROM folder.
+    mkRomDir "$RP_MODULE_ID"
+    
+    if [[ -d "$TMP_DIR" ]]; then
+        # Create the "settings" folder inside the "godot-engine" folder.
+        mkUserDir "$SETTINGS_DIR"
+
+        # Install the "default settings" files.
+        cp "$TMP_DIR/override.cfg" "$OVERRIDE_CFG_DEFAULTS_FILE" && chown -R "$user:$user" "$OVERRIDE_CFG_DEFAULTS_FILE"
+        cp "$TMP_DIR/godot-engine-settings.cfg" "$SETTINGS_CFG_DEFAULTS_FILE" && chown -R "$user:$user" "$SETTINGS_CFG_DEFAULTS_FILE"
+
+        # Install the "user settings" files.
+        if [[ ! -f "$OVERRIDE_CFG_FILE" ]]; then
+            cp "$TMP_DIR/override.cfg" "$OVERRIDE_CFG_FILE" && chown -R "$user:$user" "$OVERRIDE_CFG_FILE"
+        fi
+        if [[ ! -f "$SETTINGS_CFG_FILE" ]]; then
+            cp "$TMP_DIR/godot-engine-settings.cfg" "$SETTINGS_CFG_FILE" && chown -R "$user:$user" "$SETTINGS_CFG_FILE"
+        fi
+    else
+        echo "ERROR: Can't install the settings files for '$RP_MODULE_ID'." >&2
+        echo "There must have been a problem when installing/updating the setup script." >&2
+        exit 1
+    fi
+}
+
+
+function remove_godot-engine() {
+    # Remove the "godot-engine" configs folder.
+    rmDirExists "$CONFIGS_DIR"
+    # Remove the "godot-engine" system for the default EmulationStation theme.
+    _uninstall_theme "$ES_DEFAULT_THEME"
+    # Remove the "settings" folder in "godot-engine" ROM folder.
+    rmDirExists "$SETTINGS_DIR"
+    # Remove the "override.cfg" file in "godot-engine" ROM folder.
+    rm "$OVERRIDE_CFG_FILE"
+    # Remove the "godot-engine" temporary folder.
+    rmDirExists "$TMP_DIR"
 }
 
 
@@ -496,8 +694,6 @@ function configure_godot-engine() {
     local main_pack_string
     local resolution_string
     local video_driver_string
-
-    mkRomDir "$RP_MODULE_ID"
 
     if [[ -d "$md_inst" ]]; then
         # Get all the files in the installation folder.
@@ -517,13 +713,13 @@ function configure_godot-engine() {
 
     # Remove the file that contains all the configurations for the different Godot "emulators".
     # It will be created from scratch when adding the emulators in the "addEmulator" functions below.
-    [[ -f "/opt/retropie/configs/$RP_MODULE_ID/emulators.cfg" ]] && rm "/opt/retropie/configs/$RP_MODULE_ID/emulators.cfg"
+    [[ -f "$CONFIGS_DIR/emulators.cfg" ]] && rm "$CONFIGS_DIR/emulators.cfg"
 
     RESOLUTION="$(_get_available_screen_resolution)"
 
     for index in "${!bin_files[@]}"; do
         default=0
-        [[ "$index" -eq "${#bin_files[@]}-1" ]] && default=1 # Default to the last item in "bin_files".
+        [[ "$index" -eq "${#bin_files[@]}-1" ]] && default=1 # Default to the last item (greater version) in "bin_files".
         
         # Get the version from the file name.
         version="${bin_files[$index]}"
@@ -543,9 +739,9 @@ function configure_godot-engine() {
         fi
 
         if isPlatform "x86" || isPlatform "x86_64"; then
-            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "$md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $video_driver_string $VIDEO_DRIVER"
+            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "$md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER"
         else
-            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG FRT_KEYBOARD_ID='$FRT_KEYBOARD' $md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
+            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG FRT_KEYBOARD_ID='$FRT_KEYBOARD' FRT_KMSDRM_DEVICE='$FRT_DRM_KMS' $md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
         fi
     done
 
@@ -553,19 +749,30 @@ function configure_godot-engine() {
 }
 
 function gui_godot-engine() {
-    if ! isPlatform "x86" || ! isPlatform "x86_64"; then
-        DIALOG_OPTIONS+=("virtual_keyboard")
+    # Reset the dialog options.
+    DIALOG_OPTIONS=()
 
-        FRT_KEYBOARD="$(_get_gpio_virtual_keyboard)"
+    # Add the options only available for FRT.
+    if ! isPlatform "x86" || ! isPlatform "x86_64"; then
+        DIALOG_OPTIONS+=(
+            "virtual_keyboard"
+            "drm_kms_driver"
+        )
+
+        FRT_DRM_KMS="$(_get_config "drm_kms_driver")"
+        FRT_KEYBOARD="$(_get_config "gpio_virtual_keyboard")"
     fi
 
+    # Add the options available for all the systems.
     DIALOG_OPTIONS+=(
+        "audio_driver"
         "video_driver"
         "edit_override"
         "install_themes"
     )
 
-    VIDEO_DRIVER="$(_get_config "quality/driver/driver_name")"
+    AUDIO_DRIVER="$(_get_config "audio_driver")"
+    VIDEO_DRIVER="$(_get_config "video_driver")"
 
     _main_config_dialog
 }
