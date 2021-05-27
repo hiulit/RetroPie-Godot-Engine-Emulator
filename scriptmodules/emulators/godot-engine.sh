@@ -626,6 +626,12 @@ function install_godot-engine() {
         exit 1
     fi
 
+    # Install the "godot-engine" system to the default's EmulationStation theme.
+    echo
+    echo "Installing the '$RP_MODULE_ID' system for the '$ES_DEFAULT_THEME' theme..."
+    echo
+    _install_update_theme "$ES_DEFAULT_THEME"
+
     # Create the "godot-engine" folder.
     mkRomDir "$RP_MODULE_ID"
     
@@ -718,6 +724,9 @@ function configure_godot-engine() {
 }
 
 function gui_godot-engine() {
+    # Reset the dialog options
+    DIALOG_OPTIONS=()
+
     if ! isPlatform "x86" || ! isPlatform "x86_64"; then
         DIALOG_OPTIONS+=(
             "virtual_keyboard"
