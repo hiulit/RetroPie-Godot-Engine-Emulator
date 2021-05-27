@@ -4,6 +4,21 @@
 
 - Up to date
 
+## [1.8.0] - 2021-05-26
+
+### Added
+
+- New Godot and FRT `3.3.2` binaries.
+- New `godot-engine-settings-cfg` file to store all the settings. Can be changed manually in `~/RetroPie/roms/godot-engine/settings/godot-engine-settings-cfg` or by using the GUI menu via `RetroPie-Setup`.
+- New dialog menus to tweak the settings:
+    - DRM/KMS driver (FRT only): Select the dri card.
+    - Audio driver: Select between `ALSA` (default) and `PulseAudio`.
+
+### Fixed
+
+- Installing/updating the settings files.
+- The `godot-engine` system for the default's EmulationStation theme is installed automatically and can't be deleted.
+
 ## [1.7.0] - 2021-05-20
 
 ### Added
