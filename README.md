@@ -46,7 +46,7 @@ Everyone can contribute to the list by starting a [discussion](https://github.co
 ### Install the script
 
 ```
-cd /home/pi/
+cd ~
 git clone https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator.git
 cd RetroPie-Godot-Game-Engine-Emulator/
 sudo chmod +x setup-godot-engine-scriptmodule.sh
@@ -55,7 +55,7 @@ sudo chmod +x setup-godot-engine-scriptmodule.sh
 ### Update the script
 
 ```
-cd RetroPie-Godot-Game-Engine-Emulator/
+cd ~/RetroPie-Godot-Game-Engine-Emulator/
 git pull
 ```
 
@@ -73,7 +73,7 @@ USAGE: ./setup-godot-engine-scriptmodule.sh [OPTIONS]
 Use '--help' to see all the options.
 ```
 
-The script assumes that you are running it on a Raspberry Pi with the `RetroPie-Setup` folder being stored in `/home/pi/RetroPie-Setup`. If your setup differs, you can pass the path where your `RetroPie-Setup` folder is stored as a parameter, like this:
+The script assumes that you are running it on a Raspberry Pi with the `RetroPie-Setup` folder being stored in `~/RetroPie-Setup`. If your setup differs, you can pass the path where your `RetroPie-Setup` folder is stored as a parameter, like this:
 
 ```
 ./setup-godot-engine-scriptmodule.sh [OPTION] "/path/to/your/RetroPie-Setup"
@@ -85,20 +85,20 @@ The script assumes that you are running it on a Raspberry Pi with the `RetroPie-
 - `--version`: Shows the script version.
 - `--install [path]`: Installs the `godot-engine` scriptmodule.
   - Path: The location of the `RetroPie-Setup` folder.
-  - Default: `/$home/RetroPie-Setup`.
+  - Default: `~/RetroPie-Setup`.
 - `--uninstall [path]`: Uninstalls the `godot-engine` scriptmodule.
   - Path: The location of the `RetroPie-Setup` folder.
-  - Default: `/$home/RetroPie-Setup`.
+  - Default: `~/RetroPie-Setup`.
 - `--update [path]`: Updates the `godot-engine` scriptmodule.
   - Path: The location of the `RetroPie-Setup` folder.
-  - Default: `/$home/RetroPie-Setup`.
+  - Default: `~/RetroPie-Setup`.
 
 ## Install the Godot "emulator" from RetroPie-Setup
 
 Once you've successfully installed the scriptmodule, run:
 
 ```
-sudo /home/pi/RetroPie-Setup/retropie_setup.sh
+sudo ~/RetroPie-Setup/retropie_setup.sh
 ```
 
 Go to:
@@ -113,16 +113,16 @@ The script installs all the major versions of Godot for maximum compatibility:
 - `2.1.6`
 - `3.0.6`
 - `3.1.2`
-- `3.3`
+- `3.3.2`
 
-A new `godot-engine` folder will be created in `/home/pi/RetroPie/roms/`, where you can [install the Godot games](#how-to-install-godot-games) using the `.pck` and `.zip` extensions.
+A new `godot-engine` folder will be created in `~/RetroPie/roms`, where you can [install the Godot games](#how-to-install-godot-games) using the `.pck` and `.zip` extensions.
 
 ## Uninstall the Godot "emulator" from RetroPie-Setup
 
 Run:
 
 ```
-sudo /home/pi/RetroPie-Setup/retropie_setup.sh
+sudo ~/RetroPie-Setup/retropie_setup.sh
 ```
 
 Go to:
@@ -140,7 +140,7 @@ Run:
 
 ```
 # Update the setup script.
-cd RetroPie-Godot-Game-Engine-Emulator/
+cd ~/RetroPie-Godot-Game-Engine-Emulator/
 git pull
 # Update the scriptmodule.
 ./setup-godot-engine-scriptmodule.sh --update
@@ -149,7 +149,7 @@ git pull
 Then, to update the Godot "emulator", run:
 
 ```
-sudo /home/pi/RetroPie-Setup/retropie_setup.sh
+sudo ~/RetroPie-Setup/retropie_setup.sh
 ```
 
 Go to:
@@ -175,7 +175,7 @@ If you can't find a `.pck` file on neither the Linux nor the Windows downloads, 
 - Unzip the `.zip` file.
 - Go to `Contents -> Resources` (the `.pck` file should be in this folder).
 
-To install it, just copy the `.pck` file to `/home/pi/RetroPie/roms/godot-engine`.
+To install it, just copy the `.pck` file to `~/RetroPie/roms/godot-engine`.
 
 ## Using a GPIO/Virtual keyboard
 
@@ -188,7 +188,7 @@ As of **v1.2.0**, when using the **FRT** "emulator", you can use a GPIO/Virtual 
 Run:
 
 ```
-sudo /home/pi/RetroPie-Setup/retropie_setup.sh
+sudo ~/RetroPie-Setup/retropie_setup.sh
 ```
 
 and then go to:
@@ -214,64 +214,16 @@ If the game you are trying to play doesn't work, it will most likely be because 
 
 If you downloaded the game from https://itch.io, there's a good chance the author stated which version of Godot that game uses.
 
-In case none of the "emulators" work... **Sorry 😔**.
+In case none of the "emulators" work, it could be something related to the video driver.
 
-Well... there's **one last thing** you could try. See the section below.
+### Video issues
 
-### Force Godot to use the GLES2 video render
-
-If you get this error when trying to play a game:
-
-> Your video card driver does not support any of the supported OpenGL versions. Please update your drivers or if you have a very old or integrated GPU upgrade it.
-
-You can force the Godot "emulator" to use the GLES2 video driver.
-
-Run:
-
-```
-sudo /home/pi/RetroPie-Setup/retropie_setup.sh
-```
-
-Go to:
-
-- Configuration/tools
-- godot-engine
-
-Select **Video driver**.
-
-![Video driver dialog](example-images/video-driver-dialog.png)
-
-Select **GLES2**.
-
-![Select video driver dialog](example-images/select-video-driver-gles2.png)
-
-If you want to to reverse that action, follow the same steps and select **GLES3**.
+See [VIDEO ISSUES](docs/VIDEO_ISSUES.md).
 
 ### Audio issues
 
-If you find that the sound is glitchy, you can try to fix it by changing some values in the `override.cfg` file.
+See [AUDIO ISSUES](docs/AUDIO_ISSUES.md).
 
-Run:
-
-```
-sudo /home/pi/RetroPie-Setup/retropie_setup.sh
-```
-
-Go to:
-
-- Configuration/tools
-- godot-engine
-
-Select **Edit "override.cfg"**.
-
-![Override dialog](example-images/override-dialog.png)
-
-Under the `[audio]` section, set:
-
-- `mix_rate` to `48000`.
-- `output_latency` to `20` (or `30`).
-
-![Edit override dialog](example-images/edit-override-dialog.png)
 
 ## 🎨 How to create a new Godot system for an EmulationStation theme
 
@@ -296,12 +248,14 @@ I've created a couple of ready-to-use Godot systems:
 
 If you want to add a new theme, feel free to open a [pull request](https://github.com/hiulit/cross-compile-godot-raspberry-pi/pulls).
 
+> The default EmulationStation theme is installed automaticaly and can't be deleted.
+
 To install a Godot system, copy the `theme/[THEME]/godot-engine` folder from this repository to `/etc/emulationstation/themes/[THEME]`.
 
 Or you can run:
 
 ```
-sudo /home/pi/RetroPie-Setup/retropie_setup.sh
+sudo ~/RetroPie-Setup/retropie_setup.sh
 ```
 
 and then go to:
@@ -361,6 +315,8 @@ If you can't, consider sharing it with the world...
 [![](https://img.shields.io/badge/Share_on_Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fhiulit%2Fcross-compile-godot-raspberry-pi&text=Cross-compile+Godot+binaries+for+the+Raspberry+Pi%3A%0D%0AA+script+to+easily+cross-compile+Godot+binaries+for+the+Raspberry+Pi+from+Linux+x86_64+by+%40hiulit)
 
 ... or giving it a [star ⭐️](https://github.com/hiulit/cross-compile-godot-raspberry-pi/stargazers).
+
+Thank you very much!
 
 ## 👏 Credits
 
