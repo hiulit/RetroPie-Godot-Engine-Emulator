@@ -626,17 +626,17 @@ function install_godot-engine() {
         exit 1
     fi
 
-    # Install the "godot-engine" system to the default's EmulationStation theme.
+    # Install the "godot-engine" system for the EmulationStation default's theme.
     echo
     echo "Installing the '$RP_MODULE_ID' system for the '$ES_DEFAULT_THEME' theme..."
     echo
     _install_update_theme "$ES_DEFAULT_THEME"
 
-    # Create the "godot-engine" folder.
+    # Create the "godot-engine" ROM folder.
     mkRomDir "$RP_MODULE_ID"
     
     if [[ -d "$TMP_DIR" ]]; then
-        # Create the "settings" folder inside "godot-engine".
+        # Create the "settings" folder inside the "godot-engine" folder.
         mkUserDir "$SETTINGS_DIR"
 
         # Install the "default settings" files.
@@ -694,7 +694,7 @@ function configure_godot-engine() {
 
     for index in "${!bin_files[@]}"; do
         default=0
-        [[ "$index" -eq "${#bin_files[@]}-1" ]] && default=1 # Default to the last item in "bin_files".
+        [[ "$index" -eq "${#bin_files[@]}-1" ]] && default=1 # Default to the last item (greater version) in "bin_files".
         
         # Get the version from the file name.
         version="${bin_files[$index]}"
@@ -724,9 +724,10 @@ function configure_godot-engine() {
 }
 
 function gui_godot-engine() {
-    # Reset the dialog options
+    # Reset the dialog options.
     DIALOG_OPTIONS=()
 
+    # Add the options only available for FRT.
     if ! isPlatform "x86" || ! isPlatform "x86_64"; then
         DIALOG_OPTIONS+=(
             "virtual_keyboard"
@@ -737,6 +738,7 @@ function gui_godot-engine() {
         FRT_KEYBOARD="$(_get_config "gpio_virtual_keyboard")"
     fi
 
+    # Add the options available for all the systems.
     DIALOG_OPTIONS+=(
         "audio_driver"
         "video_driver"
