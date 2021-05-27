@@ -659,6 +659,20 @@ function install_godot-engine() {
 }
 
 
+function remove_godot-engine() {
+    # Remove the "godot-engine" configs folder.
+    rmDirExists "$CONFIGS_DIR"
+    # Remove the "godot-engine" system for the EmulationStation default's theme.
+    _uninstall_theme "$ES_DEFAULT_THEME"
+    # Remove the "settings" folder in "godot-engine" ROM folder.
+    rmDirExists "$SETTINGS_DIR"
+    # Remove the "override.cfg" file in "godot-engine" ROM folder.
+    rm "$OVERRIDE_CFG_FILE"
+    # Remove the "godot-engine" temporary folder.
+    rmDirExists "$TMP_DIR"
+}
+
+
 function configure_godot-engine() {
     local bin_file_tmp
     local bin_files=()
