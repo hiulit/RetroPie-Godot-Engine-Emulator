@@ -433,7 +433,11 @@ function _install_themes_dialog() {
     for theme in "${GODOT_THEMES[@]}"; do
         themes+=("$theme")
         if [[ -d "$ES_THEMES_DIR/$theme/godot-engine" ]]; then
+            if [[ "$theme" == "$ES_DEFAULT_THEME" ]]; then
+                options+=("$i" "Update $theme (installed)")
+            else
             options+=("$i" "Update or uninstall $theme (installed)")
+            fi
         else
             options+=("$i" "Install $theme")
         fi
@@ -494,6 +498,11 @@ function _update_uninstall_themes_dialog() {
     local options=()
     local cmd
     local choice
+
+    if [[ "$theme" == "$ES_DEFAULT_THEME" ]]; then
+        _install_update_theme "$theme"
+        _install_themes_dialog
+    fi
 
     options=(
         1 "Update $theme"
@@ -627,7 +636,7 @@ function install_godot-engine() {
         exit 1
     fi
 
-    # Install the "godot-engine" system for the EmulationStation default's theme.
+    # Install the "godot-engine" system for the default EmulationStation theme.
     echo
     echo "Installing the '$RP_MODULE_ID' system for the '$ES_DEFAULT_THEME' theme..."
     echo
@@ -662,7 +671,7 @@ function install_godot-engine() {
 function remove_godot-engine() {
     # Remove the "godot-engine" configs folder.
     rmDirExists "$CONFIGS_DIR"
-    # Remove the "godot-engine" system for the EmulationStation default's theme.
+    # Remove the "godot-engine" system for the default EmulationStation theme.
     _uninstall_theme "$ES_DEFAULT_THEME"
     # Remove the "settings" folder in "godot-engine" ROM folder.
     rmDirExists "$SETTINGS_DIR"
