@@ -4,6 +4,17 @@
 
 - Up to date
 
+## [1.8.0] - 2021-05-28
+
+### Changed
+
+- Now `GLES2` is the default video driver.
+
+### Fixed
+
+- Don't add empty values for `FRT_KEYBOARD_ID` and `FRT_KMSDRM_DEVICE`.
+- Only show **KMS/DRM driver** dialog menu if `/dev/dri` exists.
+
 ## [1.8.0] - 2021-05-27
 
 ### Added
