@@ -33,7 +33,7 @@ TMP_DIR="$__tmpdir/$RP_MODULE_ID"
 SETTINGS_DIR="$romdir/$RP_MODULE_ID/settings"
 CONFIGS_DIR="/opt/retropie/configs/$RP_MODULE_ID"
 
-SCRIPT_VERSION="1.8.0"
+SCRIPT_VERSION="1.8.1"
 
 GODOT_VERSIONS=(
     "2.1.6"

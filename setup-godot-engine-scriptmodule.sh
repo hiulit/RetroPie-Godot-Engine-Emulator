@@ -23,7 +23,7 @@ readonly RP_ROMS_DIR="$RP_DIR/roms"
 readonly RP_EMULATORS_DIR="/opt/retropie/emulators"
 readonly RP_SETUP_TMP_DIR="$home/RetroPie-Setup/tmp"
 
-readonly SCRIPT_VERSION="1.8.0"
+readonly SCRIPT_VERSION="1.8.1"
 readonly SCRIPT_DIR="$(cd "$(dirname $0)" && pwd)"
 readonly SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_FULL="$SCRIPT_DIR/$SCRIPT_NAME"
