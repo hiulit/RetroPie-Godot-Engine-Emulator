@@ -33,7 +33,7 @@ TMP_DIR="$__tmpdir/$RP_MODULE_ID"
 SETTINGS_DIR="$romdir/$RP_MODULE_ID/settings"
 CONFIGS_DIR="/opt/retropie/configs/$RP_MODULE_ID"
 
-SCRIPT_VERSION="1.8.0"
+SCRIPT_VERSION="1.8.1"
 
 GODOT_VERSIONS=(
     "2.1.6"
@@ -52,10 +52,10 @@ VIDEO_DRIVERS=(
     "GLES2"
     "GLES3"
 )
-VIDEO_DRIVER="GLES3"
+VIDEO_DRIVER="GLES2"
 
-FRT_KEYBOARD=""
-FRT_DRM_KMS=""
+FRT_KEYBOARD_ID=""
+FRT_KMSDRM_DEVICE=""
 
 RESOLUTION=""
 
@@ -105,20 +105,20 @@ function _main_config_dialog() {
     for option in "${DIALOG_OPTIONS[@]}"; do
         case "$option" in
             "virtual_keyboard")
-                if [[ -n "$FRT_KEYBOARD" ]]; then
-                    options+=("$i" "GPIO/Virtual keyboard ($FRT_KEYBOARD)")
+                if [[ -n "$FRT_KEYBOARD_ID" ]]; then
+                    options+=("$i" "GPIO/Virtual keyboard ($FRT_KEYBOARD_ID)")
                 else
                     options+=("$i" "GPIO/Virtual keyboard")
                 fi
                 commands+=("$i" "_gpio_virtual_keyboard_dialog")
                 ;;
-            "drm_kms_driver")
-                if [[ -n "$FRT_DRM_KMS" ]]; then
-                    options+=("$i" "DRM/KMS driver ("$(basename "$FRT_DRM_KMS")")")
+            "kms_drm_driver")
+                if [[ -n "$FRT_KMSDRM_DEVICE" ]]; then
+                    options+=("$i" "KMS/DRM driver ("$(basename "$FRT_KMSDRM_DEVICE")")")
                 else
-                    options+=("$i" "DRM/KMS driver")
+                    options+=("$i" "KMS/DRM driver")
                 fi
-                commands+=("$i" "_drm_kms_driver_dialog")
+                commands+=("$i" "_kms_drm_driver_dialog")
                 ;;
             "audio_driver")
                 options+=("$i" "Audio driver ("$AUDIO_DRIVER")")
@@ -185,15 +185,74 @@ function _gpio_virtual_keyboard_dialog() {
 
     if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
         if [[ -n "$choice" ]]; then
-            if [[ "$FRT_KEYBOARD" == "None" ]]; then
-                FRT_KEYBOARD=""
+            if [[ "${options[choice*2-1]}" == "None" ]]; then
+                FRT_KEYBOARD_ID=""
                 message="The GPIO/Virtual keyboard has been unset."
             else
-                FRT_KEYBOARD="${options[choice*2-1]}"
-                message="The GPIO/Virtual keyboard ($FRT_KEYBOARD) has been set."
+                FRT_KEYBOARD_ID="${options[choice*2-1]}"
+                message="The GPIO/Virtual keyboard ($FRT_KEYBOARD_ID) has been set."
             fi
 
-            _set_config "gpio_virtual_keyboard" "$FRT_KEYBOARD"
+            _set_config "gpio_virtual_keyboard" "$FRT_KEYBOARD_ID"
+
+            configure_godot-engine
+
+            dialog \
+                --backtitle "$DIALOG_BACKTITLE" \
+                --title "" \
+                --ok-label "OK" \
+                --msgbox "$message" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
+
+            _main_config_dialog
+        else
+            # If there is no choice that means the user selected "Back".
+            _main_config_dialog
+        fi
+    elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
+        _main_config_dialog
+    elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
+        _main_config_dialog
+    fi
+}
+
+
+function _kms_drm_driver_dialog() {
+    local i=1
+    local options=()
+    local cmd
+    local choice
+    local message
+
+    options+=("$i" "None")
+
+    for file in "/dev/dri/"*; do
+        if [[ ! -d "$file" ]]; then
+            ((i++))
+            options+=("$i" "$(basename "$file")")
+        fi
+    done
+
+    cmd=(dialog \
+        --backtitle "$DIALOG_BACKTITLE" \
+        --title "KMS/DRM driver" \
+        --ok-label "OK" \
+        --cancel-label "Back" \
+        --menu "Choose an option." \
+        15 "$DIALOG_WIDTH" 15)
+
+    choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
+
+    if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
+        if [[ -n "$choice" ]]; then
+            if [[ "${options[choice*2-1]}" == "None" ]]; then
+                FRT_KMSDRM_DEVICE=""
+                message="The KMS/DRM driver has been unset."
+            else
+                FRT_KMSDRM_DEVICE="/dev/dri/${options[choice*2-1]}"
+                message="The KMS/DRM driver ("$(basename "$FRT_KMSDRM_DEVICE")") has been set."
+            fi
+
+            _set_config "kms_drm_driver" "$FRT_KMSDRM_DEVICE"
 
             configure_godot-engine
 
@@ -298,65 +357,6 @@ function _video_driver_dialog() {
                 --title "" \
                 --ok-label "OK" \
                 --msgbox "The video driver ($VIDEO_DRIVER) has been set." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
-
-            _main_config_dialog
-        else
-            # If there is no choice that means the user selected "Back".
-            _main_config_dialog
-        fi
-    elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
-        _main_config_dialog
-    elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
-        _main_config_dialog
-    fi
-}
-
-
-function _drm_kms_driver_dialog() {
-    local i=1
-    local options=()
-    local cmd
-    local choice
-    local message
-
-    options+=("$i" "None")
-
-    for file in "/dev/dri/"*; do
-        if [[ ! -d "$file" ]]; then
-            ((i++))
-            options+=("$i" "$(basename "$file")")
-        fi
-    done
-
-    cmd=(dialog \
-        --backtitle "$DIALOG_BACKTITLE" \
-        --title "DRM/KMS driver" \
-        --ok-label "OK" \
-        --cancel-label "Back" \
-        --menu "Choose an option." \
-        15 "$DIALOG_WIDTH" 15)
-
-    choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
-
-    if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
-        if [[ -n "$choice" ]]; then
-            if [[ "${options[choice*2-1]}" == "None" ]]; then
-                FRT_DRM_KMS=""
-                message="The DRM/KMS driver has been unset."
-            else
-                FRT_DRM_KMS="/dev/dri/${options[choice*2-1]}"
-                message="The DRM/KMS driver ("$(basename "$FRT_DRM_KMS")") has been set."
-            fi
-
-            _set_config "drm_kms_driver" "$FRT_DRM_KMS"
-
-            configure_godot-engine
-
-            dialog \
-                --backtitle "$DIALOG_BACKTITLE" \
-                --title "" \
-                --ok-label "OK" \
-                --msgbox "$message" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
 
             _main_config_dialog
         else
@@ -741,7 +741,12 @@ function configure_godot-engine() {
         if isPlatform "x86" || isPlatform "x86_64"; then
             addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "$md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER"
         else
-            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG FRT_KEYBOARD_ID='$FRT_KEYBOARD' FRT_KMSDRM_DEVICE='$FRT_DRM_KMS' $md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
+            local frt_keyboard_id_string=""
+            [[ -n "$FRT_KEYBOARD_ID" ]] && frt_keyboard_id_string="FRT_KEYBOARD_ID='$FRT_KEYBOARD_ID'"
+            local frt_kms_drm_device_string=""
+            [[ -n "$FRT_KMSDRM_DEVICE" ]] && frt_kms_drm_device_string="FRT_KMSDRM_DEVICE='$FRT_KMSDRM_DEVICE'"
+
+            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG "$frt_keyboard_id_string" "$frt_kms_drm_device_string" $md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
         fi
     done
 
@@ -756,11 +761,17 @@ function gui_godot-engine() {
     if ! isPlatform "x86" || ! isPlatform "x86_64"; then
         DIALOG_OPTIONS+=(
             "virtual_keyboard"
-            "drm_kms_driver"
         )
 
-        FRT_DRM_KMS="$(_get_config "drm_kms_driver")"
-        FRT_KEYBOARD="$(_get_config "gpio_virtual_keyboard")"
+        FRT_KEYBOARD_ID="$(_get_config "gpio_virtual_keyboard")"
+
+        if [[ -d "/dev/dri" ]]; then
+            DIALOG_OPTIONS+=(
+                "kms_drm_driver"
+            )
+
+            FRT_KMSDRM_DEVICE="$(_get_config "kms_drm_driver")"
+        fi
     fi
 
     # Add the options available for all the systems.
