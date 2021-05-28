@@ -54,8 +54,8 @@ VIDEO_DRIVERS=(
 )
 VIDEO_DRIVER="GLES2"
 
-FRT_KEYBOARD=""
-FRT_DRM_KMS=""
+FRT_KEYBOARD_ID=""
+FRT_KMSDRM_DEVICE=""
 
 RESOLUTION=""
 
@@ -105,20 +105,20 @@ function _main_config_dialog() {
     for option in "${DIALOG_OPTIONS[@]}"; do
         case "$option" in
             "virtual_keyboard")
-                if [[ -n "$FRT_KEYBOARD" ]]; then
-                    options+=("$i" "GPIO/Virtual keyboard ($FRT_KEYBOARD)")
+                if [[ -n "$FRT_KEYBOARD_ID" ]]; then
+                    options+=("$i" "GPIO/Virtual keyboard ($FRT_KEYBOARD_ID)")
                 else
                     options+=("$i" "GPIO/Virtual keyboard")
                 fi
                 commands+=("$i" "_gpio_virtual_keyboard_dialog")
                 ;;
-            "drm_kms_driver")
-                if [[ -n "$FRT_DRM_KMS" ]]; then
-                    options+=("$i" "DRM/KMS driver ("$(basename "$FRT_DRM_KMS")")")
+            "kms_drm_driver")
+                if [[ -n "$FRT_KMSDRM_DEVICE" ]]; then
+                    options+=("$i" "KMS/DRM driver ("$(basename "$FRT_KMSDRM_DEVICE")")")
                 else
-                    options+=("$i" "DRM/KMS driver")
+                    options+=("$i" "KMS/DRM driver")
                 fi
-                commands+=("$i" "_drm_kms_driver_dialog")
+                commands+=("$i" "_kms_drm_driver_dialog")
                 ;;
             "audio_driver")
                 options+=("$i" "Audio driver ("$AUDIO_DRIVER")")
@@ -185,15 +185,74 @@ function _gpio_virtual_keyboard_dialog() {
 
     if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
         if [[ -n "$choice" ]]; then
-            if [[ "$FRT_KEYBOARD" == "None" ]]; then
-                FRT_KEYBOARD=""
+            if [[ "${options[choice*2-1]}" == "None" ]]; then
+                FRT_KEYBOARD_ID=""
                 message="The GPIO/Virtual keyboard has been unset."
             else
-                FRT_KEYBOARD="${options[choice*2-1]}"
-                message="The GPIO/Virtual keyboard ($FRT_KEYBOARD) has been set."
+                FRT_KEYBOARD_ID="${options[choice*2-1]}"
+                message="The GPIO/Virtual keyboard ($FRT_KEYBOARD_ID) has been set."
             fi
 
-            _set_config "gpio_virtual_keyboard" "$FRT_KEYBOARD"
+            _set_config "gpio_virtual_keyboard" "$FRT_KEYBOARD_ID"
+
+            configure_godot-engine
+
+            dialog \
+                --backtitle "$DIALOG_BACKTITLE" \
+                --title "" \
+                --ok-label "OK" \
+                --msgbox "$message" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
+
+            _main_config_dialog
+        else
+            # If there is no choice that means the user selected "Back".
+            _main_config_dialog
+        fi
+    elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
+        _main_config_dialog
+    elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
+        _main_config_dialog
+    fi
+}
+
+
+function _kms_drm_driver_dialog() {
+    local i=1
+    local options=()
+    local cmd
+    local choice
+    local message
+
+    options+=("$i" "None")
+
+    for file in "/dev/dri/"*; do
+        if [[ ! -d "$file" ]]; then
+            ((i++))
+            options+=("$i" "$(basename "$file")")
+        fi
+    done
+
+    cmd=(dialog \
+        --backtitle "$DIALOG_BACKTITLE" \
+        --title "KMS/DRM driver" \
+        --ok-label "OK" \
+        --cancel-label "Back" \
+        --menu "Choose an option." \
+        15 "$DIALOG_WIDTH" 15)
+
+    choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
+
+    if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
+        if [[ -n "$choice" ]]; then
+            if [[ "${options[choice*2-1]}" == "None" ]]; then
+                FRT_KMSDRM_DEVICE=""
+                message="The KMS/DRM driver has been unset."
+            else
+                FRT_KMSDRM_DEVICE="/dev/dri/${options[choice*2-1]}"
+                message="The KMS/DRM driver ("$(basename "$FRT_KMSDRM_DEVICE")") has been set."
+            fi
+
+            _set_config "kms_drm_driver" "$FRT_KMSDRM_DEVICE"
 
             configure_godot-engine
 
@@ -298,65 +357,6 @@ function _video_driver_dialog() {
                 --title "" \
                 --ok-label "OK" \
                 --msgbox "The video driver ($VIDEO_DRIVER) has been set." "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
-
-            _main_config_dialog
-        else
-            # If there is no choice that means the user selected "Back".
-            _main_config_dialog
-        fi
-    elif [[ "$return_value" -eq "$DIALOG_CANCEL" ]]; then
-        _main_config_dialog
-    elif [[ "$return_value" -eq "$DIALOG_ESC" ]]; then
-        _main_config_dialog
-    fi
-}
-
-
-function _drm_kms_driver_dialog() {
-    local i=1
-    local options=()
-    local cmd
-    local choice
-    local message
-
-    options+=("$i" "None")
-
-    for file in "/dev/dri/"*; do
-        if [[ ! -d "$file" ]]; then
-            ((i++))
-            options+=("$i" "$(basename "$file")")
-        fi
-    done
-
-    cmd=(dialog \
-        --backtitle "$DIALOG_BACKTITLE" \
-        --title "DRM/KMS driver" \
-        --ok-label "OK" \
-        --cancel-label "Back" \
-        --menu "Choose an option." \
-        15 "$DIALOG_WIDTH" 15)
-
-    choice="$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)"
-
-    if [[ "$return_value" -eq "$DIALOG_OK" ]]; then
-        if [[ -n "$choice" ]]; then
-            if [[ "${options[choice*2-1]}" == "None" ]]; then
-                FRT_DRM_KMS=""
-                message="The DRM/KMS driver has been unset."
-            else
-                FRT_DRM_KMS="/dev/dri/${options[choice*2-1]}"
-                message="The DRM/KMS driver ("$(basename "$FRT_DRM_KMS")") has been set."
-            fi
-
-            _set_config "drm_kms_driver" "$FRT_DRM_KMS"
-
-            configure_godot-engine
-
-            dialog \
-                --backtitle "$DIALOG_BACKTITLE" \
-                --title "" \
-                --ok-label "OK" \
-                --msgbox "$message" "$DIALOG_HEIGHT" "$DIALOG_WIDTH" 2>&1 >/dev/tty
 
             _main_config_dialog
         else
