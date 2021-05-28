@@ -756,11 +756,17 @@ function gui_godot-engine() {
     if ! isPlatform "x86" || ! isPlatform "x86_64"; then
         DIALOG_OPTIONS+=(
             "virtual_keyboard"
-            "drm_kms_driver"
         )
 
-        FRT_DRM_KMS="$(_get_config "drm_kms_driver")"
-        FRT_KEYBOARD="$(_get_config "gpio_virtual_keyboard")"
+        FRT_KEYBOARD_ID="$(_get_config "gpio_virtual_keyboard")"
+
+        if [[ -d "/dev/dri" ]]; then
+            DIALOG_OPTIONS+=(
+                "kms_drm_driver"
+            )
+
+            FRT_KMSDRM_DEVICE="$(_get_config "kms_drm_driver")"
+        fi
     fi
 
     # Add the options available for all the systems.
