@@ -741,7 +741,12 @@ function configure_godot-engine() {
         if isPlatform "x86" || isPlatform "x86_64"; then
             addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "$md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER"
         else
-            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG FRT_KEYBOARD_ID='$FRT_KEYBOARD' FRT_KMSDRM_DEVICE='$FRT_DRM_KMS' $md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
+            local frt_keyboard_id_string=""
+            [[ -n "$FRT_KEYBOARD_ID" ]] && frt_keyboard_id_string="FRT_KEYBOARD_ID='$FRT_KEYBOARD_ID'"
+            local frt_kms_drm_device_string=""
+            [[ -n "$FRT_KMSDRM_DEVICE" ]] && frt_kms_drm_device_string="FRT_KMSDRM_DEVICE='$FRT_KMSDRM_DEVICE'"
+
+            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG "$frt_keyboard_id_string" "$frt_kms_drm_device_string" $md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
         fi
     done
 
