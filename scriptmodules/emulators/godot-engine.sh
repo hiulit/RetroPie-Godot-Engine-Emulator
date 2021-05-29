@@ -557,6 +557,13 @@ function _update_uninstall_themes_dialog() {
 
 # Helper functions ##################################
 
+function rmFileExists() {
+    if [[ -f "$1" ]]; then
+        rm "$1"
+    fi
+}
+
+
 function _set_config() {
     sed -i "s|^\($1\s*=\s*\).*|\1\"$2\"|" "$SETTINGS_CFG_FILE"
 }
@@ -677,7 +684,7 @@ function remove_godot-engine() {
     # Remove the "settings" folder in "godot-engine" ROM folder.
     rmDirExists "$SETTINGS_DIR"
     # Remove the "override.cfg" file in "godot-engine" ROM folder.
-    rm "$OVERRIDE_CFG_FILE"
+    rmFileExists "$OVERRIDE_CFG_FILE"
     # Remove the "godot-engine" temporary folder.
     rmDirExists "$TMP_DIR"
 }
@@ -713,7 +720,7 @@ function configure_godot-engine() {
 
     # Remove the file that contains all the configurations for the different Godot "emulators".
     # It will be created from scratch when adding the emulators in the "addEmulator" functions below.
-    [[ -f "$CONFIGS_DIR/emulators.cfg" ]] && rm "$CONFIGS_DIR/emulators.cfg"
+    rmFileExists "$CONFIGS_DIR/emulators.cfg"
 
     RESOLUTION="$(_get_available_screen_resolution)"
 
