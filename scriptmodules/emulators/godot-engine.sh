@@ -29,7 +29,7 @@ rp_module_flags="x86 x86_64 aarch64 rpi1 rpi2 rpi3 rpi4"
 # Global variables ##################################
 
 RP_MODULE_ID="$rp_module_id"
-TMP_DIR="$__tmpdir/$RP_MODULE_ID"
+TMP_DIR="$home/.tmp/$RP_MODULE_ID"
 SETTINGS_DIR="$romdir/$RP_MODULE_ID/settings"
 CONFIGS_DIR="/opt/retropie/configs/$RP_MODULE_ID"
 
@@ -654,6 +654,10 @@ function install_godot-engine() {
     mkRomDir "$RP_MODULE_ID"
     
     if [[ -d "$TMP_DIR" ]]; then
+        echo
+        echo "Installing the '$RP_MODULE_ID' settings files..."
+        echo
+
         # Create the "settings" folder inside the "godot-engine" folder.
         mkUserDir "$SETTINGS_DIR"
 
@@ -677,6 +681,9 @@ function install_godot-engine() {
 
 
 function remove_godot-engine() {
+    echo
+    echo "Removing the '$RP_MODULE_ID' files and folders..."
+    echo
     # Remove the "godot-engine" configs folder.
     rmDirExists "$CONFIGS_DIR"
     # Remove the "godot-engine" system for the default EmulationStation theme.
@@ -685,8 +692,6 @@ function remove_godot-engine() {
     rmDirExists "$SETTINGS_DIR"
     # Remove the "override.cfg" file in "godot-engine" ROM folder.
     rmFileExists "$OVERRIDE_CFG_FILE"
-    # Remove the "godot-engine" temporary folder.
-    rmDirExists "$TMP_DIR"
 }
 
 

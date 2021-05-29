@@ -21,7 +21,6 @@ home="$(eval echo ~$user)"
 readonly RP_DIR="$home/RetroPie"
 readonly RP_ROMS_DIR="$RP_DIR/roms"
 readonly RP_EMULATORS_DIR="/opt/retropie/emulators"
-readonly RP_SETUP_TMP_DIR="$home/RetroPie-Setup/tmp"
 
 readonly SCRIPT_VERSION="1.8.1"
 readonly SCRIPT_DIR="$(cd "$(dirname $0)" && pwd)"
@@ -40,7 +39,7 @@ readonly SETTINGS_FILES=(
     "override.cfg"
     "godot-engine-settings.cfg"
 )
-readonly TMP_SETTINGS_DIR="$RP_SETUP_TMP_DIR/$SCRIPTMODULE_NAME"
+readonly TMP_SETTINGS_DIR="$home/.tmp/$SCRIPTMODULE_NAME"
 
 
 # Variables ##################################################################
