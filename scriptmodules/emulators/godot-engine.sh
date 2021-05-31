@@ -647,15 +647,15 @@ function install_godot-engine() {
         exit 1
     fi
 
+    # Create the "godot-engine" ROM folder.
+    mkRomDir "$RP_MODULE_ID"
+
     # Install the "godot-engine" system for the default EmulationStation theme.
     echo
     echo "Installing the '$RP_MODULE_ID' system for the '$ES_DEFAULT_THEME' theme..."
     echo
     _install_update_theme "$ES_DEFAULT_THEME"
 
-    # Create the "godot-engine" ROM folder.
-    mkRomDir "$RP_MODULE_ID"
-    
     if [[ -d "$TMP_DIR" ]]; then
         echo
         echo "Installing the '$RP_MODULE_ID' settings files..."
@@ -687,10 +687,10 @@ function remove_godot-engine() {
     echo
     echo "Removing the '$RP_MODULE_ID' files and folders..."
     echo
-    # Remove the "godot-engine" configs folder.
-    rmDirExists "$CONFIGS_DIR"
     # Remove the "godot-engine" system for the default EmulationStation theme.
     _uninstall_theme "$ES_DEFAULT_THEME"
+    # Remove the "godot-engine" configs folder.
+    rmDirExists "$CONFIGS_DIR"
     # Remove the "settings" folder in "godot-engine" ROM folder.
     rmDirExists "$SETTINGS_DIR"
     # Remove the "override.cfg" file in "godot-engine" ROM folder.
