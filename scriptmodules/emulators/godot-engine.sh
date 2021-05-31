@@ -34,6 +34,9 @@ SETTINGS_DIR="$romdir/$RP_MODULE_ID/settings"
 CONFIGS_DIR="/opt/retropie/configs/$RP_MODULE_ID"
 
 SCRIPT_VERSION="1.8.1"
+VERSION_MAJOR="$(echo "$SCRIPT_VERSION" | cut -d "." -f 1)"
+VERSION_MINOR="$(echo "$SCRIPT_VERSION" | cut -d "." -f 2)"
+VERSION_PATCH="$(echo "$SCRIPT_VERSION" | cut -d "." -f 3)"
 
 GODOT_VERSIONS=(
     "2.1.6"
@@ -617,7 +620,7 @@ function _uninstall_theme() {
 # Scriptmodule functions ############################
 
 function sources_godot-engine() {
-    local url="https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/releases/download/v${SCRIPT_VERSION}"
+    local url="https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/releases/download/v${VERSION_MAJOR}.${VERSION_MINOR}.0"
 
     for version in "${GODOT_VERSIONS[@]}"; do
         if isPlatform "x86"; then
