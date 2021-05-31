@@ -761,7 +761,7 @@ function configure_godot-engine() {
             local frt_kms_drm_device_string=""
             [[ -n "$FRT_KMSDRM_DEVICE" ]] && frt_kms_drm_device_string="FRT_KMSDRM_DEVICE='$FRT_KMSDRM_DEVICE'"
 
-            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG "$frt_keyboard_id_string" "$frt_kms_drm_device_string" $md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
+            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG $frt_keyboard_id_string $frt_kms_drm_device_string $md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
         fi
     done
 
