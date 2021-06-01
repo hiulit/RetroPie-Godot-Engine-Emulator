@@ -617,6 +617,16 @@ function _uninstall_theme() {
 }
 
 
+function _install_update_scraper() {
+    local scraper_dir=""$home/RetroPie-Itchio-Godot-Scraper""
+    rmDirExists "$scraper_dir"
+    gitPullOrClone "$scraper_dir" "https://github.com/hiulit/RetroPie-Itchio-Godot-Scraper"
+    chmod +x "$scraper_dir/setup.sh"
+    chmod +x "$scraper_dir/retropie-itchio-godot-scraper.sh"
+    bash "$scraper_dir/setup.sh" -i retropie-menu
+}
+
+
 # Scriptmodule functions ############################
 
 function sources_godot-engine() {
@@ -656,11 +666,13 @@ function install_godot-engine() {
     echo
     _install_update_theme "$ES_DEFAULT_THEME"
 
-    if [[ -d "$TMP_DIR" ]]; then
+    # Install the scraper for Godot games.
         echo
-        echo "Installing the '$RP_MODULE_ID' settings files..."
+    echo "Installing the scraper..."
         echo
+    _install_update_scraper
 
+    if [[ -d "$TMP_DIR" ]]; then
         # Create the "settings" folder inside the "godot-engine" folder.
         mkUserDir "$SETTINGS_DIR"
 
@@ -684,9 +696,6 @@ function install_godot-engine() {
 
 
 function remove_godot-engine() {
-    echo
-    echo "Removing the '$RP_MODULE_ID' files and folders..."
-    echo
     # Remove the "godot-engine" system for the default EmulationStation theme.
     _uninstall_theme "$ES_DEFAULT_THEME"
     # Remove the "godot-engine" configs folder.
