@@ -177,6 +177,16 @@ If you can't find a `.pck` file on neither the Linux nor the Windows downloads, 
 
 To install it, just copy the `.pck` file to `~/RetroPie/roms/godot-engine`.
 
+## Scraping games
+
+A scraper for games hosted on https://itch.io is bundled with this script.
+
+Check out its [documentation](https://github.com/hiulit/RetroPie-Itchio-Godot-Scraper).
+
+You can find it in EmulationStation's RetroPie menu.
+
+![EmulationStation RetroPie menu](example-images/emulationstation-retropie-menu.png)
+
 ## Using a GPIO/Virtual keyboard
 
 > ⚠️ When using a GPIO/Virtual keyboard, the actual keyboard won't work anymore. But you can always remove the GPIO/Virtual keyboard (see below).

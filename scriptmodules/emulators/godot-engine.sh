@@ -29,11 +29,14 @@ rp_module_flags="x86 x86_64 aarch64 rpi1 rpi2 rpi3 rpi4"
 # Global variables ##################################
 
 RP_MODULE_ID="$rp_module_id"
-TMP_DIR="$__tmpdir/$RP_MODULE_ID"
+TMP_DIR="$home/.tmp/$RP_MODULE_ID"
 SETTINGS_DIR="$romdir/$RP_MODULE_ID/settings"
 CONFIGS_DIR="/opt/retropie/configs/$RP_MODULE_ID"
 
-SCRIPT_VERSION="1.8.1"
+SCRIPT_VERSION="1.8.2"
+VERSION_MAJOR="$(echo "$SCRIPT_VERSION" | cut -d "." -f 1)"
+VERSION_MINOR="$(echo "$SCRIPT_VERSION" | cut -d "." -f 2)"
+VERSION_PATCH="$(echo "$SCRIPT_VERSION" | cut -d "." -f 3)"
 
 GODOT_VERSIONS=(
     "2.1.6"
@@ -557,6 +560,13 @@ function _update_uninstall_themes_dialog() {
 
 # Helper functions ##################################
 
+function rmFileExists() {
+    if [[ -f "$1" ]]; then
+        rm "$1"
+    fi
+}
+
+
 function _set_config() {
     sed -i "s|^\($1\s*=\s*\).*|\1\"$2\"|" "$SETTINGS_CFG_FILE"
 }
@@ -607,10 +617,20 @@ function _uninstall_theme() {
 }
 
 
+function _install_update_scraper() {
+    local scraper_dir=""$home/RetroPie-Itchio-Godot-Scraper""
+    rmDirExists "$scraper_dir"
+    gitPullOrClone "$scraper_dir" "https://github.com/hiulit/RetroPie-Itchio-Godot-Scraper"
+    chmod +x "$scraper_dir/setup.sh"
+    chmod +x "$scraper_dir/retropie-itchio-godot-scraper.sh"
+    bash "$scraper_dir/setup.sh" -i retropie-menu
+}
+
+
 # Scriptmodule functions ############################
 
 function sources_godot-engine() {
-    local url="https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/releases/download/v${SCRIPT_VERSION}"
+    local url="https://github.com/hiulit/RetroPie-Godot-Game-Engine-Emulator/releases/download/v${VERSION_MAJOR}.${VERSION_MINOR}.0"
 
     for version in "${GODOT_VERSIONS[@]}"; do
         if isPlatform "x86"; then
@@ -637,15 +657,21 @@ function install_godot-engine() {
         exit 1
     fi
 
+    # Create the "godot-engine" ROM folder.
+    mkRomDir "$RP_MODULE_ID"
+
     # Install the "godot-engine" system for the default EmulationStation theme.
     echo
     echo "Installing the '$RP_MODULE_ID' system for the '$ES_DEFAULT_THEME' theme..."
     echo
     _install_update_theme "$ES_DEFAULT_THEME"
 
-    # Create the "godot-engine" ROM folder.
-    mkRomDir "$RP_MODULE_ID"
-    
+    # Install the scraper for Godot games.
+    echo
+    echo "Installing the scraper..."
+    echo
+    _install_update_scraper
+
     if [[ -d "$TMP_DIR" ]]; then
         # Create the "settings" folder inside the "godot-engine" folder.
         mkUserDir "$SETTINGS_DIR"
@@ -670,16 +696,14 @@ function install_godot-engine() {
 
 
 function remove_godot-engine() {
-    # Remove the "godot-engine" configs folder.
-    rmDirExists "$CONFIGS_DIR"
     # Remove the "godot-engine" system for the default EmulationStation theme.
     _uninstall_theme "$ES_DEFAULT_THEME"
+    # Remove the "godot-engine" configs folder.
+    rmDirExists "$CONFIGS_DIR"
     # Remove the "settings" folder in "godot-engine" ROM folder.
     rmDirExists "$SETTINGS_DIR"
     # Remove the "override.cfg" file in "godot-engine" ROM folder.
-    rm "$OVERRIDE_CFG_FILE"
-    # Remove the "godot-engine" temporary folder.
-    rmDirExists "$TMP_DIR"
+    rmFileExists "$OVERRIDE_CFG_FILE"
 }
 
 
@@ -713,7 +737,7 @@ function configure_godot-engine() {
 
     # Remove the file that contains all the configurations for the different Godot "emulators".
     # It will be created from scratch when adding the emulators in the "addEmulator" functions below.
-    [[ -f "$CONFIGS_DIR/emulators.cfg" ]] && rm "$CONFIGS_DIR/emulators.cfg"
+    rmFileExists "$CONFIGS_DIR/emulators.cfg"
 
     RESOLUTION="$(_get_available_screen_resolution)"
 
@@ -746,7 +770,7 @@ function configure_godot-engine() {
             local frt_kms_drm_device_string=""
             [[ -n "$FRT_KMSDRM_DEVICE" ]] && frt_kms_drm_device_string="FRT_KMSDRM_DEVICE='$FRT_KMSDRM_DEVICE'"
 
-            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG "$frt_keyboard_id_string" "$frt_kms_drm_device_string" $md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
+            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG $frt_keyboard_id_string $frt_kms_drm_device_string $md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
         fi
     done
 

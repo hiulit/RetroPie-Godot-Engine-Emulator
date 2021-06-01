@@ -21,9 +21,12 @@ home="$(eval echo ~$user)"
 readonly RP_DIR="$home/RetroPie"
 readonly RP_ROMS_DIR="$RP_DIR/roms"
 readonly RP_EMULATORS_DIR="/opt/retropie/emulators"
-readonly RP_SETUP_TMP_DIR="$home/RetroPie-Setup/tmp"
 
-readonly SCRIPT_VERSION="1.8.1"
+readonly SCRIPT_VERSION="1.8.2"
+readonly VERSION_MAJOR="$(echo "$SCRIPT_VERSION" | cut -d "." -f 1)"
+readonly VERSION_MINOR="$(echo "$SCRIPT_VERSION" | cut -d "." -f 2)"
+readonly VERSION_PATCH="$(echo "$SCRIPT_VERSION" | cut -d "." -f 3)"
+
 readonly SCRIPT_DIR="$(cd "$(dirname $0)" && pwd)"
 readonly SCRIPT_NAME="$(basename "$0")"
 readonly SCRIPT_FULL="$SCRIPT_DIR/$SCRIPT_NAME"
@@ -40,7 +43,7 @@ readonly SETTINGS_FILES=(
     "override.cfg"
     "godot-engine-settings.cfg"
 )
-readonly TMP_SETTINGS_DIR="$RP_SETUP_TMP_DIR/$SCRIPTMODULE_NAME"
+readonly TMP_SETTINGS_DIR="$home/.tmp/$SCRIPTMODULE_NAME"
 
 
 # Variables ##################################################################
@@ -266,6 +269,7 @@ function get_options() {
     fi
 }
 
+
 function main() {
     if ! is_retropie; then
         echo >&2
@@ -284,5 +288,6 @@ function main() {
 
     get_options "$@"
 }
+
 
 main "$@"

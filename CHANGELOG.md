@@ -4,6 +4,20 @@
 
 - Up to date
 
+## [1.8.2] - 2021-06-01
+
+### Added
+
+- A [scraper](https://github.com/hiulit/RetroPie-Itchio-Godot-Scraper) for games hosted on https://itch.io/.
+
+### Changed
+
+- Check for minor version updates to install binaries.
+
+### Fixed
+
+- Issue when installing/updating the settings files.
+
 ## [1.8.1] - 2021-05-28
 
 ### Changed
