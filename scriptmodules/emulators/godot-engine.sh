@@ -33,7 +33,7 @@ TMP_DIR="$home/.tmp/$RP_MODULE_ID"
 SETTINGS_DIR="$romdir/$RP_MODULE_ID/settings"
 CONFIGS_DIR="/opt/retropie/configs/$RP_MODULE_ID"
 
-SCRIPT_VERSION="1.8.1"
+SCRIPT_VERSION="1.8.2"
 VERSION_MAJOR="$(echo "$SCRIPT_VERSION" | cut -d "." -f 1)"
 VERSION_MINOR="$(echo "$SCRIPT_VERSION" | cut -d "." -f 2)"
 VERSION_PATCH="$(echo "$SCRIPT_VERSION" | cut -d "." -f 3)"
@@ -667,9 +667,9 @@ function install_godot-engine() {
     _install_update_theme "$ES_DEFAULT_THEME"
 
     # Install the scraper for Godot games.
-        echo
+    echo
     echo "Installing the scraper..."
-        echo
+    echo
     _install_update_scraper
 
     if [[ -d "$TMP_DIR" ]]; then

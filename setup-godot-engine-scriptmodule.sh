@@ -22,7 +22,7 @@ readonly RP_DIR="$home/RetroPie"
 readonly RP_ROMS_DIR="$RP_DIR/roms"
 readonly RP_EMULATORS_DIR="/opt/retropie/emulators"
 
-readonly SCRIPT_VERSION="1.8.1"
+readonly SCRIPT_VERSION="1.8.2"
 readonly VERSION_MAJOR="$(echo "$SCRIPT_VERSION" | cut -d "." -f 1)"
 readonly VERSION_MINOR="$(echo "$SCRIPT_VERSION" | cut -d "." -f 2)"
 readonly VERSION_PATCH="$(echo "$SCRIPT_VERSION" | cut -d "." -f 3)"
@@ -269,6 +269,7 @@ function get_options() {
     fi
 }
 
+
 function main() {
     if ! is_retropie; then
         echo >&2
@@ -287,5 +288,6 @@ function main() {
 
     get_options "$@"
 }
+
 
 main "$@"
