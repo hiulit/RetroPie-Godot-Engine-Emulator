@@ -4,6 +4,12 @@
 
 - Up to date
 
+## [1.9.0] - 2021-11-08
+
+### Added
+
+- New Godot and FRT `3.3.4` and `3.4` binaries.
+
 ## [1.8.2] - 2021-06-01
 
 ### Added
