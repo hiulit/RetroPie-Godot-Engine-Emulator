@@ -80,6 +80,7 @@ function check_path() {
     fi
 }
 
+
 function install_update_settings_files() {
     # Create a temporary directory to store the "settings" files.
     mkdir -p "$TMP_SETTINGS_DIR"
