@@ -43,7 +43,7 @@ GODOT_VERSIONS=(
     "3.0.6"
     "3.1.2"
     "3.3.4"
-    "3.4"
+    "3.4.4"
 )
 
 AUDIO_DRIVERS=(
