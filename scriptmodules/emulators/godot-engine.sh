@@ -71,6 +71,9 @@ GODOT_THEMES=(
     "pixel"
 )
 
+CARBON_2021_CONTROLLER_IMAGE="$ES_THEMES_DIR/carbon-2021/art/controllers/godot-engine.svg"
+CARBON_2021_SYSTEM_IMAGE="$ES_THEMES_DIR/carbon-2021/art/systems/godot-engine.svg"
+
 OVERRIDE_CFG_DEFAULTS_FILE="$SETTINGS_DIR/.override-defaults.cfg"
 OVERRIDE_CFG_FILE="$romdir/$RP_MODULE_ID/override.cfg" # This file must be in the same folder as the games.
 SETTINGS_CFG_DEFAULTS_FILE="$SETTINGS_DIR/.godot-engine-settings-defaults.cfg"
@@ -438,6 +441,7 @@ function _install_themes_dialog() {
 
     for theme in "${GODOT_THEMES[@]}"; do
         themes+=("$theme")
+
         if [[ -d "$ES_THEMES_DIR/$theme/godot-engine" ]]; then
             if [[ "$theme" == "$ES_DEFAULT_THEME" ]]; then
                 options+=("$i" "Update $theme (installed)")
@@ -445,8 +449,17 @@ function _install_themes_dialog() {
                 options+=("$i" "Update or uninstall $theme (installed)")
             fi
         else
-            options+=("$i" "Install $theme")
+            if [[ "$theme" == "carbon-2021" ]]; then
+                if [[ -f "$CARBON_2021_CONTROLLER_IMAGE" ]] && [[ -f "$CARBON_2021_SYSTEM_IMAGE" ]]; then
+                    options+=("$i" "Update or uninstall $theme (installed)")
+                else
+                    options+=("$i" "Install $theme")
+                fi
+            else
+                options+=("$i" "Install $theme")
+            fi
         fi
+
         ((i++))
     done
 
@@ -609,9 +622,9 @@ function _install_update_theme() {
     rmDirExists "$ES_THEMES_DIR/$theme/godot-engine"
     gitPullOrClone "$tmp_dir" "https://github.com/hiulit/RetroPie-Godot-Engine-Emulator"
  
-    if "$theme" == "carbon-2021"; then
-        cp "$tmp_dir/art/controller.svg" "$ES_THEMES_DIR/$theme/art/controllers/godot-engine.svg"
-        cp "$tmp_dir/art/system.svg" "$ES_THEMES_DIR/$theme/art/systems/godot-engine.svg"
+    if [[ "$theme" == "carbon-2021" ]]; then
+        cp "$tmp_dir/art/controller.svg" "$CARBON_2021_CONTROLLER_IMAGE"
+        cp "$tmp_dir/art/system.svg" "$CARBON_2021_SYSTEM_IMAGE"
     else
         cp -r "$tmp_dir/themes/$theme/godot-engine" "$ES_THEMES_DIR/$theme"
     fi
@@ -622,7 +635,13 @@ function _install_update_theme() {
 
 function _uninstall_theme() {
     local theme="$1"
-    rmDirExists "$ES_THEMES_DIR/$theme/godot-engine"
+
+    if [[ "$theme" == "carbon-2021" ]]; then
+        rm "$CARBON_2021_CONTROLLER_IMAGE"
+        rm "$CARBON_2021_SYSTEM_IMAGE"
+    else
+        rmDirExists "$ES_THEMES_DIR/$theme/godot-engine"
+    fi
 }
 
 
