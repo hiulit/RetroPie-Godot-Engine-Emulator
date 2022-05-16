@@ -4,6 +4,12 @@
 
 - Up to date
 
+## [1.10.1] - 2022-05-16
+
+### Added
+
+- `godot-engine` theme for `carbon-2021`.
+
 ## [1.10.0] - 2022-05-10
 
 ### Added
