@@ -33,7 +33,7 @@ TMP_DIR="$home/.tmp/$RP_MODULE_ID"
 SETTINGS_DIR="$romdir/$RP_MODULE_ID/settings"
 CONFIGS_DIR="/opt/retropie/configs/$RP_MODULE_ID"
 
-SCRIPT_VERSION="1.10.0"
+SCRIPT_VERSION="1.10.1"
 VERSION_MAJOR="$(echo "$SCRIPT_VERSION" | cut -d "." -f 1)"
 VERSION_MINOR="$(echo "$SCRIPT_VERSION" | cut -d "." -f 2)"
 VERSION_PATCH="$(echo "$SCRIPT_VERSION" | cut -d "." -f 3)"
@@ -67,6 +67,7 @@ ES_THEMES_DIR="/etc/emulationstation/themes"
 ES_DEFAULT_THEME="carbon"
 GODOT_THEMES=(
     "$ES_DEFAULT_THEME"
+    "carbon-2021"
     "pixel"
 )
 
@@ -607,7 +608,14 @@ function _install_update_theme() {
     mkUserDir "$tmp_dir"
     rmDirExists "$ES_THEMES_DIR/$theme/godot-engine"
     gitPullOrClone "$tmp_dir" "https://github.com/hiulit/RetroPie-Godot-Engine-Emulator"
-    cp -r "$tmp_dir/themes/$theme/godot-engine" "$ES_THEMES_DIR/$theme"
+ 
+    if "$theme" == "carbon-2021"; then
+        cp "$tmp_dir/art/controller.svg" "$ES_THEMES_DIR/$theme/art/controllers/godot-engine.svg"
+        cp "$tmp_dir/art/system.svg" "$ES_THEMES_DIR/$theme/art/systems/godot-engine.svg"
+    else
+        cp -r "$tmp_dir/themes/$theme/godot-engine" "$ES_THEMES_DIR/$theme"
+    fi
+
     rmDirExists "$tmp_dir"
 }
 
