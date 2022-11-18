@@ -4,6 +4,18 @@
 
 - Up to date
 
+## [1.11.0] - 2022-11-18
+
+### Added
+
+- New Godot and FRT `3.4.5` and `3.5.1`.
+- Updated FRT binaries to `2.0.1`.
+
+### Deprecated
+
+- Godot and FRT <= `3.3.x`, following [Godot's release policy](https://docs.godotengine.org/en/stable/about/release_policy.html
+), with the exception of `2.1.6` and `3.0.6`.
+
 ## [1.10.2] - 2022-05-16
 
 ### Fixed

@@ -112,9 +112,8 @@ The script installs all the major versions of Godot for maximum compatibility:
 
 - `2.1.6`
 - `3.0.6`
-- `3.1.2`
-- `3.3.4`
-- `3.4.4`
+- `3.4.5`
+- `3.5.1`
 
 A new `godot-engine` folder will be created in `~/RetroPie/roms`, where you can [install the Godot games](#how-to-install-godot-games) using the `.pck` and `.zip` extensions.
 
