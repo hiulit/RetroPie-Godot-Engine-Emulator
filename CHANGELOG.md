@@ -4,6 +4,12 @@
 
 - Up to date
 
+## [1.11.1] - 2022-11-18
+
+### Fixed
+
+- Changed default audio driver to `SDL2`. That's the audio driver used by FRT `2.x`.
+
 ## [1.11.0] - 2022-11-18
 
 ### Added
