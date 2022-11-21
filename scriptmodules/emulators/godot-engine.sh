@@ -749,9 +749,9 @@ function configure_godot-engine() {
         # Get all the files in the installation folder.
         bin_files_tmp=($(ls "$md_inst"))
 
-        # Remove the extra "retropie.pkg" file and create the final array with the needed files.
+        # Remove the extra files and create the final array with the needed files.
         for bin_file_tmp in "${bin_files_tmp[@]}"; do
-            if [[ "$bin_file_tmp" != "retropie.pkg" ]]; then
+            if [[ "$bin_file_tmp" == *"frt_"* || "$bin_file_tmp" == *"godot_"* ]]; then
                 bin_files+=("$bin_file_tmp")
             fi
         done
