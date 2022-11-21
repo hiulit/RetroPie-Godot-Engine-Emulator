@@ -62,10 +62,10 @@ FRT_KMSDRM_DEVICE=""
 RESOLUTION=""
 
 ES_THEMES_DIR="/etc/emulationstation/themes"
-ES_DEFAULT_THEME="carbon"
+ES_DEFAULT_THEME="carbon-2021"
 GODOT_THEMES=(
     "$ES_DEFAULT_THEME"
-    "carbon-2021"
+    "carbon"
     "pixel"
 )
 
