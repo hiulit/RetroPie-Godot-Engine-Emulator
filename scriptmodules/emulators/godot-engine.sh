@@ -595,25 +595,6 @@ function _get_config() {
 }
 
 
-function _get_available_screen_resolution() {
-    if [[ "$X11_FLAG" == "true" ]]; then
-        local available_screen_resolution
-        local current_screen_width
-        local current_screen_height
-        available_screen_resolution=$(xprop -root | grep -e 'NET_WORKAREA(CARDINAL)') # get available screen dimensions.
-        available_screen_resolution=${available_screen_resolution##*=} # strip off beginning text.
-        current_screen_width=$(echo $available_screen_resolution | cut -d ',' -f3 | sed -e 's/^[ \t]*//')
-        current_screen_height=$(echo $available_screen_resolution | cut -d ',' -f4 | sed -e 's/^[ \t]*//')
-        available_screen_resolution="${current_screen_width}x${current_screen_height}"
-        echo "$available_screen_resolution"
-    else
-        local available_screen_resolution
-        available_screen_resolution="$(fbset -s | grep -e 'mode ' | cut -d'"' -f2)"
-        echo "$available_screen_resolution"
-    fi
-}
-
-
 function _install_update_theme() {
     local theme="$1"
     local tmp_dir="$TMP_DIR/themes"
@@ -743,7 +724,6 @@ function configure_godot-engine() {
     local version
     local audio_driver_string
     local main_pack_string
-    local resolution_string
     local video_driver_string
 
     if [[ -d "$md_inst" ]]; then
@@ -766,8 +746,6 @@ function configure_godot-engine() {
     # It will be created from scratch when adding the emulators in the "addEmulator" functions below.
     rmFileExists "$CONFIGS_DIR/emulators.cfg"
 
-    RESOLUTION="$(_get_available_screen_resolution)"
-
     for index in "${!bin_files[@]}"; do
         default=0
         [[ "$index" -eq "${#bin_files[@]}-1" ]] && default=1 # Default to the last item (greater version) in "bin_files".
@@ -780,24 +758,22 @@ function configure_godot-engine() {
         if [[ "$version" == "2.1.6" ]]; then
             audio_driver_string="-ad"
             main_pack_string="-main_pack"
-            resolution_string="-r"
             video_driver_string="-vd"
         else
             audio_driver_string="--audio-driver"
             main_pack_string="--main-pack"
-            resolution_string="--resolution"
             video_driver_string="--video-driver"
         fi
 
         if isPlatform "x86" || isPlatform "x86_64"; then
-            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "$md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER"
+            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "$md_inst/${bin_files[$index]} $main_pack_string %ROM% $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER"
         else
             local frt_keyboard_id_string=""
             [[ -n "$FRT_KEYBOARD_ID" ]] && frt_keyboard_id_string="FRT_KEYBOARD_ID='$FRT_KEYBOARD_ID'"
             local frt_kms_drm_device_string=""
             [[ -n "$FRT_KMSDRM_DEVICE" ]] && frt_kms_drm_device_string="FRT_KMSDRM_DEVICE='$FRT_KMSDRM_DEVICE'"
 
-            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG $frt_keyboard_id_string $frt_kms_drm_device_string $md_inst/${bin_files[$index]} $main_pack_string %ROM% $resolution_string $RESOLUTION $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
+            addEmulator "$default" "$md_id-$version" "$RP_MODULE_ID" "FRT_X11_UNDECORATED=$X11_FLAG $frt_keyboard_id_string $frt_kms_drm_device_string $md_inst/${bin_files[$index]} $main_pack_string %ROM% $audio_driver_string $AUDIO_DRIVER $video_driver_string $VIDEO_DRIVER --frt exit_on_shiftenter=true"
         fi
     done
 
