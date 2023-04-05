@@ -4,6 +4,14 @@
 
 - Up to date
 
+## [1.12.2] - 2023-04-05
+
+### Fixed
+
+- Removed resolution parameter and forced fullscreen.
+- Removed unused `FRT_*`: `KEYBOARD_ID`, `KMSDRM_DEVICE`, `X11_UNDECORATED`.
+- Fixed "exit shortchut".
+
 ## [1.12.1] - 2023-04-05
 
 ### Fixed
