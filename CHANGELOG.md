@@ -4,6 +4,12 @@
 
 - Up to date
 
+## [1.12.1] - 2023-04-05
+
+### Fixed
+
+- There was a problem downloading `3.2.3` and `3.5.2` binaries.
+
 ## [1.12.0] - 2023-04-05
 
 ### Added
