@@ -4,7 +4,11 @@
 
 - Up to date
 
-## [1.11.1] - 2022-11-18
+## [1.11.1] - 2022-11-21
+
+### Changed
+
+- `carbon-2021` is the new default theme.
 
 ### Fixed
 
