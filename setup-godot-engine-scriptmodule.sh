@@ -86,7 +86,7 @@ function install_update_settings_files() {
     mkdir -p "$TMP_SETTINGS_DIR"
 
     # Copy the "settings" files to the temporaty directory.
-    # These files will beused by the scriptmodule.
+    # These files will be used by the scriptmodule.
     for file in "${SETTINGS_FILES[@]}"; do
         cat "$SCRIPT_DIR/$file" > "$TMP_SETTINGS_DIR/$file"
     done 
