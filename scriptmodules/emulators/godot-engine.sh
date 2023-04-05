@@ -33,7 +33,7 @@ TMP_DIR="$home/.tmp/$RP_MODULE_ID"
 SETTINGS_DIR="$romdir/$RP_MODULE_ID/settings"
 CONFIGS_DIR="/opt/retropie/configs/$RP_MODULE_ID"
 
-SCRIPT_VERSION="1.12.0"
+SCRIPT_VERSION="1.12.1"
 VERSION_MAJOR="$(echo "$SCRIPT_VERSION" | cut -d "." -f 1)"
 VERSION_MINOR="$(echo "$SCRIPT_VERSION" | cut -d "." -f 2)"
 VERSION_PATCH="$(echo "$SCRIPT_VERSION" | cut -d "." -f 3)"
@@ -41,8 +41,9 @@ VERSION_PATCH="$(echo "$SCRIPT_VERSION" | cut -d "." -f 3)"
 GODOT_VERSIONS=(
     "2.1.6"
     "3.0.6"
+    "3.2.3"
     "3.4.5"
-    "3.5.1"
+    "3.5.2"
 )
 
 AUDIO_DRIVERS=(
