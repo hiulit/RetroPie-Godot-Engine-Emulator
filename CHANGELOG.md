@@ -4,6 +4,14 @@
 
 - Up to date
 
+## [1.12.0] - 2023-04-05
+
+### Added
+
+- New Godot and FRT `3.5.2` binaries.
+- Updated FRT binaries to `2.1.0`.
+- Brought back Godot and FRT `3.2.3` binaries.
+
 ## [1.11.1] - 2022-11-21
 
 ### Changed
@@ -18,7 +26,7 @@
 
 ### Added
 
-- New Godot and FRT `3.4.5` and `3.5.1`.
+- New Godot and FRT `3.4.5` and `3.5.1` binaries.
 - Updated FRT binaries to `2.0.1`.
 
 ### Deprecated
