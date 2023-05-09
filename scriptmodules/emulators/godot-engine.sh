@@ -629,8 +629,9 @@ function _install_update_scraper() {
     local scraper_dir=""$home/RetroPie-Itchio-Godot-Scraper""
     rmDirExists "$scraper_dir"
     gitPullOrClone "$scraper_dir" "https://github.com/hiulit/RetroPie-Itchio-Godot-Scraper"
-    chmod +x "$scraper_dir/setup.sh"
-    chmod +x "$scraper_dir/retropie-itchio-godot-scraper.sh"
+    chown -R "$user:$user" "$scraper_dir"
+    chmod +x "$scraper_dir/setup.sh" && chown -R "$user:$user" "$scraper_dir/setup.sh"
+    chmod +x "$scraper_dir/retropie-itchio-godot-scraper.sh" && chown -R "$user:$user" "$scraper_dir/retropie-itchio-godot-scraper.sh"
     bash "$scraper_dir/setup.sh" -i retropie-menu
 }
 
