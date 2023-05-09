@@ -4,6 +4,12 @@
 
 - Up to date
 
+## [1.12.3] - 2023-05-09
+
+### Fixed
+
+- Permissions for the Itch scraper.
+
 ## [1.12.2] - 2023-04-05
 
 ### Fixed
