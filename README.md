@@ -339,6 +339,7 @@ Thanks to:
 - **Alícia Folgarona Ribot** ([@pingudroid](https://twitter.com/pingudroid)) - For creating the "Pixel Godot logo". Changes made to it:
   - New colors.
   - Added white outline.
+- **Florian Müller** - For creating the RetroPie logo.
 
 ## 📝 Licenses
 
@@ -347,3 +348,4 @@ Thanks to:
 - FRT - A Godot platform targeting single board computers: [MIT License](/LICENSE_FRT.txt).
 - Godot logo: [CC BY](https://creativecommons.org/licenses/by/4.0/).
 - Pixel Godot logo: [CC BY-NC-SA](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+- RetroPie logo: [CC BY-NC-ND](http://creativecommons.org/licenses/by-nc-nd/4.0/).
