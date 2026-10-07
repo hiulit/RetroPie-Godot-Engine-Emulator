@@ -34,7 +34,7 @@ readonly SCRIPT_TITLE="RetroPie Godot Engine \"Emulator\""
 readonly SCRIPT_DESCRIPTION="A scriptmodule to install a Godot \"emulator\" for RetroPie."
 
 readonly SCRIPTMODULE_NAME="godot-engine"
-readonly SCRIPTMODULE_FILE="scriptmodules/emulators/$SCRIPTMODULE_NAME.sh"
+readonly SCRIPTMODULE_FILE="ext/hiulit/scriptmodules/emulators/$SCRIPTMODULE_NAME.sh"
 readonly SCRIPTMODULE_SETTINGS_DIR="$RP_ROMS_DIR/$SCRIPTMODULE_NAME/settings"
 
 readonly PACKAGE_TYPE="optional"
@@ -97,7 +97,10 @@ function install() {
     echo
     echo "> Installing '$SCRIPTMODULE_NAME' scriptmodule (v$SCRIPT_VERSION)..."
 
+	# Remove from legacy installation folder if present
+	rm -f "$RPS_DIR/scriptmodules/emulators/$SCRIPTMODULE_NAME.sh"
     # Install the "godot-engine" scriptmodule.
+    mkdir -p "$(dirname "$RPS_DIR/$SCRIPTMODULE_FILE")"
     cat "$SCRIPT_DIR/$SCRIPTMODULE_FILE" > "$RPS_DIR/$SCRIPTMODULE_FILE"
 
     if [[ "$?" -eq 0 ]]; then
@@ -108,6 +111,8 @@ function install() {
         echo
         echo "To install the '$SCRIPTMODULE_NAME' emulator, run:"
         echo
+        echo "'sudo $RPS_DIR/retropie_packages.sh godot-engine'"
+        echo "- or -"
         echo "'sudo $RPS_DIR/retropie_setup.sh'"
         echo
         echo "Go to:"
@@ -119,6 +124,8 @@ function install() {
         echo
         echo "Copy your games to '$RP_ROMS_DIR/$SCRIPTMODULE_NAME'."
         echo "Game extensions: .pck .zip."
+        echo
+        echo "Consult the documentation for further tips and tricks."
         echo
     else
         echo >&2

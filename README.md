@@ -98,6 +98,12 @@ The script assumes that you are running it on a Raspberry Pi with the `RetroPie-
 Once you've successfully installed the scriptmodule, run:
 
 ```
+sudo ~/RetroPie-Setup/retropie_packages.sh godot-engine
+```
+
+or
+
+```
 sudo ~/RetroPie-Setup/retropie_setup.sh
 ```
 
@@ -120,6 +126,12 @@ A new `godot-engine` folder will be created in `~/RetroPie/roms`, where you can 
 ## Uninstall the Godot "emulator" from RetroPie-Setup
 
 Run:
+
+```
+sudo ~/RetroPie-Setup/retropie_packages.sh godot-engine remove
+```
+
+or
 
 ```
 sudo ~/RetroPie-Setup/retropie_setup.sh
@@ -147,6 +159,12 @@ git pull
 ```
 
 Then, to update the Godot "emulator", run:
+
+```
+sudo ~/RetroPie-Setup/retropie_packages.sh godot-engine
+```
+
+or
 
 ```
 sudo ~/RetroPie-Setup/retropie_setup.sh
@@ -198,6 +216,12 @@ As of **v1.2.0**, when using the **FRT** "emulator", you can use a GPIO/Virtual 
 Run:
 
 ```
+sudo ~/RetroPie-Setup/retropie_packages.sh godot-engine gui
+```
+
+or
+
+```
 sudo ~/RetroPie-Setup/retropie_setup.sh
 ```
 
@@ -213,7 +237,7 @@ Select **GPIO/Virtual keyboard**.
 You will be prompted with a menu showing all the results from the command `cat /proc/bus/input/devices`. Select the GPIO/Virtual keyboard that you want.
 
 If you want to to reverse that action, follow the same steps and select **None**.
- 
+
 ## ℹ️ Troubleshooting
 
 ### A game doesn't launch or crashes
@@ -234,6 +258,11 @@ See [VIDEO ISSUES](docs/VIDEO_ISSUES.md).
 
 See [AUDIO ISSUES](docs/AUDIO_ISSUES.md).
 
+### Controller/Joystick not recognized or wrong button mapping
+
+Chances are that your gamecontroller or joystick is not recognized (or wrong recognized) by the Godot Engine, especially when you use Godot without X/Wayland, i.e., within a RetroPie setup. To remediate you can provide a file `gamecontrollerdb_user.txt` within the `~/RetroPie/roms/godot-engine` folder.
+
+In this file put the SDL gamecontroller strings for your controller(s). Obtain a mapping string (a long line which maps the button/axis/hats to their function) by one of these tools, like for example [SDL2 Gamepad Tool](https://github.com/General-Arcade/sdl2-gamepad-tool) (requires GUI) or the lightweight but excellent tool [sdl-jstest](https://github.com/Grumbel/sdl-jstest) on the commandline. For the latter consider to [disable the build for some SDL major versions](https://github.com/Grumbel/sdl-jstest/tree/master#compilation) you do not use. For example, if you only use SDL2, then apply: `cmake -DBUILD_SDL_JSTEST=0 -DBUILD_SDL3_JSTEST=0 ..`
 
 ## 🎨 How to create a new Godot system for an EmulationStation theme
 
@@ -263,6 +292,12 @@ If you want to add a new theme, feel free to open a [pull request](https://githu
 To install a Godot system, copy the `theme/[THEME]/godot-engine` folder from this repository to `/etc/emulationstation/themes/[THEME]`.
 
 Or you can run:
+
+```
+sudo ~/RetroPie-Setup/retropie_packages.sh godot-engine gui
+```
+
+or
 
 ```
 sudo ~/RetroPie-Setup/retropie_setup.sh
